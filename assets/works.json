@@ -1,1814 +1,444 @@
 [
-  {
-    "kind": "single",
-    "key": "mfk",
-    "name": "MFK",
-    "cat": "TVC广告",
-    "year": "2025",
-    "lang": "en",
-    "duration": 15,
-    "parts": [
-      {
-        "label": "",
-        "slug": "mfk",
-        "full": "assets/video/mfk.mp4",
-        "duration": 15
-      }
-    ],
-    "loop": "assets/video/mfk.mp4",
-    "order": 1,
-    "poster": "assets/poster/mfk.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "chanel",
-    "name": "香奈儿 N°5",
-    "cat": "TVC广告",
-    "year": "2025",
-    "lang": "cn",
-    "duration": 15,
-    "parts": [
-      {
-        "label": "",
-        "slug": "chanel",
-        "full": "assets/video/chanel.mp4",
-        "duration": 15
-      }
-    ],
-    "loop": "assets/video/chanel.mp4",
-    "order": 2,
-    "poster": "assets/poster/chanel.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "rolex",
-    "name": "SUBMARINER",
-    "cat": "TVC广告",
-    "year": "2025",
-    "lang": "en",
-    "duration": 30,
-    "parts": [
-      {
-        "label": "",
-        "slug": "rolex",
-        "full": "assets/video/rolex.mp4",
-        "duration": 30
-      }
-    ],
-    "loop": "assets/video/rolex.mp4",
-    "order": 3,
-    "poster": "assets/poster/rolex.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "rm055",
-    "name": "RICHARD MILLE 055",
-    "cat": "TVC广告",
-    "year": "2025",
-    "lang": "en",
-    "duration": 31,
-    "parts": [
-      {
-        "label": "",
-        "slug": "rm055",
-        "full": "assets/video/rm055.mp4",
-        "duration": 31
-      }
-    ],
-    "loop": "assets/video/rm055.mp4",
-    "order": 4,
-    "poster": "assets/poster/rm055.jpg"
-  },
-  {
-    "kind": "series",
-    "key": "zhixu",
-    "name": "织序",
-    "cat": "TVC广告",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 30,
-    "parts": [
-      {
-        "label": "1.0",
-        "slug": "zhixu-1",
-        "full": "assets/video/zhixu-1.mp4",
-        "duration": 30
-      },
-      {
-        "label": "2.0",
-        "slug": "zhixu-2",
-        "full": "assets/video/zhixu-2.mp4",
-        "duration": 30
-      }
-    ],
-    "loop": "assets/video/zhixu-1.mp4",
-    "order": 5,
-    "poster": "assets/poster/zhixu.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "watch",
-    "name": "精灵花园",
-    "cat": "TVC广告",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 18,
-    "parts": [
-      {
-        "label": "",
-        "slug": "watch",
-        "full": "assets/video/watch.mp4",
-        "duration": 18
-      }
-    ],
-    "loop": "assets/video/watch.mp4",
-    "order": 6,
-    "poster": "assets/poster/watch.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "yiliang",
-    "name": "一两金作",
-    "cat": "TVC广告",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 30,
-    "parts": [
-      {
-        "label": "",
-        "slug": "yiliang",
-        "full": "assets/video/yiliang.mp4",
-        "duration": 30
-      }
-    ],
-    "loop": "assets/video/yiliang.mp4",
-    "order": 7,
-    "poster": "assets/poster/yiliang.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "yin",
-    "name": "YIN 隐",
-    "cat": "TVC广告",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 30,
-    "parts": [
-      {
-        "label": "",
-        "slug": "yin",
-        "full": "assets/video/yin.mp4",
-        "duration": 30
-      }
-    ],
-    "loop": "assets/video/yin.mp4",
-    "order": 8,
-    "poster": "assets/poster/yin.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "chuancheng",
-    "name": "传承",
-    "cat": "TVC广告",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 32,
-    "parts": [
-      {
-        "label": "",
-        "slug": "chuancheng",
-        "full": "assets/video/chuancheng.mp4",
-        "duration": 32
-      }
-    ],
-    "loop": "assets/video/chuancheng.mp4",
-    "order": 9,
-    "poster": "assets/poster/chuancheng.jpg"
-  },
-  {
-    "kind": "series",
-    "key": "insta",
-    "name": "影石",
-    "cat": "TVC广告",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 30,
-    "parts": [
-      {
-        "label": "2.0",
-        "slug": "insta-2",
-        "full": "assets/video/insta-2.mp4",
-        "duration": 30
-      },
-      {
-        "label": "3.0",
-        "slug": "insta-3",
-        "full": "assets/video/insta-3.mp4",
-        "duration": 30
-      }
-    ],
-    "loop": "assets/video/insta-2.mp4",
-    "order": 10,
-    "poster": "assets/poster/insta.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "roborock",
-    "name": "机器狗",
-    "cat": "TVC广告",
-    "year": "2025",
-    "lang": "cn",
-    "duration": 24,
-    "parts": [
-      {
-        "label": "",
-        "slug": "roborock",
-        "full": "assets/video/roborock.mp4",
-        "duration": 24
-      }
-    ],
-    "loop": "assets/video/roborock.mp4",
-    "order": 11,
-    "poster": "assets/poster/roborock.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "firefly",
-    "name": "火枫橙光提灯",
-    "cat": "TVC广告",
-    "year": "2025",
-    "lang": "cn",
-    "duration": 30,
-    "parts": [
-      {
-        "label": "",
-        "slug": "firefly",
-        "full": "assets/video/firefly.mp4",
-        "duration": 30
-      }
-    ],
-    "loop": "assets/video/firefly.mp4",
-    "order": 12,
-    "poster": "assets/poster/firefly.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "laifen",
-    "name": "LAIFEN 吹风机",
-    "cat": "TVC广告",
-    "year": "2025",
-    "lang": "en",
-    "duration": 30,
-    "parts": [
-      {
-        "label": "",
-        "slug": "laifen",
-        "full": "assets/video/laifen.mp4",
-        "duration": 30
-      }
-    ],
-    "loop": "assets/video/laifen.mp4",
-    "order": 13,
-    "poster": "assets/poster/laifen.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "daily-pearl",
-    "name": "DAILY PEARL",
-    "cat": "TVC广告",
-    "year": "2026",
-    "lang": "en",
-    "duration": 30,
-    "parts": [
-      {
-        "label": "",
-        "slug": "daily-pearl",
-        "full": "assets/video/daily-pearl.mp4",
-        "duration": 30
-      }
-    ],
-    "loop": "assets/video/daily-pearl.mp4",
-    "order": 14,
-    "poster": "assets/poster/daily-pearl.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "glasses",
-    "name": "LOOKTECH A1",
-    "cat": "TVC广告",
-    "year": "2025",
-    "lang": "en",
-    "duration": 20,
-    "parts": [
-      {
-        "label": "",
-        "slug": "glasses",
-        "full": "assets/video/glasses.mp4",
-        "duration": 20
-      }
-    ],
-    "loop": "assets/video/glasses.mp4",
-    "order": 15,
-    "poster": "assets/poster/glasses.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "sanag",
-    "name": "SANAG S6S NOVA",
-    "cat": "TVC广告",
-    "year": "2025",
-    "lang": "en",
-    "duration": 29,
-    "parts": [
-      {
-        "label": "",
-        "slug": "sanag",
-        "full": "assets/video/sanag.mp4",
-        "duration": 29
-      }
-    ],
-    "loop": "assets/video/sanag.mp4",
-    "order": 16,
-    "poster": "assets/poster/sanag.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "kawasaki",
-    "name": "KAWASAKI H2",
-    "cat": "TVC广告",
-    "year": "2025",
-    "lang": "en",
-    "duration": 60,
-    "parts": [
-      {
-        "label": "",
-        "slug": "kawasaki",
-        "full": "assets/video/kawasaki.mp4",
-        "duration": 60
-      }
-    ],
-    "loop": "assets/video/kawasaki.mp4",
-    "order": 17,
-    "poster": "assets/poster/kawasaki.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "salomon",
-    "name": "SALOMON XT 6",
-    "cat": "TVC广告",
-    "year": "2025",
-    "lang": "en",
-    "duration": 15,
-    "parts": [
-      {
-        "label": "",
-        "slug": "salomon",
-        "full": "assets/video/salomon.mp4",
-        "duration": 15
-      }
-    ],
-    "loop": "assets/video/salomon.mp4",
-    "order": 18,
-    "poster": "assets/poster/salomon.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "zhizhi",
-    "name": "千纸鹤小镇",
-    "cat": "短剧",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 60,
-    "parts": [
-      {
-        "label": "",
-        "slug": "zhizhi",
-        "full": "assets/video/zhizhi.mp4",
-        "duration": 60
-      }
-    ],
-    "loop": "assets/video/zhizhi.mp4",
-    "order": 1,
-    "poster": "assets/poster/zhizhi.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "zhongli-1",
-    "name": "种梨 · 第一集",
-    "cat": "短剧",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 94,
-    "parts": [
-      {
-        "label": "",
-        "slug": "zhongli-1",
-        "full": "assets/video/zhongli-1.mp4",
-        "duration": 94
-      }
-    ],
-    "loop": "assets/video/zhongli-1.mp4",
-    "order": 2,
-    "poster": "assets/poster/zhongli-1.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "zhongli-2",
-    "name": "种梨 · 第二集",
-    "cat": "短剧",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 103,
-    "parts": [
-      {
-        "label": "",
-        "slug": "zhongli-2",
-        "full": "assets/video/zhongli-2.mp4",
-        "duration": 103
-      }
-    ],
-    "loop": "assets/video/zhongli-2.mp4",
-    "order": 3,
-    "poster": "assets/poster/zhongli-2.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "zhongli-3",
-    "name": "种梨 · 第三集",
-    "cat": "短剧",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 72,
-    "parts": [
-      {
-        "label": "",
-        "slug": "zhongli-3",
-        "full": "assets/video/zhongli-3.mp4",
-        "duration": 72
-      }
-    ],
-    "loop": "assets/video/zhongli-3.mp4",
-    "order": 4,
-    "poster": "assets/poster/zhongli-3.jpg"
-  },
-  {
-    "kind": "image",
-    "key": "tg01",
-    "name": "云海天梯·晨曦",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg01-cloud-staircase.jpg",
-    "loop": "",
-    "order": 1
-  },
-  {
-    "kind": "image",
-    "key": "tg02",
-    "name": "万家灯火·仙市",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg02-floating-city.jpg",
-    "loop": "",
-    "order": 2
-  },
-  {
-    "kind": "image",
-    "key": "tg03",
-    "name": "镜面神殿·空廊",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg03-mirror-hall.jpg",
-    "loop": "",
-    "order": 3
-  },
-  {
-    "kind": "image",
-    "key": "tg04",
-    "name": "万里长桥·引号线",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg04-endless-bridge.jpg",
-    "loop": "",
-    "order": 4
-  },
-  {
-    "kind": "image",
-    "key": "tg05",
-    "name": "圆门窥天",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg05-moon-gate.jpg",
-    "loop": "",
-    "order": 5
-  },
-  {
-    "kind": "image",
-    "key": "tg06",
-    "name": "松石锚点·远景天宫",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg06-pine-anchor.jpg",
-    "loop": "",
-    "order": 6
-  },
-  {
-    "kind": "image",
-    "key": "tg07",
-    "name": "瀑布连天",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg07-celestial-waterfall.jpg",
-    "loop": "",
-    "order": 7
-  },
-  {
-    "kind": "image",
-    "key": "tg08",
-    "name": "月下天宫",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg08-moonlit-palace.jpg",
-    "loop": "",
-    "order": 8
-  },
-  {
-    "kind": "image",
-    "key": "tg09",
-    "name": "朱红飞檐·檐下窥视",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg09-vermillion-eaves.jpg",
-    "loop": "",
-    "order": 9
-  },
-  {
-    "kind": "image",
-    "key": "tg10",
-    "name": "祭坛·神视",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg10-altar-godview.jpg",
-    "loop": "",
-    "order": 10
-  },
-  {
-    "kind": "single",
-    "key": "koubo-anc-headphones",
-    "name": "降噪耳机",
-    "cat": "电商",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [
-      {
-        "label": "",
-        "slug": "koubo-anc-headphones",
-        "full": "assets/video/koubo-anc-headphones.mp4",
-        "duration": 0
-      }
-    ],
-    "image": "",
-    "loop": "assets/video/koubo-anc-headphones.mp4",
-    "order": 2,
-    "poster": "assets/poster/koubo-anc-headphones.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "koubo-usb-c-hub",
-    "name": "USB-C 扩展坞",
-    "cat": "电商",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [
-      {
-        "label": "",
-        "slug": "koubo-usb-c-hub",
-        "full": "assets/video/koubo-usb-c-hub.mp4",
-        "duration": 0
-      }
-    ],
-    "image": "",
-    "loop": "assets/video/koubo-usb-c-hub.mp4",
-    "order": 3,
-    "poster": "assets/poster/koubo-usb-c-hub.jpg"
-  },
-  {
-    "kind": "image",
-    "key": "ip01",
-    "name": "万奔 IP 主视觉封面",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/ip/ip01.jpg",
-    "loop": "",
-    "order": 1
-  },
-  {
-    "kind": "image",
-    "key": "ip02",
-    "name": "万奔 电影感关键视觉",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/ip/ip02.jpg",
-    "loop": "",
-    "order": 2
-  },
-  {
-    "kind": "image",
-    "key": "ip03",
-    "name": "万奔 IP 设计规范（三视图·配色·细节）",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/ip/ip03.png",
-    "loop": "",
-    "order": 3
-  },
-  {
-    "kind": "image",
-    "key": "ip04",
-    "name": "万奔 材质延展（9 款造型）",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/ip/ip04.jpg",
-    "loop": "",
-    "order": 4
-  },
-  {
-    "kind": "image",
-    "key": "ip05",
-    "name": "万奔 3D 雕塑三视图",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/ip/ip05.png",
-    "loop": "",
-    "order": 5
-  },
-  {
-    "kind": "image",
-    "key": "ip06",
-    "name": "万奔 表情设定（六态）",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/ip/ip06.jpg",
-    "loop": "",
-    "order": 6
-  },
-  {
-    "kind": "image",
-    "key": "ip07",
-    "name": "万奔 陪伴玩偶·生活场景",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/ip/ip07.jpg",
-    "loop": "",
-    "order": 7
-  },
-  {
-    "kind": "image",
-    "key": "ip08",
-    "name": "云朵小马系列 包装设计",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/ip/ip08.jpg",
-    "loop": "",
-    "order": 8
-  },
-  {
-    "kind": "image",
-    "key": "ip09",
-    "name": "云朵小马系列 集换卡牌",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/ip/ip09.jpg",
-    "loop": "",
-    "order": 9
-  },
-  {
-    "kind": "image",
-    "key": "ip10",
-    "name": "万奔 世界观场景应用",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/ip/ip10.jpg",
-    "loop": "",
-    "order": 10
-  },
-  {
-    "kind": "single",
-    "key": "cg",
-    "name": "CG 动画",
-    "cat": "短剧",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 30.0,
-    "parts": [
-      {
-        "label": "",
-        "slug": "cg",
-        "full": "assets/video/cg.mp4",
-        "duration": 30.0
-      }
-    ],
-    "loop": "assets/video/cg.mp4",
-    "order": 8,
-    "poster": "assets/poster/cg.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "sp1",
-    "name": "天宫",
-    "cat": "短剧",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 21.3,
-    "parts": [
-      {
-        "label": "",
-        "slug": "sp1",
-        "full": "assets/video/sp1.mp4",
-        "duration": 21.3
-      }
-    ],
-    "loop": "assets/video/sp1.mp4",
-    "order": 5,
-    "poster": "assets/poster/sp1.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "sp2",
-    "name": "凤仙郡",
-    "cat": "短剧",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 62.2,
-    "parts": [
-      {
-        "label": "",
-        "slug": "sp2",
-        "full": "assets/video/sp2.mp4",
-        "duration": 62.2
-      }
-    ],
-    "loop": "assets/video/sp2.mp4",
-    "order": 6,
-    "poster": "assets/poster/sp2.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "paris-rain",
-    "name": "巴黎街景 · 雨天",
-    "cat": "短剧",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 26.9,
-    "parts": [
-      {
-        "label": "",
-        "slug": "paris-rain",
-        "full": "assets/video/paris-rain.mp4",
-        "duration": 26.9
-      }
-    ],
-    "loop": "assets/video/paris-rain.mp4",
-    "order": 7,
-    "poster": "assets/poster/paris-rain.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "wanben-ip",
-    "name": "万奔 IP 作品集",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 37.9,
-    "parts": [
-      {
-        "label": "",
-        "slug": "wanben-ip",
-        "full": "assets/video/wanben-ip.mp4",
-        "duration": 37.9
-      }
-    ],
-    "loop": "assets/video/wanben-ip.mp4",
-    "order": 43,
-    "poster": "assets/poster/wanben-ip.jpg"
-  },
-  {
-    "kind": "image",
-    "key": "style01",
-    "name": "流体光栅雕塑美学 · 01",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/style/style01.jpg",
-    "loop": "",
-    "order": 1
-  },
-  {
-    "kind": "image",
-    "key": "style02",
-    "name": "流体光栅雕塑美学 · 02",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/style/style02.jpg",
-    "loop": "",
-    "order": 2
-  },
-  {
-    "kind": "image",
-    "key": "style03",
-    "name": "流体光栅雕塑美学 · 03",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/style/style03.jpg",
-    "loop": "",
-    "order": 3
-  },
-  {
-    "kind": "image",
-    "key": "style04",
-    "name": "流体光栅雕塑美学 · 04",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/style/style04.jpg",
-    "loop": "",
-    "order": 4
-  },
-  {
-    "kind": "image",
-    "key": "style05",
-    "name": "流体光栅雕塑美学 · 05",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/style/style05.jpg",
-    "loop": "",
-    "order": 5
-  },
-  {
-    "kind": "image",
-    "key": "style06",
-    "name": "流体光栅雕塑美学 · 06",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/style/style06.jpg",
-    "loop": "",
-    "order": 6
-  },
-  {
-    "kind": "image",
-    "key": "style07",
-    "name": "流体光栅雕塑美学 · 07",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/style/style07.jpg",
-    "loop": "",
-    "order": 7
-  },
-  {
-    "kind": "image",
-    "key": "style08",
-    "name": "流体光栅雕塑美学 · 08",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/style/style08.jpg",
-    "loop": "",
-    "order": 8
-  },
-  {
-    "kind": "image",
-    "key": "style09",
-    "name": "流体光栅雕塑美学 · 09",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/style/style09.jpg",
-    "loop": "",
-    "order": 9
-  },
-  {
-    "kind": "image",
-    "key": "style10",
-    "name": "流体光栅雕塑美学 · 10",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/style/style10.jpg",
-    "loop": "",
-    "order": 10
-  },
-  {
-    "kind": "image",
-    "key": "style11",
-    "name": "流体光栅雕塑美学 · 11",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/style/style11.jpg",
-    "loop": "",
-    "order": 11
-  },
-  {
-    "kind": "image",
-    "key": "style12",
-    "name": "流体光栅雕塑美学 · 12",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/style/style12.jpg",
-    "loop": "",
-    "order": 12
-  },
-  {
-    "kind": "image",
-    "key": "tg11",
-    "name": "天宫 · 镜面神殿祭坛",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg11.jpg",
-    "loop": "",
-    "order": 11
-  },
-  {
-    "kind": "image",
-    "key": "tg12",
-    "name": "天宫 · 月门天梯",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg12.jpg",
-    "loop": "",
-    "order": 12
-  },
-  {
-    "kind": "single",
-    "key": "koubo-mh-poster-set",
-    "name": "怪物猎人 · 电商视频",
-    "cat": "电商",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 15,
-    "parts": [
-      {
-        "label": "",
-        "slug": "koubo-monster-hunter",
-        "full": "assets/video/koubo-monster-hunter.mp4",
-        "duration": 15
-      }
-    ],
-    "loop": "assets/video/koubo-monster-hunter.mp4",
-    "order": 1,
-    "poster": "assets/poster/koubo-mh-poster-set.jpg"
-  },
-  {
-    "kind": "stack",
-    "key": "hunter-set",
-    "name": "HUNTER×HUNTER 全职猎人 · 电商套图",
-    "cat": "电商",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "layout": "overlay",
-    "parts": [
-      {
-        "label": "盒装主视觉",
-        "image": "assets/ecom/hunter-set/01.webp"
-      },
-      {
-        "label": "场景实拍",
-        "image": "assets/ecom/hunter-set/02.jpg"
-      },
-      {
-        "label": "配件展示",
-        "image": "assets/ecom/hunter-set/04.jpg"
-      },
-      {
-        "label": "表情零件",
-        "image": "assets/ecom/hunter-set/05.jpg"
-      },
-      {
-        "label": "可动展示",
-        "image": "assets/ecom/hunter-set/06.webp"
-      },
-      {
-        "label": "收藏场景",
-        "image": "assets/ecom/hunter-set/07.webp"
-      },
-      {
-        "label": "生活情景",
-        "image": "assets/ecom/hunter-set/08.jpg"
-      },
-      {
-        "label": "主视觉海报",
-        "image": "assets/ecom/hunter-set/03.jpg"
-      }
-    ],
-    "loop": "",
-    "order": 4
-  },
-  {
-    "kind": "single",
-    "key": "koubo-motion-poster",
-    "name": "动态海报",
-    "cat": "电商",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [
-      {
-        "label": "",
-        "slug": "koubo-motion-poster",
-        "full": "assets/video/koubo-motion-poster.mp4",
-        "duration": 0
-      }
-    ],
-    "image": "",
-    "loop": "assets/video/koubo-motion-poster.mp4",
-    "order": 5,
-    "poster": "assets/poster/koubo-motion-poster.jpg"
-  },
-  {
-    "kind": "image",
-    "key": "tg13",
-    "name": "天宫 · 千帆云渡",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/concept/tg13-cloud-harbor.jpg",
-    "loop": "",
-    "order": 13
-  },
-  {
-    "kind": "image",
-    "key": "ip22",
-    "name": "万奔 · 雾里万州",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/ip/ip22.jpg",
-    "loop": "",
-    "order": 11
-  },
-  {
-    "kind": "image",
-    "key": "ip24",
-    "name": "万奔 · 橘香万州",
-    "cat": "IP设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "parts": [],
-    "image": "assets/ip/ip24.jpg",
-    "loop": "",
-    "order": 12
-  },
-  {
-    "kind": "single",
-    "key": "huangzhai",
-    "name": "荒宅",
-    "cat": "短剧",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 25.2,
-    "parts": [
-      {
-        "label": "",
-        "slug": "huangzhai",
-        "full": "assets/video/huangzhai.mp4",
-        "duration": 25.2
-      }
-    ],
-    "loop": "assets/video/huangzhai.mp4",
-    "order": 9,
-    "poster": "assets/poster/huangzhai.jpg"
-  },
-  {
-    "kind": "collection",
-    "key": "col-concept",
-    "name": "天宫 · 国风巨物东方美学场景概念设计",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "order": 1,
-    "cover": "assets/concept/tg01-cloud-staircase.jpg",
-    "image": "assets/concept/tg01-cloud-staircase.jpg",
-    "loop": "",
-    "parts": [
-      {
-        "image": "assets/concept/tg01-cloud-staircase.jpg",
-        "label": "云海天梯·晨曦",
-        "ar": 1.6659
-      },
-      {
-        "image": "assets/concept/tg02-floating-city.jpg",
-        "label": "万家灯火·仙市",
-        "ar": 1.6659
-      },
-      {
-        "image": "assets/concept/tg03-mirror-hall.jpg",
-        "label": "镜面神殿·空廊",
-        "ar": 1.6659
-      },
-      {
-        "image": "assets/concept/tg04-endless-bridge.jpg",
-        "label": "万里长桥·引号线",
-        "ar": 1.6659
-      },
-      {
-        "image": "assets/concept/tg05-moon-gate.jpg",
-        "label": "圆门窥天",
-        "ar": 1.6659
-      },
-      {
-        "image": "assets/concept/tg06-pine-anchor.jpg",
-        "label": "松石锚点·远景天宫",
-        "ar": 1.6659
-      },
-      {
-        "image": "assets/concept/tg07-celestial-waterfall.jpg",
-        "label": "瀑布连天",
-        "ar": 1.6659
-      },
-      {
-        "image": "assets/concept/tg08-moonlit-palace.jpg",
-        "label": "月下天宫",
-        "ar": 1.6659
-      },
-      {
-        "image": "assets/concept/tg09-vermillion-eaves.jpg",
-        "label": "朱红飞檐·檐下窥视",
-        "ar": 1.6659
-      },
-      {
-        "image": "assets/concept/tg10-altar-godview.jpg",
-        "label": "祭坛·神视",
-        "ar": 1.6659
-      },
-      {
-        "image": "assets/concept/tg11.jpg",
-        "label": "天宫 · 镜面神殿祭坛",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/tg12.jpg",
-        "label": "天宫 · 月门天梯",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/tg13-cloud-harbor.jpg",
-        "label": "天宫 · 千帆云渡",
-        "ar": 1.5
-      }
-    ]
-  },
-  {
-    "kind": "collection",
-    "key": "col-style",
-    "name": "流体光栅雕塑美学 · 实验影像",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "order": 1,
-    "cover": "assets/style/style01.jpg",
-    "image": "assets/style/style01.jpg",
-    "loop": "",
-    "parts": [
-      {
-        "image": "assets/style/style01.jpg",
-        "label": "流体光栅雕塑美学 · 01",
-        "ar": 0.75
-      },
-      {
-        "image": "assets/style/style02.jpg",
-        "label": "流体光栅雕塑美学 · 02",
-        "ar": 0.75
-      },
-      {
-        "image": "assets/style/style03.jpg",
-        "label": "流体光栅雕塑美学 · 03",
-        "ar": 0.75
-      },
-      {
-        "image": "assets/style/style04.jpg",
-        "label": "流体光栅雕塑美学 · 04",
-        "ar": 0.75
-      },
-      {
-        "image": "assets/style/style05.jpg",
-        "label": "流体光栅雕塑美学 · 05",
-        "ar": 0.75
-      },
-      {
-        "image": "assets/style/style06.jpg",
-        "label": "流体光栅雕塑美学 · 06",
-        "ar": 0.75
-      },
-      {
-        "image": "assets/style/style07.jpg",
-        "label": "流体光栅雕塑美学 · 07",
-        "ar": 0.75
-      },
-      {
-        "image": "assets/style/style08.jpg",
-        "label": "流体光栅雕塑美学 · 08",
-        "ar": 0.75
-      },
-      {
-        "image": "assets/style/style09.jpg",
-        "label": "流体光栅雕塑美学 · 09",
-        "ar": 0.75
-      },
-      {
-        "image": "assets/style/style10.jpg",
-        "label": "流体光栅雕塑美学 · 10",
-        "ar": 0.75
-      },
-      {
-        "image": "assets/style/style11.jpg",
-        "label": "流体光栅雕塑美学 · 11",
-        "ar": 0.75
-      },
-      {
-        "image": "assets/style/style12.jpg",
-        "label": "流体光栅雕塑美学 · 12",
-        "ar": 0.75
-      }
-    ]
-  },
-  {
-    "kind": "collection",
-    "key": "col-ecom",
-    "name": "电商组图 · 全职猎人 手办视觉",
-    "cat": "电商",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "order": 1,
-    "cover": "assets/ecom/hunter-set/02.jpg",
-    "image": "assets/ecom/hunter-set/02.jpg",
-    "loop": "",
-    "parts": [
-      {
-        "image": "assets/ecom/hunter-set/01.webp",
-        "label": "盒装主视觉",
-        "ar": 1.0
-      },
-      {
-        "image": "assets/ecom/hunter-set/02.jpg",
-        "label": "场景实拍",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/ecom/hunter-set/04.jpg",
-        "label": "配件展示",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/ecom/hunter-set/05.jpg",
-        "label": "表情零件",
-        "ar": 0.5625
-      },
-      {
-        "image": "assets/ecom/hunter-set/06.webp",
-        "label": "可动展示",
-        "ar": 1.0
-      },
-      {
-        "image": "assets/ecom/hunter-set/07.webp",
-        "label": "收藏场景",
-        "ar": 1.0
-      },
-      {
-        "image": "assets/ecom/hunter-set/08.jpg",
-        "label": "生活情景",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/ecom/hunter-set/03.jpg",
-        "label": "主视觉海报",
-        "ar": 0.75
-      }
-    ]
-  },
-  {
-    "kind": "collection",
-    "key": "col-mix",
-    "name": "记忆拼贴 · 混合媒介概念设计",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "order": 3,
-    "cover": "assets/concept/mix01.jpg",
-    "image": "assets/concept/mix01.jpg",
-    "loop": "",
-    "parts": [
-      {
-        "image": "assets/concept/mix01.jpg",
-        "label": "山湖记忆·圆形拼贴",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/concept/mix02.jpg",
-        "label": "旧影淑女·1930",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/concept/mix03.jpg",
-        "label": "深巷碎片",
-        "ar": 1.4996
-      },
-      {
-        "image": "assets/concept/mix04.jpg",
-        "label": "电车与树",
-        "ar": 1.4996
-      },
-      {
-        "image": "assets/concept/mix05.jpg",
-        "label": "沙丘枯木",
-        "ar": 1.4996
-      },
-      {
-        "image": "assets/concept/mix06.jpg",
-        "label": "北纬42°旅人",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/concept/mix07.jpg",
-        "label": "1947·站台票",
-        "ar": 1.4996
-      },
-      {
-        "image": "assets/concept/mix08.jpg",
-        "label": "根与街",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/concept/mix09.jpg",
-        "label": "时间柱式",
-        "ar": 1.4996
-      },
-      {
-        "image": "assets/concept/mix10.jpg",
-        "label": "山根档案",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/concept/mix11.jpg",
-        "label": "松与远山",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/concept/mix12.jpg",
-        "label": "夜巡·眼",
-        "ar": 1.4996
-      }
-    ]
-  },
-  {
-    "kind": "collection",
-    "key": "col-wild",
-    "name": "旷野叙事 · 电影感场景概念设计",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "order": 4,
-    "cover": "assets/concept/wild01.jpg",
-    "image": "assets/concept/wild01.jpg",
-    "loop": "",
-    "parts": [
-      {
-        "image": "assets/concept/wild01.jpg",
-        "label": "岸边旧舟",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/wild02.jpg",
-        "label": "荒漠仙人掌",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/wild03.jpg",
-        "label": "无尽头公路",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/wild04.jpg",
-        "label": "麦垛与车",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/wild05.jpg",
-        "label": "崖上灯塔",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/wild06.jpg",
-        "label": "枯木沼泽",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/wild07.jpg",
-        "label": "草卷牧场",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/wild08.jpg",
-        "label": "林间木屋",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/wild09.jpg",
-        "label": "雪原小屋",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/wild10.jpg",
-        "label": "篱笆尽头",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/wild11.jpg",
-        "label": "荒原孤舟",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/wild12.jpg",
-        "label": "葡萄园日落",
-        "ar": 1.7778
-      }
-    ]
-  },
-  {
-    "kind": "collection",
-    "key": "col-corridor",
-    "name": "无尽回廊 · 电影建筑概念设计",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "order": 5,
-    "cover": "assets/concept/hall01.jpg",
-    "image": "assets/concept/hall01.jpg",
-    "loop": "",
-    "parts": [
-      {
-        "image": "assets/concept/hall01.jpg",
-        "label": "无尽白廊",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/hall02.jpg",
-        "label": "环形舱廊",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/hall03.jpg",
-        "label": "泥泞战壕",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/hall04.jpg",
-        "label": "大图书馆",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/hall05.jpg",
-        "label": "重工巨厅",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/hall06.jpg",
-        "label": "红毯长廊",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/hall07.jpg",
-        "label": "哥特穹顶",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/hall08.jpg",
-        "label": "白色舰廊",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/hall09.jpg",
-        "label": "雪原巨构",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/hall10.jpg",
-        "label": "地铁长廊",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/hall11.jpg",
-        "label": "巴洛克镜厅",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/hall12.jpg",
-        "label": "水晶灯大厅",
-        "ar": 1.7778
-      }
-    ]
-  },
-  {
-    "kind": "collection",
-    "key": "col-zone",
-    "name": "禁区残响 · 苏式废土概念设计",
-    "cat": "概念设计",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "order": 6,
-    "cover": "assets/concept/zone01.jpg",
-    "image": "assets/concept/zone01.jpg",
-    "loop": "",
-    "parts": [
-      {
-        "image": "assets/concept/zone01.jpg",
-        "label": "文化宫废墟",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/zone02.jpg",
-        "label": "冰湖孤碑",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/zone03.jpg",
-        "label": "雾林冻沼",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/zone04.jpg",
-        "label": "泛滥湿地",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/zone05.jpg",
-        "label": "和平大道站",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/zone06.jpg",
-        "label": "板式公寓群",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/zone07.jpg",
-        "label": "残楼门厅",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/zone08.jpg",
-        "label": "湖畔木屋",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/zone09.jpg",
-        "label": "雕塑广场",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/zone10.jpg",
-        "label": "沼泽地平线",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/zone11.jpg",
-        "label": "封闭车站",
-        "ar": 1.7778
-      },
-      {
-        "image": "assets/concept/zone12.jpg",
-        "label": "冰河浅滩",
-        "ar": 1.7778
-      }
-    ]
-  },
-  {
-    "kind": "collection",
-    "key": "col-firemaple",
-    "name": "电商组图 · Firemaple 露营灯视觉",
-    "cat": "电商",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "order": 2,
-    "cover": "assets/ecom/firemaple/01.jpg",
-    "image": "assets/ecom/firemaple/01.jpg",
-    "loop": "",
-    "parts": [
-      {
-        "image": "assets/ecom/firemaple/01.jpg",
-        "label": "黄昏营地横幅",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/ecom/firemaple/02.jpg",
-        "label": "四视图产品表",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/ecom/firemaple/03.jpg",
-        "label": "轻量便携卖点",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/ecom/firemaple/04.jpg",
-        "label": "暖光户外卖点",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/ecom/firemaple/05.jpg",
-        "label": "四视图细节版",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/ecom/firemaple/06.jpg",
-        "label": "营地场景演绎",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/ecom/firemaple/07.jpg",
-        "label": "网罩微距",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/ecom/firemaple/08.jpg",
-        "label": "结构解析",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/ecom/firemaple/09.jpg",
-        "label": "品牌故事",
-        "ar": 1.5
-      }
-    ]
-  },
-  {
-    "kind": "collection",
-    "key": "col-looktech",
-    "name": "电商组图 · LOOKTECH 智能眼镜视觉",
-    "cat": "电商",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 0,
-    "order": 3,
-    "cover": "assets/ecom/looktech/03.jpg",
-    "image": "assets/ecom/looktech/03.jpg",
-    "loop": "",
-    "parts": [
-      {
-        "image": "assets/ecom/looktech/01.jpg",
-        "label": "结构卖点",
-        "ar": 1.6316
-      },
-      {
-        "image": "assets/ecom/looktech/02.jpg",
-        "label": "三步使用",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/ecom/looktech/03.jpg",
-        "label": "全场景主图",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/ecom/looktech/04.jpg",
-        "label": "四视图",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/ecom/looktech/05.jpg",
-        "label": "品牌故事",
-        "ar": 2.0
-      },
-      {
-        "image": "assets/ecom/looktech/06.jpg",
-        "label": "三色对比",
-        "ar": 1.5
-      },
-      {
-        "image": "assets/ecom/looktech/07.jpg",
-        "label": "品牌主张",
-        "ar": 1.6316
-      },
-      {
-        "image": "assets/ecom/looktech/08.jpg",
-        "label": "轻量卖点",
-        "ar": 1.6316
-      },
-      {
-        "image": "assets/ecom/looktech/09.jpg",
-        "label": "质感触感",
-        "ar": 1.6316
-      }
-    ]
-  }
+ {
+  "kind": "single",
+  "key": "mfk",
+  "name": "MFK",
+  "cat": "奢侈品",
+  "year": "2025",
+  "lang": "en",
+  "duration": 15,
+  "parts": [
+   {
+    "label": "",
+    "slug": "mfk",
+    "full": "assets/video/mfk.mp4",
+    "duration": 15
+   }
+  ],
+  "loop": "assets/loop/mfk.mp4",
+  "order": 1
+ },
+ {
+  "kind": "single",
+  "key": "chanel",
+  "name": "香奈儿 N°5",
+  "cat": "奢侈品",
+  "year": "2025",
+  "lang": "cn",
+  "duration": 15,
+  "parts": [
+   {
+    "label": "",
+    "slug": "chanel",
+    "full": "assets/video/chanel.mp4",
+    "duration": 15
+   }
+  ],
+  "loop": "assets/loop/chanel.mp4",
+  "order": 2
+ },
+ {
+  "kind": "single",
+  "key": "rolex",
+  "name": "SUBMARINER",
+  "cat": "奢侈品",
+  "year": "2025",
+  "lang": "en",
+  "duration": 30,
+  "parts": [
+   {
+    "label": "",
+    "slug": "rolex",
+    "full": "assets/video/rolex.mp4",
+    "duration": 30
+   }
+  ],
+  "loop": "assets/loop/rolex.mp4",
+  "order": 3
+ },
+ {
+  "kind": "single",
+  "key": "rm055",
+  "name": "RICHARD MILLE 055",
+  "cat": "奢侈品",
+  "year": "2025",
+  "lang": "en",
+  "duration": 31,
+  "parts": [
+   {
+    "label": "",
+    "slug": "rm055",
+    "full": "assets/video/rm055.mp4",
+    "duration": 31
+   }
+  ],
+  "loop": "assets/loop/rm055.mp4",
+  "order": 4
+ },
+ {
+  "kind": "series",
+  "key": "zhixu",
+  "name": "织序",
+  "cat": "品牌叙事",
+  "year": "2026",
+  "lang": "cn",
+  "duration": 30,
+  "parts": [
+   {
+    "label": "1.0",
+    "slug": "zhixu-1",
+    "full": "assets/video/zhixu-1.mp4",
+    "duration": 30
+   },
+   {
+    "label": "2.0",
+    "slug": "zhixu-2",
+    "full": "assets/video/zhixu-2.mp4",
+    "duration": 30
+   }
+  ],
+  "loop": "assets/loop/zhixu-1.mp4",
+  "order": 5
+ },
+ {
+  "kind": "single",
+  "key": "watch",
+  "name": "精灵花园",
+  "cat": "品牌叙事",
+  "year": "2026",
+  "lang": "cn",
+  "duration": 18,
+  "parts": [
+   {
+    "label": "",
+    "slug": "watch",
+    "full": "assets/video/watch.mp4",
+    "duration": 18
+   }
+  ],
+  "loop": "assets/loop/watch.mp4",
+  "order": 6
+ },
+ {
+  "kind": "single",
+  "key": "yiliang",
+  "name": "一两金作",
+  "cat": "品牌叙事",
+  "year": "2026",
+  "lang": "cn",
+  "duration": 30,
+  "parts": [
+   {
+    "label": "",
+    "slug": "yiliang",
+    "full": "assets/video/yiliang.mp4",
+    "duration": 30
+   }
+  ],
+  "loop": "assets/loop/yiliang.mp4",
+  "order": 7
+ },
+ {
+  "kind": "single",
+  "key": "yin",
+  "name": "YIN 隐",
+  "cat": "品牌叙事",
+  "year": "2026",
+  "lang": "cn",
+  "duration": 30,
+  "parts": [
+   {
+    "label": "",
+    "slug": "yin",
+    "full": "assets/video/yin.mp4",
+    "duration": 30
+   }
+  ],
+  "loop": "assets/loop/yin.mp4",
+  "order": 8
+ },
+ {
+  "kind": "single",
+  "key": "chuancheng",
+  "name": "传承",
+  "cat": "品牌叙事",
+  "year": "2026",
+  "lang": "cn",
+  "duration": 32,
+  "parts": [
+   {
+    "label": "",
+    "slug": "chuancheng",
+    "full": "assets/video/chuancheng.mp4",
+    "duration": 32
+   }
+  ],
+  "loop": "assets/loop/chuancheng.mp4",
+  "order": 9
+ },
+ {
+  "kind": "series",
+  "key": "insta",
+  "name": "影石",
+  "cat": "商业 TVC",
+  "year": "2026",
+  "lang": "cn",
+  "duration": 30,
+  "parts": [
+   {
+    "label": "2.0",
+    "slug": "insta-2",
+    "full": "assets/video/insta-2.mp4",
+    "duration": 30
+   },
+   {
+    "label": "3.0",
+    "slug": "insta-3",
+    "full": "assets/video/insta-3.mp4",
+    "duration": 30
+   }
+  ],
+  "loop": "assets/loop/insta-2.mp4",
+  "order": 10
+ },
+ {
+  "kind": "single",
+  "key": "roborock",
+  "name": "机器狗",
+  "cat": "商业 TVC",
+  "year": "2025",
+  "lang": "cn",
+  "duration": 24,
+  "parts": [
+   {
+    "label": "",
+    "slug": "roborock",
+    "full": "assets/video/roborock.mp4",
+    "duration": 24
+   }
+  ],
+  "loop": "assets/loop/roborock.mp4",
+  "order": 11
+ },
+ {
+  "kind": "single",
+  "key": "firefly",
+  "name": "火枫橙光提灯",
+  "cat": "商业 TVC",
+  "year": "2025",
+  "lang": "cn",
+  "duration": 30,
+  "parts": [
+   {
+    "label": "",
+    "slug": "firefly",
+    "full": "assets/video/firefly.mp4",
+    "duration": 30
+   }
+  ],
+  "loop": "assets/loop/firefly.mp4",
+  "order": 12
+ },
+ {
+  "kind": "single",
+  "key": "laifen",
+  "name": "LAIFEN 吹风机",
+  "cat": "商业 TVC",
+  "year": "2025",
+  "lang": "en",
+  "duration": 30,
+  "parts": [
+   {
+    "label": "",
+    "slug": "laifen",
+    "full": "assets/video/laifen.mp4",
+    "duration": 30
+   }
+  ],
+  "loop": "assets/loop/laifen.mp4",
+  "order": 13
+ },
+ {
+  "kind": "single",
+  "key": "daily-pearl",
+  "name": "DAILY PEARL",
+  "cat": "商业 TVC",
+  "year": "2026",
+  "lang": "en",
+  "duration": 30,
+  "parts": [
+   {
+    "label": "",
+    "slug": "daily-pearl",
+    "full": "assets/video/daily-pearl.mp4",
+    "duration": 30
+   }
+  ],
+  "loop": "assets/loop/daily-pearl.mp4",
+  "order": 14
+ },
+ {
+  "kind": "single",
+  "key": "glasses",
+  "name": "LOOKTECH A1",
+  "cat": "商业 TVC",
+  "year": "2025",
+  "lang": "en",
+  "duration": 20,
+  "parts": [
+   {
+    "label": "",
+    "slug": "glasses",
+    "full": "assets/video/glasses.mp4",
+    "duration": 20
+   }
+  ],
+  "loop": "assets/loop/glasses.mp4",
+  "order": 15
+ },
+ {
+  "kind": "single",
+  "key": "sanag",
+  "name": "SANAG S6S NOVA",
+  "cat": "商业 TVC",
+  "year": "2025",
+  "lang": "en",
+  "duration": 29,
+  "parts": [
+   {
+    "label": "",
+    "slug": "sanag",
+    "full": "assets/video/sanag.mp4",
+    "duration": 29
+   }
+  ],
+  "loop": "assets/loop/sanag.mp4",
+  "order": 16
+ },
+ {
+  "kind": "single",
+  "key": "kawasaki",
+  "name": "KAWASAKI H2",
+  "cat": "运动户外",
+  "year": "2025",
+  "lang": "en",
+  "duration": 60,
+  "parts": [
+   {
+    "label": "",
+    "slug": "kawasaki",
+    "full": "assets/video/kawasaki.mp4",
+    "duration": 60
+   }
+  ],
+  "loop": "assets/loop/kawasaki.mp4",
+  "order": 17
+ },
+ {
+  "kind": "single",
+  "key": "salomon",
+  "name": "SALOMON XT 6",
+  "cat": "运动户外",
+  "year": "2025",
+  "lang": "en",
+  "duration": 15,
+  "parts": [
+   {
+    "label": "",
+    "slug": "salomon",
+    "full": "assets/video/salomon.mp4",
+    "duration": 15
+   }
+  ],
+  "loop": "assets/loop/salomon.mp4",
+  "order": 18
+ },
+ {
+  "kind": "single",
+  "key": "tiangong",
+  "name": "云海仙宫",
+  "cat": "视觉实验",
+  "year": "2026",
+  "lang": "cn",
+  "duration": 21,
+  "parts": [
+   {
+    "label": "",
+    "slug": "tiangong",
+    "full": "assets/video/tiangong.mp4",
+    "duration": 21
+   }
+  ],
+  "loop": "assets/loop/tiangong.mp4",
+  "order": 19
+ },
+ {
+  "kind": "single",
+  "key": "bali",
+  "name": "巴黎雨巷",
+  "cat": "视觉实验",
+  "year": "2026",
+  "lang": "cn",
+  "duration": 27,
+  "parts": [
+   {
+    "label": "",
+    "slug": "bali",
+    "full": "assets/video/bali.mp4",
+    "duration": 27
+   }
+  ],
+  "loop": "assets/loop/bali.mp4",
+  "order": 20
+ },
+ {
+  "kind": "single",
+  "key": "zhizhi",
+  "name": "千纸鹤小镇",
+  "cat": "漫剧短剧",
+  "year": "2026",
+  "lang": "cn",
+  "duration": 60,
+  "parts": [
+   {
+    "label": "",
+    "slug": "zhizhi",
+    "full": "assets/video/zhizhi.mp4",
+    "duration": 60
+   }
+  ],
+  "loop": "assets/loop/zhizhi.mp4",
+  "order": 21
+ },
+ {
+  "kind": "series",
+  "key": "zhongli",
+  "name": "种梨",
+  "cat": "长片巨作",
+  "year": "2026",
+  "lang": "cn",
+  "duration": 72,
+  "parts": [
+   {
+    "label": "第一集",
+    "slug": "zhongli-1",
+    "full": "assets/video/zhongli-1.mp4",
+    "duration": 94
+   },
+   {
+    "label": "第二集",
+    "slug": "zhongli-2",
+    "full": "assets/video/zhongli-2.mp4",
+    "duration": 103
+   },
+   {
+    "label": "第三集",
+    "slug": "zhongli-3",
+    "full": "assets/video/zhongli-3.mp4",
+    "duration": 72
+   }
+  ],
+  "loop": "assets/loop/zhongli-1.mp4",
+  "order": 22
+ }
 ]
