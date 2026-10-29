@@ -390,6 +390,25 @@
   ],
   "loop": "assets/loop/bali.mp4",
   "order": 20
+},
+ {
+  "kind": "single",
+  "key": "xieyi",
+  "name": "协议取消",
+  "cat": "CG 动画",
+  "year": "2026",
+  "lang": "cn",
+  "duration": 2,
+  "parts": [
+   {
+    "label": "",
+    "slug": "xieyi",
+    "full": "assets/video/xieyi.mp4",
+    "duration": 2
+   }
+  ],
+  "loop": "assets/loop/xieyi.mp4",
+  "order": 21
  },
  {
   "kind": "single",
