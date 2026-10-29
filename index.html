@@ -1,0 +1,3876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>王春龙 — AIGC 影像 / 样片 · Sidebar Feed</title>
+<meta name="description" content="王春龙 AIGC 影像作品集 — 侧栏目录 + 瀑布流版式样片" />
+<style>
+/* ══════════════════════════════════════════════════════════════
+   版式参考：antonionigroart.com
+   左侧固定文字栏（名 / 一句话 / 目录 / 联系 / 版权）
+   + 右侧多列不等高瀑布流；暖白底，超粗紧缩字，发丝线目录
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  --bg:#F9F8F6;
+  --ink:#191919;
+  --ink-2:#404040;
+  --ink-3:#6F6A63;
+  --ink-4:#A8A29A;
+  --hair:rgba(25,25,25,.14);
+  --card:#EDEAE4;
+  --side:310px;
+  --gap:20px;
+  --rowgap:22px;   /* 行与行之间的统一上下间距（与题注上方留白等值） */
+  --ease:cubic-bezier(.22,1,.36,1);
+  --sans:"Helvetica Neue","Segoe UI",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"Intel One Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  /* 中文衬线：宋体系（Mac 用 Songti SC，Windows 落到 SimSun） */
+  --serif:"Bodoni Moda","Songti SC","STSong","SimSun","Noto Serif SC",Georgia,serif;
+}
+@font-face{
+  font-family:"Bodoni Moda";
+  src:url("./assets/fonts/bodoni-moda-400.woff2") format("woff2");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{
+  margin:0;background:var(--bg);color:var(--ink);overflow-x:hidden;
+  font-family:var(--sans);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+img,video{display:block}
+
+/* ══════════ 左栏 ══════════ */
+.side{
+  position:fixed;left:0;top:0;bottom:0;width:var(--side);
+  padding:24px 20px 18px;
+  display:flex;flex-direction:column;
+  overflow-y:auto;overscroll-behavior:contain;
+  scrollbar-width:none;
+  z-index:20;
+  background:var(--bg);
+}
+.side::-webkit-scrollbar{width:0;height:0}
+.brand{display:block;color:var(--ink)}
+.brand:hover{color:#000}
+/* 名字：单行「王春龙」一体，字距收紧让三字连成整体 */
+.brand__cn{
+  display:block;
+  font-size:clamp(42px,3.55vw,54px);
+  font-weight:800;
+  line-height:1.02;
+  letter-spacing:-.055em;
+  text-indent:-.055em;
+  white-space:nowrap;
+}
+/* 拼音：改单行等宽，字母间距收窄，不再拆成两行 */
+.brand__en{
+  display:block;margin-top:13px;
+  font-family:var(--mono);
+  font-size:9px;font-weight:600;letter-spacing:.24em;
+  line-height:1.4;
+  color:var(--ink-4);
+  white-space:nowrap;
+}
+/* 身份 + 主张句：与名字之间用一条细线分组 */
+.tagline{
+  margin:20px 0 0;
+  padding-top:17px;
+  border-top:1px solid var(--hair);
+  max-width:100%;
+  font-size:15px;line-height:1.62;color:var(--ink-2);
+}
+/* 身份前置：招聘方 3 秒内要看到「什么岗位」 */
+.tagline__role{
+  display:block;margin-bottom:9px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  color:var(--ink-3);
+}
+
+/* 目录：小标题 + 细分隔线，当前项前置金色竖线 */
+.nav{margin-top:26px;display:flex;flex-direction:column}
+.nav__cap{
+  display:block;padding:0 0 9px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-4);
+}
+.nav__item{
+  position:relative;
+  display:block;
+  padding:11px 0 10px;
+  border-bottom:1px solid var(--hair);
+  font-size:14px;color:var(--ink-2);
+  letter-spacing:.05em;
+  text-align:left;
+  transition:color .25s,letter-spacing .3s;
+}
+.nav__item:hover{color:var(--ink)}
+.nav__item::before{
+  content:"";position:absolute;left:0;top:50%;
+  width:0;height:1px;background:var(--ink);
+  transform:translateY(-50%);
+  transition:width .3s var(--ease);
+}
+.nav__item.is-on{
+  color:var(--ink);font-weight:700;
+  padding-left:15px;
+}
+.nav__item.is-on::before{width:9px}
+
+/* 底部：社交 / 联系 / 版权 */
+.side__foot{margin-top:auto;padding-top:22px}
+.socials{display:flex;gap:10px;margin-bottom:22px}
+.socials a,.socials button{
+  display:grid;place-items:center;width:26px;height:26px;border-radius:6px;
+  color:var(--ink-3);opacity:.9;
+  transition:opacity .2s,transform .2s var(--ease),background .2s;
+}
+.socials a:hover,.socials button:hover{opacity:1;transform:translateY(-1px);background:rgba(25,25,25,.06)}
+.contact{border-top:1px solid var(--hair);padding-top:16px}
+.contact__k{
+  font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-4);margin-bottom:7px;
+}
+.contact__mail{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:16px;font-weight:700;color:var(--ink);
+  letter-spacing:.005em;white-space:nowrap;
+}
+.contact__mail:hover{text-decoration:underline;text-underline-offset:3px}
+.copy-dot{
+  display:grid;place-items:center;width:15px;height:15px;border-radius:3px;
+  border:1px solid rgba(25,25,25,.35);
+}
+.copy-dot svg{width:8px;height:8px}
+/* 轻提示：复制成功一类 */
+#toast{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,10px);
+  padding:9px 15px;border-radius:999px;
+  background:var(--ink);color:var(--bg);
+  font-size:12px;letter-spacing:.02em;
+  opacity:0;pointer-events:none;z-index:120;
+  transition:opacity .3s var(--ease),transform .3s var(--ease);
+}
+#toast.is-on{opacity:1;transform:translate(-50%,0)}
+.copyright{
+  margin-top:20px;font-size:10px;line-height:1.7;letter-spacing:.02em;color:var(--ink-4);
+}
+
+/* 移动端顶部条（桌面隐藏） */
+.topbar{display:none}
+
+/* ══════════ 右侧瀑布流 ══════════ */
+.works{
+  margin-left:var(--side);
+  padding:34px 20px 80px;
+}
+/* 分类页的「开场」：标题 + 件数 + 发丝线（5 个分类一致） */
+.works__head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+  padding-bottom:14px;margin-bottom:26px;
+  border-bottom:1px solid var(--hair);
+}
+.works__title{
+  margin:0;
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(24px,2.6vw,34px);line-height:1.1;letter-spacing:-.005em;
+}
+.works__meta{
+  display:flex;align-items:baseline;gap:14px;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-4);
+}
+.feed{ display:block; }
+/* 等高行（justified）：同一行内等比缩放到同一高度，宽度精确铺满，行底自然齐平 */
+.feed .row{
+  display:flex;
+  align-items:stretch;
+  gap:var(--gap);
+  margin-bottom:var(--rowgap);
+}
+.feed .row:last-child{ margin-bottom:0; }
+
+/* 叠加形态套图：多张图错落层叠成「卡组」 */
+.tile--overlay{ overflow:visible; background:transparent; }
+.tile--overlay .stack{
+  position:relative; flex:0 0 auto; width:100%; height:var(--mh,100%);
+  border-radius:14px; overflow:visible;
+  transition:transform .5s var(--ease);
+}
+.tile--overlay:hover .stack{ transform:translateY(-6px); }
+.stack__layer{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover; object-position:center;
+  border-radius:14px;
+  box-shadow:0 12px 26px rgba(20,16,12,.30);
+  background:var(--card);
+}
+.tile{
+  position:relative;
+  display:flex;flex-direction:column;width:100%;flex:0 0 auto;
+  margin:0;
+  border-radius:0;
+  overflow:visible;
+  background:transparent;
+  cursor:pointer;
+  transition:opacity .45s var(--ease),transform .45s var(--ease);
+}
+.tile.is-hidden{display:none}
+.tile img,.tile video{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  transition:transform .8s var(--ease),filter .5s;
+  background:var(--card);
+}
+.tile:hover img,.tile:hover video{transform:scale(1.035)}
+/* 视频卡：海报 <img> 垫底，悬停才淡入视频；静态态永远是抽好的非黑帧，绝不灰/黑 */
+.tile__media{ position:relative; flex:0 0 auto; width:100%; height:var(--mh,100%); overflow:hidden; border-radius:8px; background:var(--card); }
+.tile--video .tile__poster{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:1; }
+.tile--video video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:2; opacity:0; background:transparent; transition:opacity .3s var(--ease), transform .8s var(--ease); }
+.tile--video.is-playing video{ opacity:1; }
+.tile--video::after{ z-index:3; }
+/* 常驻题注：灰色分类小字 + 加粗《作品名》，对齐参考排版 */
+.tile__cap{
+  flex:0 0 auto;
+  display:flex;flex-direction:column;gap:5px;
+  padding:22px 2px 0;
+  height:60px;box-sizing:border-box;overflow:hidden;
+  text-align:left;
+}
+.tile__k{
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  color:var(--ink-4);
+}
+.tile__t{
+  font-size:15px;font-weight:600;line-height:1.35;letter-spacing:.01em;
+  color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.tile__n{ font-weight:400;font-size:11px;color:var(--ink-4);margin-left:6px;letter-spacing:.04em; }
+/* 视频条目：左上一个小三角，静止时告知可播 */
+.tile--video::after{
+  content:"";position:absolute;left:10px;top:10px;
+  width:18px;height:18px;border-radius:50%;
+  background:rgba(249,248,246,.9) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M3.4 2.4l3.6 2.6-3.6 2.6z' fill='%23191919'/></svg>") center/9px no-repeat;
+  opacity:.9;transition:opacity .3s;
+}
+
+/* ══════════ 关于我（独立视图） ══════════ */
+/* ══════════ 关于我：版式陈述（12 栏骨架 · 可显影网格） ══════════ */
+.about{
+  margin-left:var(--side);
+  padding:30px 20px 88px;
+  max-width:1180px;
+  position:relative;z-index:1; /* 内容压在全视口背景图之上 */
+  display:none;
+}
+body.is-about .about{display:block}
+body.is-about .works{display:none}
+
+.about__head{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding-bottom:13px;border-bottom:1px solid var(--hair);
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-4);
+}
+/* 12 栏骨架：内容与网格层共用同一组列，所以显影时严丝合缝 */
+.about__grid{
+  position:relative;
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:20px;
+  margin-top:clamp(30px,4vw,52px);
+}
+
+/* 左栏：标题与三条陈述（原版式，未改动文字） */
+.lead{grid-column:1 / 8;position:relative;z-index:1}
+.rows{position:relative;z-index:1}
+.lead h1{
+  margin:0;max-width:26ch;
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(30px,3.6vw,50px);
+  line-height:1.15;letter-spacing:-.005em;
+}
+
+/* 全视口概念图背景：铺满整个视口，图本身左半为空濛云海留白，
+   文字保持原位压在留白处；再加一层米白渐变叠底，保证左侧文字可读 */
+.about__bg{
+  position:fixed;inset:0;z-index:0;
+  display:none;pointer-events:none;overflow:hidden;
+}
+body.is-about .about__bg{display:block}
+.about__bg img{
+  position:relative;z-index:0;
+  width:100%;height:100%;object-fit:cover;object-position:58% 50%;
+  transform:scale(1.06);transform-origin:58% 50%;
+  translate:var(--bgx,0px) var(--bgy,0px);
+  transition:translate .55s cubic-bezier(.22,.61,.36,1);
+  animation:bgBreathe 46s ease-in-out infinite alternate, bgEnter 1.9s cubic-bezier(.16,.84,.3,1) both;
+  will-change:transform,translate,filter;
+}
+/* 丝线粒子层：承接画面里的算法纤维，随鼠标轻微汇聚（视差幅度更大 → 前景更快） */
+.about__fx{
+  position:absolute;inset:0;z-index:1;pointer-events:none;width:100%;height:100%;
+  translate:calc(var(--bgx,0px) * 1.7) calc(var(--bgy,0px) * 1.7);
+  transition:translate .55s cubic-bezier(.22,.61,.36,1);
+  will-change:translate;
+}
+/* 呼吸：极慢的推近 + 横向漂移，静态图也有「活气」 */
+@keyframes bgBreathe{
+  from{ transform:scale(1.06) translate3d(0,0,0); }
+  to  { transform:scale(1.13) translate3d(-1.8%,-1.2%,0); }
+}
+/* 入场：打开页面时从模糊虚焦中显影 */
+@keyframes bgEnter{
+  0%  { filter:blur(16px) saturate(.5) brightness(1.18); opacity:.18; }
+  100%{ filter:none; opacity:1; }
+}
+/* 入场光扫：一道天光横扫一次，之后隐去 */
+.about__beam{
+  position:absolute;inset:-25% -45%;z-index:1;pointer-events:none;
+  background:linear-gradient(104deg,transparent 43%,rgba(255,250,238,.55) 50%,rgba(255,250,238,.18) 55%,transparent 60%);
+  mix-blend-mode:screen;
+  animation:beamSweep 2.3s cubic-bezier(.4,0,.2,1) .1s 1 both;
+}
+@keyframes beamSweep{
+  0%  { transform:translateX(-62%); opacity:0; }
+  16% { opacity:.95; }
+  72% { opacity:.5; }
+  100%{ transform:translateX(62%); opacity:0; }
+}
+/* 光扫：一道极淡的天光缓慢扫过墨雾，26s 一轮 */
+.about__glow{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,252,246,.24) 46%,transparent 62%);
+  background-size:240% 240%;
+  mix-blend-mode:screen;
+  opacity:.6;
+  animation:glowSweep 26s ease-in-out infinite;
+  will-change:background-position;
+}
+@keyframes glowSweep{
+  0%,100%{ background-position:120% 0%; }
+  50%    { background-position:-40% 100%; }
+}
+/* 可读性柔光：带倾角、多档位长尾，让左亮右暗过渡不可见，
+   画面纹理一直延伸到文字下方，读起来是一整张图而非两层 */
+.about__bg::after{
+  content:"";position:absolute;inset:0;z-index:2;
+  background:linear-gradient(102deg,
+    rgba(249,248,246,.86) 0%,
+    rgba(249,248,246,.84) 34%,
+    rgba(249,248,246,.73) 50%,
+    rgba(249,248,246,.50) 64%,
+    rgba(249,248,246,.24) 76%,
+    rgba(249,248,246,.07) 86%,
+    rgba(249,248,246,0) 94%);
+}
+/* 入场：左栏标题与三条陈述依次上浮显影（每次进入「关于我」都重演） */
+body.is-about .lead h1{
+  animation:riseIn .95s cubic-bezier(.22,.61,.36,1) both;
+}
+body.is-about .rows .row{
+  animation:riseIn .9s cubic-bezier(.22,.61,.36,1) both;
+}
+body.is-about .rows .row:nth-child(1){ animation-delay:.16s }
+body.is-about .rows .row:nth-child(2){ animation-delay:.28s }
+body.is-about .rows .row:nth-child(3){ animation-delay:.40s }
+@keyframes riseIn{
+  from{ opacity:0; transform:translateY(18px); filter:blur(5px); }
+  to  { opacity:1; transform:none; filter:none; }
+}
+/* 尊重系统「减少动态效果」 */
+@media (prefers-reduced-motion: reduce){
+  .about__bg img{ animation:none; transform:scale(1.06); translate:none; transition:none; filter:none; opacity:1; }
+  .about__fx{ translate:none; transition:none; }
+  .about__glow,.about__beam{ animation:none; }
+  .about__beam{ opacity:0; }
+  body.is-about .lead h1,body.is-about .rows .row{ animation:none; opacity:1; transform:none; filter:none; }
+}
+
+/* 三条陈述：索引移除后回到第 1 栏起，标题与正文左缘对齐；
+   栏宽收成 1/8，让发丝线右缘与文字右缘齐平（不出现「线比字长」） */
+.rows{
+  grid-column:1 / 8;position:relative;z-index:1;
+  margin-top:clamp(26px,3.4vw,44px);
+  /* 不再用矩形底衬：靠整幅柔光渐变 + 文字微阴影保证可读，
+     让画面纹理连续穿过文字区，避免「白卡浮在图上」的分层感 */
+  background:none;
+  padding:0;
+}
+/* 关于我里的条目列表（限定在 .rows 内，避免污染内容区的 .row 行） */
+.rows .row{
+  display:grid;grid-template-columns:32px minmax(0,1fr);column-gap:16px;
+  padding:20px 0 22px;border-top:1px solid var(--hair);
+  transition:opacity .35s,padding-left .45s var(--ease);
+}
+.rows .row:first-child{border-top:0;padding-top:0}
+.rows:hover .row{opacity:.4}
+.rows:hover .row:hover{opacity:1;padding-left:10px}
+.row__n{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--ink-4);
+  padding-top:7px;transition:color .35s;
+  text-shadow:0 1px 2px rgba(249,248,246,.95),0 0 10px rgba(249,248,246,.7);
+}
+.row:hover .row__n{color:var(--ink)}
+.row__b h2{
+  margin:0 0 8px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  font-weight:400;color:var(--ink-4);
+  text-shadow:0 1px 2px rgba(249,248,246,.95),0 0 12px rgba(249,248,246,.7);
+}
+.row__b p{
+  margin:0;max-width:none;
+  font-size:14.5px;line-height:1.88;color:var(--ink-2);
+  text-shadow:0 1px 2px rgba(249,248,246,.95),0 0 14px rgba(249,248,246,.78);
+  transition:color .3s;
+}
+.row:hover .row__b p{color:var(--ink)}
+
+/* ══════════ 项目详情（灯箱升级） ══════════ */
+.lightbox{
+  position:fixed;inset:0;z-index:90;
+  display:flex;align-items:center;justify-content:center;
+  padding:4vh 4vw;
+  background:rgba(20,19,18,.955);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  opacity:0;pointer-events:none;
+  transition:opacity .35s var(--ease);
+}
+.lightbox.is-open{opacity:1;pointer-events:auto}
+.lightbox__panel{
+  display:flex;align-items:center;gap:clamp(18px,2.4vw,38px);
+  width:min(1240px,94vw);max-height:92vh;
+  transform:translateY(8px);transition:transform .45s var(--ease);
+}
+.lightbox.is-open .lightbox__panel{transform:none}
+.lightbox__media{
+  flex:1 1 auto;min-width:0;
+  display:flex;align-items:center;justify-content:center;
+  background:#000;border-radius:4px;overflow:hidden;
+}
+.lightbox__media img,.lightbox__media video{
+  display:block;max-width:100%;max-height:80vh;width:auto;height:auto;object-fit:contain;
+}
+
+/* 右栏：像一页项目卡 */
+.lightbox__meta{
+  flex:0 0 clamp(220px,19vw,272px);
+  display:flex;flex-direction:column;
+  padding:2px 0 0;
+  color:#EDEAE4;
+}
+.lb__k{
+  display:flex;align-items:baseline;gap:10px;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(237,234,228,.55);
+  padding-bottom:12px;border-bottom:1px solid rgba(237,234,228,.18);
+}
+.lb__k b{font-weight:400;color:rgba(237,234,228,.9)}
+.lb__title{
+  margin:16px 0 0;
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(20px,1.9vw,27px);line-height:1.28;letter-spacing:0;
+}
+.lb__spec{margin:22px 0 0;display:flex;flex-direction:column;gap:11px}
+.lb__spec div{display:grid;grid-template-columns:52px minmax(0,1fr);gap:10px}
+.lb__spec dt{
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(237,234,228,.45);padding-top:2px;
+}
+.lb__spec dd{margin:0;font-size:13px;line-height:1.6;color:rgba(237,234,228,.92)}
+.lb__nav{
+  margin-top:26px;padding-top:14px;display:flex;gap:8px;
+  border-top:1px solid rgba(237,234,228,.16);
+}
+.lb__nav button{
+  flex:1 1 0;
+  padding:9px 10px;
+  border:1px solid rgba(237,234,228,.28);
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(237,234,228,.8);
+  transition:border-color .25s,background .25s,color .25s;
+}
+.lb__nav button:hover{border-color:rgba(237,234,228,.8);background:rgba(237,234,228,.1);color:#fff}
+
+.lightbox__close{
+  position:absolute;top:22px;right:24px;
+  width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(237,234,228,.35);
+  color:#EDEAE4;font-size:16px;line-height:1;
+  display:grid;place-items:center;
+  transition:background .25s,border-color .25s,transform .25s;
+}
+.lightbox__close:hover{background:rgba(237,234,228,.12);border-color:rgba(237,234,228,.7);transform:rotate(90deg)}
+
+/* ══════════ 项目卡（主视觉 + 分类 + 标题，点开看图集） ══════════ */
+.tile--project{
+  width:100%; height:auto; flex:0 0 auto;
+  display:block; text-align:left;
+  background:transparent; border-radius:0; overflow:visible;
+  margin:0 0 var(--gap);
+}
+.tile--project .proj__img{
+  display:block; width:100%;
+  border-radius:10px; overflow:hidden; background:var(--card);
+}
+.tile--project .proj__img img{
+  width:100%; height:auto; display:block;
+  transition:transform .8s var(--ease);
+}
+.tile--project:hover .proj__img img{ transform:scale(1.028); }
+/* 项目卡题注：与单条作品题注规格完全一致，5 个分类版式统一 */
+.tile--project .proj__cap{
+  display:flex; flex-direction:column; gap:5px; padding:22px 2px 0;
+  height:60px; box-sizing:border-box; overflow:hidden;
+}
+.tile--project .proj__k{
+  display:block;
+  font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-4);
+}
+.tile--project .proj__t{
+  display:block; font-size:15px; font-weight:600; line-height:1.35;
+  letter-spacing:.01em; color:var(--ink);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.tile--project .proj__n{
+  margin-left:6px; font-family:inherit; font-weight:400; font-size:11px;
+  letter-spacing:.04em; color:var(--ink-4);
+}
+
+/* 项目卡网格：三列，封面统一 16:9，标题在下方 */
+.proj-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  column-gap:24px;
+  row-gap:var(--rowgap);
+  margin-bottom:var(--rowgap);
+}
+.proj-grid .tile--project{ margin:0; }
+.proj-grid .tile--project .proj__img{
+  aspect-ratio:16 / 9;
+  max-width:none !important;
+  margin:0 !important;
+}
+.proj-grid .tile--project .proj__img img{
+  width:100%; height:100%;
+  object-fit:cover; object-position:center;
+}
+@media (max-width:1100px){ .proj-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:700px){ .proj-grid{ grid-template-columns:1fr; } }
+/* 三列时末行仅剩 1 张 → 居中，避免左侧孤卡 */
+@media (min-width:1101px){
+  .proj-grid > .tile:last-child:nth-child(3n+1){ grid-column:2; }
+}
+
+/* ══════════ 项目详情（图集多列平铺） ══════════ */
+.detail{
+  position:fixed; inset:0; z-index:96;
+  background:var(--bg);
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  opacity:0; pointer-events:none;
+  transition:opacity .3s var(--ease);
+}
+.detail.is-open{ opacity:1; pointer-events:auto; }
+.detail__wrap{ max-width:1280px; margin:0 auto; padding:38px 24px 96px; }
+.detail__head{
+  display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
+  padding-bottom:14px; margin-bottom:26px;
+  border-bottom:1px solid var(--hair);
+}
+.detail__k{
+  font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink-4);
+}
+.detail__title{
+  margin:9px 0 0; font-family:var(--serif); font-weight:400;
+  font-size:clamp(21px,2.3vw,30px); line-height:1.2;
+}
+.detail__close{
+  flex:0 0 auto; width:40px; height:40px; border-radius:50%;
+  border:1px solid var(--hair); display:grid; place-items:center; font-size:14px;
+  transition:background .25s,transform .25s;
+}
+.detail__close:hover{ background:rgba(25,25,25,.06); transform:rotate(90deg); }
+/* 详情图集：等高行（justified），混比例图片也能行底齐平、不裁切、顺序不乱 */
+.detail__grid{ display:block; }
+.detail__grid .drow{ display:flex; gap:18px; margin-bottom:18px; }
+.detail__grid .drow:last-child{ margin-bottom:0; }
+.detail__grid figure{
+  margin:0; flex:0 0 auto;
+  border-radius:8px; overflow:hidden; background:var(--card);
+}
+.detail__grid img, .detail__grid video{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+.detail__grid video{ background:#000; }
+@media (max-width:560px){ .detail__wrap{padding:22px 14px 80px;} }
+
+/* ══════════ 响应式 ══════════ */
+@media (max-width:1280px){
+}
+@media (max-width:1080px){
+  :root{--side:270px}
+  .brand{font-size:clamp(40px,4.6vw,52px)}
+  .row__b p{font-size:14px}
+}
+@media (max-width:860px){
+  :root{--side:0px}
+  .side{
+    position:sticky;top:0;bottom:auto;width:100%;
+    padding:18px 16px 14px;
+    background:var(--bg);
+    border-bottom:1px solid var(--hair);
+    display:block;
+  }
+  .brand--desk{display:none}
+  .brand__cn{font-size:clamp(32px,8.6vw,40px)}
+  .brand__en{display:none}
+  .tagline{margin-top:14px;padding-top:13px;font-size:14px;max-width:30ch;line-height:1.6}
+  /* 顶部栏要盖在抽屉之上，否则菜单打开后关不掉 */
+  .topbar{position:relative;z-index:50}
+  /* 移动端：目录收进抽屉 */
+  .nav{
+    position:fixed;left:0;right:0;top:0;bottom:0;z-index:40;
+    margin:0;padding:78px 16px 168px;
+    background:var(--bg);
+    overflow-y:auto;
+    transform:translateY(-101%);
+    transition:transform .4s var(--ease);
+  }
+  body.menu-open .nav{transform:translateY(0)}
+  .nav__item{font-size:16px;padding:14px 0 13px;letter-spacing:.05em}
+  .nav__item.is-on{padding-left:15px}
+  .side__foot{
+    position:fixed;left:0;right:0;bottom:0;z-index:40;
+    padding:18px 16px 22px;margin:0;z-index:45;
+    background:var(--bg);border-top:1px solid var(--hair);
+    transform:translateY(101%);
+    transition:transform .4s var(--ease);
+  }
+  body.menu-open .side__foot{transform:translateY(0)}
+  .copyright{margin-top:16px}
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:12px;
+  }
+  .burger{
+    display:grid;place-items:center;width:40px;height:40px;border-radius:8px;
+    border:1px solid var(--hair);margin-left:auto;
+  }
+  .burger span{display:block;width:18px;height:1.5px;background:var(--ink);position:relative}
+  .burger span::before,.burger span::after{
+    content:"";position:absolute;left:0;width:18px;height:1.5px;background:var(--ink);
+  }
+  .burger span::before{top:-6px}
+  .burger span::after{top:6px}
+  body.menu-open .burger span{background:transparent}
+  body.menu-open .burger span::before{transform:rotate(45deg);top:0}
+  body.menu-open .burger span::after{transform:rotate(-45deg);top:0}
+
+  body.menu-open{overflow:hidden}
+  .works{margin-left:0;padding:16px}
+  .about{margin-left:0;padding:24px 16px 76px;max-width:none}
+  .about__grid{grid-template-columns:minmax(0,1fr);row-gap:0}
+  .lead,.rows{grid-column:1 / -1}
+  .rows{margin-top:26px}
+  .about__head{font-size:9px}
+  .lead h1{max-width:100%;font-size:clamp(27px,7.6vw,34px)}
+  /* 窄屏：文字纵向铺满，柔光改为自上而下淡出，保持一整张图的感觉 */
+  .about__bg::after{
+    background:linear-gradient(178deg,
+      rgba(249,248,246,.88) 0%,
+      rgba(249,248,246,.82) 46%,
+      rgba(249,248,246,.62) 74%,
+      rgba(249,248,246,.40) 100%);
+  }
+  /* 项目详情改为上下叠放 */
+  .lightbox{padding:3vh 14px}
+  .lightbox__panel{flex-direction:column;gap:14px;max-height:94vh}
+  .lightbox__media img,.lightbox__media video{max-height:52vh}
+  .lightbox__meta{flex:0 0 auto}
+  .lb__nav{padding-top:16px}
+}
+@media (max-width:560px){
+  .works{padding:12px}
+  .tile{margin-bottom:12px}
+  .row__b p{font-size:13.5px;line-height:1.85}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   关于我 · 2026 重构：抽象 → 可见（5 层 / 分屏 / GSAP）
+   ═══════════════════════════════════════════════════════════════ */
+:root{ --gold:#E8C97A; --split:44%; }
+body.is-about{ --side:240px; }
+
+/* ── 中间文案直接浮在底图左侧白区，不垫任何白膜/遮罩（同平面） ── */
+body.is-about{ background:#fff; }
+
+/* ── 分屏骨架 ── */
+.about{
+  position:relative; z-index:2;
+  margin-left:var(--side);
+  padding:0;
+  min-height:170vh;                 /* 滚动叙事空间 */
+  /* 文案列宽：右缘锁定在 44vw（碎片分界 46vw 左侧留 2vw 缓冲），
+     宽度 = 44vw − 侧栏宽 − 左内边距；与侧栏/内边距联动，窄屏也不会溢出 */
+  --copy: calc(44vw - var(--side) - clamp(20px,2.6vw,40px));
+}
+.about__inner{
+  position:sticky; top:0;
+  min-height:100vh;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:96px 40px 64px;
+  /* 窄屏时压缩左内边距，给文案列让出宽度（标题不折行） */
+  padding-left:clamp(20px,2.6vw,40px);
+}
+.about__head{
+  position:absolute; left:clamp(20px,2.6vw,40px); top:30px;
+  width:var(--copy);
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding-bottom:12px; margin:0;
+  border-bottom:1px solid var(--hair);
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--ink-4);
+  z-index:1;
+}
+.about__grid{ display:block; margin:0; }
+.lead{ width:100%; max-width:var(--copy); position:relative; z-index:2; }
+.lead h1{
+  margin:0; max-width:none;
+  font-family:var(--serif); font-weight:400;
+  /* 字号完全由文案列宽推导（实测：标题宽 ≈ 9.88 × 字号，故系数取 .096 留余量），
+     保证标题整行不折、不溢出列宽 */
+  font-size:clamp(19px,calc(var(--copy) * .096),44px);
+  line-height:1.16; letter-spacing:-.012em;
+  color:#000;
+  text-shadow:none;
+}
+.lead h1 .line{ display:inline-block; white-space:nowrap; }
+.lead h1 .ch{ display:inline-block; will-change:transform,opacity,filter; }
+.lead h1 .gold{ color:inherit; font-style:normal; font-weight:inherit; }
+
+/* ── L1 冷雾底（仅「关于我」显示，其他目录完全隐藏） ── */
+.stage{
+  position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+  display:none;
+}
+body.is-about .stage{ display:block; }
+/* 关于我：舞台底色转白，底图未覆盖的左缘留白与页面白区无缝融合（不再露深色） */
+body.is-about .stage{ background:#fff; }
+body.is-about .stage__bg{ background:#141b21; }
+body.is-about .grain-fx{ display:block; }
+.grain-fx{ display:none; }
+.stage__bg{
+  position:absolute; left:var(--split); right:0; top:0; bottom:0;
+  overflow:hidden; background:#0e1317;
+}
+.stage--ref .stage__bg{ clip-path:inset(0 100% 0 0); }
+.stage--ref.is-in .stage__bg{
+  clip-path:inset(0 0 0 0);
+  transition:clip-path 1.35s cubic-bezier(.22,.61,.36,1);
+}
+.stage__bg img{
+  width:100%; height:100%; object-fit:cover; object-position:center;
+  /* 底图构图稳定：仅保留极轻微呼吸，绝不随鼠标位移。
+     原 translate:calc(var(--mx)…) 位移链路已解除；
+     --mx / --my 变量本身保留，继续供右侧叠加特效层使用。 */
+  transform:scale(1.000); transform-origin:52% 46%;
+  animation:stageBreath 52s ease-in-out infinite alternate;
+  will-change:transform;
+}
+/* 参考图模式：碎片 / 墨 / 光轨已烘焙在底图里，不再叠加程序化层 */
+.stage--ref .stage__shards,
+.stage--ref .stage__ink,
+.stage--ref .stage__trail{ display:none; }
+
+/* 整页参考图模式：底图铺满视口，左半自带留白，程序化层全部让位 */
+.stage--full .stage__bg{ left:0; right:0; }
+.stage--full .stage__bg img{ object-position:center; transform-origin:50% 50%; }
+.stage--full .stage__shards,
+.stage--full .stage__ink,
+.stage--full .stage__trail{ display:none; }
+.stage--full .stage__bg{ clip-path:inset(0 100% 0 0); }
+.stage--full.is-in .stage__bg{
+  clip-path:inset(0 0 0 0);
+  transition:clip-path 1.5s cubic-bezier(.22,.61,.36,1);
+}
+/* 侧栏透明：品牌/导航直接浮在左侧白区（底图白区或页面白）之上 */
+body.is-about .side{ background:transparent; z-index:20; }
+
+/* 文字区到碎片带的白色柔化过渡（左白连续，51% 后完全让位给画面） */
+.stage__veil{ display:none; position:absolute; inset:0; z-index:3; pointer-events:none; }
+.stage--full .stage__veil{
+  display:block;
+  background:linear-gradient(92deg,
+    #fff 0%,
+    #fff 35%,
+    rgba(255,255,255,.93) 39%,
+    rgba(255,255,255,.72) 43%,
+    rgba(255,255,255,.34) 46%,
+    rgba(255,255,255,0) 49%);
+}
+
+/* 左侧留白处的补充锐片（避开文字，只在上/下留白） */
+.stage__chips{ display:none; position:absolute; inset:0; z-index:4; pointer-events:none; }
+.stage--full .stage__chips{ display:block; }
+.chip{
+  position:absolute; left:0; top:0;
+  width:var(--w); height:var(--h);
+  transform:translate3d(var(--x),var(--y),0) rotate(var(--r));
+  background:linear-gradient(135deg,var(--c1),var(--c2));
+  clip-path:var(--clip);
+  opacity:var(--o);
+  filter:drop-shadow(0 2px 5px rgba(15,22,28,.16));
+  will-change:transform;
+}
+
+/* 编号悬停：对应高度的暖光呼吸 */
+.stage__focus{
+  position:absolute; inset:0; z-index:4; pointer-events:none;
+  opacity:0; transition:opacity .45s ease;
+  background:radial-gradient(24% 26% at 58% var(--fy,50%), rgba(232,201,122,.38), rgba(232,201,122,0) 70%);
+  mix-blend-mode:screen;
+}
+.stage--full .stage__focus.is-on{ opacity:1; }
+
+@media (prefers-reduced-motion: reduce){
+  .stage--ref .stage__bg,
+  .stage--full .stage__bg{ clip-path:none; transition:none; }
+}
+.stage__bg::after{
+  content:""; position:absolute; inset:0;
+  background:rgba(8,12,16,var(--dim,0));
+  transition:background .5s ease;
+}
+@keyframes stageBreath{
+  /* 极轻微呼吸：1.000 → 1.003（0.3%），无任何平移，52s 交替。
+     采用 1.000 基准而非 1.020，是因为底图尺寸由 fitImage() 精确写死，
+     额外 2% 基础放大才会真正改变裁切关系；0.3% 外扩仅约 4px，不可见。 */
+  from{ transform:scale(1.000); }
+  to  { transform:scale(1.003); }
+}
+.stage__fog{ position:absolute; left:var(--split); right:0; top:0; height:62%; opacity:.5; mix-blend-mode:screen; }
+.stage__fog canvas{ width:100%; height:100%; display:block; }
+
+/* ── L2 碎片 ── */
+.stage__shards{ position:absolute; inset:0; z-index:2; }
+.shard{
+  position:absolute; left:0; top:0;
+  width:var(--w); height:var(--h);
+  opacity:0;
+  transform:
+    translate3d(
+      calc(var(--x) + var(--ex,0px) + var(--mx,0) * var(--depth) * 1px),
+      calc(var(--y) + var(--my,0) * var(--depth) * 1px),
+      0)
+    rotate(var(--r));
+  background:linear-gradient(158deg,var(--c1) 0%,var(--c2) 52%,var(--c3) 100%);
+  clip-path:var(--clip);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.42), inset 0 0 18px rgba(255,255,255,.10);
+  filter:none;
+  transition:opacity .9s ease;
+  will-change:transform,opacity;
+}
+.stage.is-in .shard{ opacity:var(--o,1); }
+.stage[data-focus="1"] .shard[data-g="1"],
+.stage[data-focus="2"] .shard[data-g="2"],
+.stage[data-focus="3"] .shard[data-g="3"]{
+  filter:brightness(1.45) contrast(1.05);
+  transition-duration:.18s;
+}
+
+/* ── L4 墨（multiply 去底，只留在左半） ── */
+.stage__ink{
+  position:absolute; left:47%; top:-6%; width:30%; height:112%; z-index:1;
+  object-fit:cover; object-position:50% 50%;
+  opacity:.30;
+  filter:contrast(.92);
+  -webkit-mask-image:linear-gradient(96deg,transparent 0%,rgba(0,0,0,.35) 16%,#000 40%,#000 82%,transparent 98%);
+  mask-image:linear-gradient(96deg,transparent 0%,rgba(0,0,0,.35) 16%,#000 40%,#000 82%,transparent 98%);
+  will-change:transform;
+}
+
+/* ── L3 光轨 ── */
+.stage__trail{
+  position:absolute; inset:0; width:100%; height:100%; z-index:3;
+  overflow:visible; mix-blend-mode:screen;
+  opacity:calc(var(--lum,.52) * var(--trailMul,1)); transition:opacity .5s ease;
+  will-change:transform,opacity;
+}
+.stage__trail path{ fill:none; stroke-linecap:round; stroke-linejoin:round; }
+/* 修正④：光轨收细至 60%、亮度压低、保留多线束 */
+.trail__glow{ stroke:var(--gold); stroke-width:31; opacity:.085; filter:url(#trailBlur); }
+.trail__mid{ stroke:var(--gold); stroke-width:9; opacity:.20; filter:url(#trailBlur2); }
+.trail__core{ stroke:url(#trailGrad); stroke-width:2.2; opacity:.66; }
+.th--b .trail__glow{ opacity:.05; }
+.th--b .trail__mid{ opacity:.12; }
+.th--b .trail__core{ stroke-width:1.5; opacity:.42; }
+.th--c .trail__glow{ opacity:.035; }
+.th--c .trail__mid{ opacity:.085; }
+.th--c .trail__core{ stroke-width:1.2; opacity:.30; }
+.trail__tip{ fill:#FFFAEE; filter:url(#tipGlow); }
+.trail__halo{ filter:url(#trailBlur2); }
+
+/* ── 光阀染色（鼠标位置暖光） ── */
+.stage__tint{
+  position:absolute; inset:0; z-index:4; pointer-events:none;
+  mix-blend-mode:soft-light;
+  background:
+    radial-gradient(38% 40% at var(--px,72%) var(--py,42%), rgba(232,201,122,.55), rgba(232,201,122,0) 70%),
+    linear-gradient(180deg, rgba(120,155,180,.30), rgba(120,155,180,0) 62%);
+  opacity:var(--warm,.55);
+  transition:opacity .5s ease;
+}
+/* ── L5 颗粒（全页） ── */
+.grain-fx{
+  position:fixed; inset:0; z-index:55; pointer-events:none;
+  opacity:.055; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.6'/></svg>");
+  background-size:160px 160px;
+}
+
+/* ── L4 文案：三条陈述的滚动高亮 ── */
+.rows{
+  width:100%; max-width:var(--copy);
+  margin-top:clamp(30px,5vh,58px);
+  background:none; padding:0; position:relative; z-index:2;
+}
+.rows .row{
+  grid-template-columns:30px minmax(0,1fr); column-gap:14px;
+  padding:19px 0 21px;
+  opacity:1; transition:padding-left .9s ease;
+}
+.rows .row.is-active{ opacity:1; }
+.rows:hover .row{ opacity:1; }
+.rows:hover .row:hover{ padding-left:0; }
+.rows .row.is-active:hover{ opacity:1; }
+.rows .row__b p{
+  font-size:15px; line-height:1.9; color:var(--ink-2);
+  text-shadow:none;
+}
+.rows .row__b h2{
+  font-size:10.5px; letter-spacing:.22em; color:var(--ink-4);
+  text-shadow:none;
+}
+.rows .row__n{
+  font-size:9.5px; letter-spacing:.14em; cursor:pointer; transition:color .3s;
+  text-shadow:none;
+}
+.rows .row__n:hover{ color:var(--gold); }
+.rows .row__b h2{ transition:color .5s ease; }
+.rows .row.is-active .row__b h2{ color:var(--ink-3); }
+
+/* ── 导航：字距 + 2px 金色竖线 ── */
+.nav__item{ letter-spacing:.05em; }
+.nav__item.is-on{ padding-left:16px; }
+.nav__item.is-on::before{
+  width:2px; height:15px;
+  background:var(--gold);
+  top:50%; transform:translateY(-50%);
+  box-shadow:0 0 8px rgba(232,201,122,.6);
+}
+.nav__item::before{ transition:width .3s var(--ease), height .3s var(--ease); }
+
+/* ── 导航悬停预览卡（从右滑出） ── */
+.nav-prev{
+  position:fixed; left:calc(var(--side) + 10px); top:0; z-index:58;
+  width:156px; aspect-ratio:4/3; border-radius:7px; overflow:hidden;
+  opacity:0; transform:translateX(-14px) scale(.97); pointer-events:none;
+  transition:opacity .32s ease, transform .45s var(--ease);
+  box-shadow:0 18px 44px rgba(15,22,28,.24);
+  background:#101519;
+}
+.nav-prev.is-on{ opacity:1; transform:none; }
+.nav-prev img{ width:100%; height:100%; object-fit:cover; display:block; }
+.nav-prev span{
+  position:absolute; left:9px; bottom:7px;
+  font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase;
+  color:#fff; text-shadow:0 1px 8px rgba(0,0,0,.75);
+}
+
+/* ── 右下角联系入口 ── */
+.contact-fab{
+  position:fixed; right:24px; bottom:24px; z-index:60;
+  width:46px; height:46px; border-radius:50%;
+  border:1px solid rgba(232,201,122,.55);
+  background:rgba(249,248,246,.8);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  display:grid; place-items:center; cursor:pointer;
+  box-shadow:0 10px 28px rgba(18,24,30,.16);
+  transition:transform .45s var(--ease), box-shadow .45s var(--ease);
+}
+.contact-fab:hover{ transform:scale(1.07); box-shadow:0 14px 34px rgba(18,24,30,.22),0 0 0 1px rgba(232,201,122,.5); }
+.contact-fab__txt{ font-family:var(--serif); font-size:17px; color:var(--ink); }
+.contact-fab__dot{
+  position:absolute; right:8px; top:8px; width:6px; height:6px; border-radius:50%;
+  background:var(--gold); box-shadow:0 0 8px var(--gold);
+  animation:fabPulse 2.6s ease-in-out infinite;
+}
+@keyframes fabPulse{ 0%,100%{opacity:.45;transform:scale(.85)} 50%{opacity:1;transform:scale(1)} }
+
+.contact-modal{ position:fixed; inset:0; z-index:80; display:none; place-items:center; padding:24px; }
+.contact-modal.is-on{ display:grid; }
+.contact-modal__bd{ position:absolute; inset:0; background:rgba(18,23,28,.34); -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px); }
+.contact-modal__card{
+  position:relative; width:min(420px,92vw); padding:36px 32px 30px; border-radius:14px;
+  background:rgba(249,248,246,.88);
+  -webkit-backdrop-filter:blur(24px) saturate(1.1); backdrop-filter:blur(24px) saturate(1.1);
+  border:1px solid rgba(255,255,255,.62);
+  box-shadow:0 34px 90px rgba(15,22,28,.34);
+  animation:cardIn .5s cubic-bezier(.22,1,.36,1);
+}
+@keyframes cardIn{ from{opacity:0;transform:translateY(18px) scale(.98)} to{opacity:1;transform:none} }
+.contact-modal__card::after{
+  content:""; position:absolute; inset:-40% -20% auto auto; width:70%; height:70%;
+  background:radial-gradient(circle,rgba(232,201,122,.28),transparent 68%);
+  pointer-events:none;
+}
+.contact-modal__k{ font-family:var(--mono); font-size:9.5px; letter-spacing:.22em; color:var(--ink-4); }
+.contact-modal__t{ margin:14px 0 8px; font-family:var(--serif); font-weight:400; font-size:26px; color:var(--ink); }
+.contact-modal__p{ margin:0 0 24px; font-size:13px; line-height:1.8; color:var(--ink-3); }
+.contact-modal__phone{
+  width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:16px 18px; border-radius:9px; cursor:pointer;
+  border:1px solid rgba(232,201,122,.45); background:rgba(255,252,244,.7);
+  font-family:var(--mono); font-size:17px; letter-spacing:.06em; color:var(--ink);
+  transition:background .3s, border-color .3s;
+}
+.contact-modal__phone:hover{ background:rgba(255,249,235,.95); border-color:var(--gold); }
+.contact-modal__phone em{ font-family:var(--sans); font-style:normal; font-size:10px; letter-spacing:.08em; color:var(--ink-4); }
+.contact-modal__mail{ display:inline-block; margin-top:14px; font-size:12.5px; color:var(--ink-3); border-bottom:1px solid var(--hair); }
+.contact-modal__close{
+  position:absolute; right:14px; top:12px; width:30px; height:30px; border:0; background:none;
+  color:var(--ink-4); font-size:14px; cursor:pointer;
+}
+
+/* ── 响应式 ── */
+@media (max-width:1360px){
+  .brand__cn{ font-size:clamp(38px,3.2vw,48px); }
+}
+@media (max-width:1200px){
+  body.is-about{ --side:210px; }
+  .brand__cn{ font-size:clamp(34px,2.9vw,42px); }
+}
+/* 矮视口（笔记本 768 / 800）：整体收紧，保证左栏一屏放得下 */
+@media (max-height:860px) and (min-width:861px){
+  .side{ padding:18px 20px 14px; }
+  .brand__cn{ font-size:clamp(34px,2.9vw,44px); }
+  .brand__en{ margin-top:10px; }
+  .tagline{ margin-top:14px; padding-top:12px; }
+  .nav{ margin-top:20px; }
+  .nav__cap{ padding-bottom:7px; }
+  .nav__item{ padding:9px 0 8px; }
+  .side__foot{ padding-top:16px; }
+  .socials{ margin-bottom:16px; }
+  .contact{ padding-top:12px; }
+  .copyright{ margin-top:14px; }
+}
+@media (max-width:860px){
+  body.is-about{ --side:0px; }
+  .about{ min-height:auto; margin-left:0; }
+  .about__inner{ position:static; min-height:auto; padding:26px 18px 96px; }
+  .about__head{ position:static; width:auto; margin-bottom:26px; }
+  .about__grid{ display:block; }
+  .lead,.rows{ max-width:none; }
+  .lead h1{ font-size:clamp(27px,7.4vw,34px); }
+
+  /* ── 移动端：视觉区回到文档流顶部，与桌面端一样「看得见这张图」 ──
+     原实现把底图降为 opacity:.14 的水印铺在文字下，等于手机上完全看不到主视觉。
+     现改为 16:9 顶部横幅 + 下方文字，图片完整呈现，特效照常运行。 */
+  .stage{ position:relative; height:auto; overflow:visible; }
+  .stage__visual{ position:relative; inset:auto; width:100%; height:56.25vw; z-index:1; }
+  .stage__bg{ left:0; right:0; top:0; bottom:0; opacity:1; }
+  body.is-about .stage--full .stage__bg{ opacity:1; }
+  body.is-about .about__inner::before{ display:none; }
+  body.is-about .stage--full .stage__bg img{
+    position:absolute; left:0; top:0; width:100%; height:100%;
+    object-fit:cover; object-position:center;
+  }
+  .stage__bg img{ animation:none; transform:scale(1.04); }
+  /* 视觉区全宽，特效层不再按 46% 裁切 */
+  .stage__fx{ clip-path:none !important; }
+  .fx__corner i:nth-child(1),
+  .fx__corner i:nth-child(3){ left:22px; }
+  .stage__fog,.stage__shards,.stage__ink,.stage__trail,.stage__tint{ display:none; }
+  .grain-fx{ opacity:.035; }
+  .nav-prev{ display:none; }
+  .contact-fab{ right:16px; bottom:16px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   静态底图 + 透明文案：只用原图，不叠加任何动态层
+   ═══════════════════════════════════════════════════════════════ */
+body.is-about .grain-fx{ display:none !important; }
+body.is-about .side{ background:transparent; }
+body.is-about .about{ min-height:100vh; }
+body.is-about .about__inner{ position:static; min-height:100vh; }
+body.is-about .lead h1,
+body.is-about .rows .row{
+  animation:none !important;
+  opacity:1 !important;
+  transform:none !important;
+  filter:none !important;
+}
+/* 纯白底上不再需要白晕（修正②：字色恢复实心） */
+body.is-about .rows .row__b p,
+body.is-about .rows .row__b h2,
+body.is-about .rows .row__n{ text-shadow:none; }
+body.is-about .nav-prev{ display:none; }
+
+/* 只保留底图，柔化/锐片/光斑/雾/颗粒/呼吸全部移除 */
+.stage--full .stage__veil,
+.stage--full .stage__chips,
+.stage--full .stage__focus,
+.stage--full .stage__fog,
+.stage__tint{ display:none !important; }
+.stage--full .stage__bg{ clip-path:none !important; }
+/* 右侧主视觉独立定位容器：原图与所有特效层都在其内部，
+   绝不覆盖整个浏览器视口，也不进入左侧文案区 */
+.stage__visual{
+  position:absolute; inset:0; z-index:1;
+  overflow:hidden;
+  pointer-events:none;
+  /* 白色底：与页面左栏白底连续，无暗带、无压迫感 */
+  background:#fff;
+}
+/* 原图：等比铺满高度、绝不变形；
+   具体尺寸与位置由 JS 精确计算写入 */
+body.is-about .stage--full .stage__bg{
+  position:absolute; left:0; right:0; top:0; bottom:0;
+  overflow:hidden; background:#fff;
+}
+body.is-about .stage--full .stage__bg img{
+  position:absolute; top:0; left:0;
+  width:auto; height:auto; max-width:none;
+  object-fit:fill; object-position:left center;
+  /* 允许极轻微呼吸（1.000→1.003 / 52s），但位移仍然彻底禁止。
+     原实现以 transform:none !important + animation:none !important 完全冻结底图，
+     本次按任务书放开 0.3% 的极小缩放；宽高仍由 fitImage() 精确写入，
+     transform 不参与布局，故构图、裁切关系与元素位置均保持不变。 */
+  translate:none !important;
+  transform-origin:52% 46%;
+}
+/* 特效层容器：严格限制在右侧主视觉区（46vw 之后），
+   左侧文案区完全隔离，特效绝不进入文字区域 */
+.stage__fx{
+  position:absolute; inset:0; z-index:2;
+  pointer-events:none;
+  overflow:hidden;
+  clip-path:inset(0 0 0 46%);
+}
+/* 各特效层：均为透明叠加，可单独关闭 */
+.fx{ position:absolute; inset:0; }
+.fx__far{ z-index:1; }      /* D 远景：建筑氛围与雾气 */
+.fx__lines{ z-index:2; }    /* C 线条与中央粉尘 */
+.fx__beam{ z-index:3; }     /* B 金色光束与金色粒子 */
+.fx__near{ z-index:4; }     /* A 近景纸屑 */
+/* 统一关闭开关：body.no-fx 后所有特效层隐藏，底图保持原样 */
+body.no-fx .stage__fx{ display:none !important; }
+body.no-fx .fx__far,
+body.no-fx .fx__lines,
+body.no-fx .fx__beam,
+body.no-fx .fx__near{ display:none !important; }
+
+/* ── 各层画布与 SVG 的具体表现 ── */
+.fx canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+.fx svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+/* 开场前各层完全不可见，由 JS 按叙事时序逐步提升 opacity。
+   底图始终可见，不参与此过程。 */
+.fx__far{ opacity:0; }
+.fx__lines{ opacity:0; }
+.fx__beam{ opacity:0; }
+.fx__near{ opacity:0; }
+
+/* 悬停 01/02/03：中央碎片对应区段的描边亮起（不改底图，仅叠加描边） */
+.fx__focus{
+  position:absolute; inset:0; z-index:6; pointer-events:none;
+  opacity:0; transition:opacity .5s ease;
+  mix-blend-mode:screen;
+}
+.fx__focus.is-on{ opacity:1; }
+/* 三段描边带：与碎片群三段纵向对应 */
+.fx__focus i{
+  position:absolute; left:0; width:100%;
+  border-top:1px solid rgba(232,201,122,.34);
+  border-bottom:1px solid rgba(232,201,122,.16);
+  background:linear-gradient(90deg, rgba(232,201,122,.10), rgba(232,201,122,0) 62%);
+  opacity:0; transition:opacity .45s ease;
+}
+.fx__focus i.on{ opacity:1; }
+
+/* D 远景：低强度灰蓝雾，克制不遮挡建筑轮廓 */
+#fxMist{ opacity:.5; mix-blend-mode:screen; }
+/* C 粉尘 */
+#fxDust{ mix-blend-mode:screen; }
+/* B 金色光束：整体屏幕混合，柔和不刺眼 */
+#fxBeamSvg{ mix-blend-mode:screen; }
+#fxBeamSvg .beam-glow{ fill:none; stroke:#E8C97A; stroke-width:22; opacity:.045; filter:url(#fxBlurL); }
+#fxBeamSvg .beam-mid{ fill:none; stroke:#E8C97A; stroke-width:6; opacity:.10; filter:url(#fxBlurS); }
+#fxBeamSvg .beam-core{ fill:none; stroke:url(#beamGrad); stroke-width:1.5; opacity:.26; }
+/* 流动高光段：沿路径推进的短亮段，制造"光在流动"的连续感（不是闪烁） */
+#fxBeamSvg .beam-flow{ fill:none; stroke:#FFF3D0; stroke-width:2.2; opacity:.42; stroke-linecap:round; }
+#fxBeamSvg .beam-hair{ fill:none; stroke:#E8C97A; stroke-width:.8; opacity:.16; }
+#fxBeamSvg .beam-spark{ fill:#FFF6DC; opacity:.9; }
+/* C 细线层（在 #fxSvg 内）：浅色描边，克制不喧宾夺主 */
+#fxSvg .line{ fill:none; stroke:rgba(226,236,244,.42); stroke-width:1; stroke-linecap:round; }
+#fxMotes{ mix-blend-mode:screen; }
+/* A 近景纸屑：正常混合，保留纸张质感 */
+#fxChips{ mix-blend-mode:normal; }
+/* 建筑暖反射：仅限光束附近的建筑区域 */
+#fxBeamSvg .beam-warm{ fill:none; stroke:#E8C97A; stroke-width:40; opacity:.035; filter:url(#fxBlurL); }
+
+/* SVG 滤镜定义 */
+#fxDefs{ position:absolute; width:0; height:0; overflow:hidden; }
+
+/* 移动端：仅真·手机竖屏（<=480）降级为静态图。
+   桌面无论窗口多窄、系统是否开启「减少动态效果」，本页都保留动效
+   —— 动效即本页内容本体，不再被系统开关静音。 */
+@media (max-width:480px){
+  /* 小屏同样保留特效（与桌面观感一致）；粒子数量由 JS 的 COMPACT 判定下调，
+     不再整体隐藏——隐藏会让手机端变成纯静态图，与 PC 差异过大。 */
+  .stage__fx{ display:block !important; }
+}
+/* 强制开启（兼容旧链接）*/
+body.force-fx .stage__fx{ display:block !important; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   电影感增强层（只叠加装饰与动效，不触碰任何文字与原图像素）
+   视觉层级：底图 → 网格/扫描 → 雾 → 细线粉尘 → 光束金粉 → 纸屑
+             → 工程线框/指针光晕 → 描边带 → 角标/暗角
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ① 原图入场：1.5s 淡入 + 10px 上浮（纯 CSS，不依赖 JS） */
+.stage__bg{ animation:bgReveal 1.5s cubic-bezier(.22,.61,.36,1) both; }
+@keyframes bgReveal{
+  from{ opacity:0; transform:translateY(10px); }
+  to  { opacity:1; transform:none; }
+}
+
+/* ② 结构网格：仅视觉区中心可见，边缘经遮罩自然淡出 */
+.fx__grid{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  opacity:0; transition:opacity 1.8s ease .5s;
+  background-image:
+    linear-gradient(rgba(226,236,244,.072) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(226,236,244,.072) 1px, transparent 1px);
+  background-size:88px 88px;
+  -webkit-mask-image:radial-gradient(ellipse 66% 68% at 64% 48%, #000 26%, transparent 76%);
+  mask-image:radial-gradient(ellipse 66% 68% at 64% 48%, #000 26%, transparent 76%);
+}
+body.is-revealed .fx__grid{ opacity:1; }
+
+/* ③ 扫描高光：26s 一轮，前 55% 扫过、后段静默（绝不连续闪烁） */
+.fx__scan{
+  position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+  opacity:0; transition:opacity 1.4s ease 1.1s; mix-blend-mode:screen;
+}
+body.is-revealed .fx__scan{ opacity:1; }
+.fx__scan::before{
+  content:''; position:absolute; top:0; bottom:0; left:0; width:34%;
+  background:linear-gradient(90deg,
+    rgba(226,236,244,0) 0%,
+    rgba(226,236,244,.05) 42%,
+    rgba(232,201,122,.045) 55%,
+    rgba(226,236,244,.03) 68%,
+    rgba(226,236,244,0) 100%);
+  transform:translateX(-70%);
+  animation:scanSweep 26s cubic-bezier(.42,0,.58,1) infinite;
+}
+@keyframes scanSweep{
+  0%   { transform:translateX(-70%); }
+  55%  { transform:translateX(320%); }
+  100% { transform:translateX(320%); }
+}
+
+/* ④ 工程线框层：低透明度，静态为主，仅作结构暗示 */
+.fx__marks{
+  position:absolute; inset:0; z-index:5; pointer-events:none;
+  opacity:0; transition:opacity 1.6s ease .9s;
+}
+body.is-revealed .fx__marks{ opacity:1; }
+.fx__marks path,
+.fx__marks line,
+.fx__marks circle,
+.fx__marks rect{ fill:none; vector-effect:non-scaling-stroke; }
+.fx__marks .mk-arc{ stroke:rgba(226,236,244,.21); stroke-width:1; }
+.fx__marks .mk-arc-gold{ stroke:rgba(232,201,122,.28); stroke-width:1; }
+.fx__marks .mk-tick{ stroke:rgba(226,236,244,.30); stroke-width:1; }
+.fx__marks .mk-anchor{ stroke:rgba(232,201,122,.55); stroke-width:1; }
+.fx__marks .mk-hair{ stroke:rgba(226,236,244,.14); stroke-width:1; }
+
+/* ⑤ 取景角标：只在视觉区四角，稀疏有理由 */
+.fx__corner{
+  position:absolute; inset:0; z-index:9; pointer-events:none;
+  opacity:0; transition:opacity 1.4s ease 1.3s;
+}
+body.is-revealed .fx__corner{ opacity:1; }
+.fx__corner i{
+  position:absolute; width:22px; height:22px;
+  border:1px solid rgba(232,201,122,.46);
+}
+.fx__corner i:nth-child(1){ top:22px;    left:calc(46% + 22px); border-right:0; border-bottom:0; }
+.fx__corner i:nth-child(2){ top:22px;    right:22px;            border-left:0;  border-bottom:0; }
+.fx__corner i:nth-child(3){ bottom:22px; left:calc(46% + 22px); border-right:0; border-top:0; }
+.fx__corner i:nth-child(4){ bottom:22px; right:22px;            border-left:0;  border-top:0; }
+
+/* ⑥ 边缘暗角：只压四边，绝不碰中心主体 */
+.stage__visual::after{
+  content:''; position:absolute; inset:0; z-index:8; pointer-events:none;
+  background:
+    linear-gradient(90deg, rgba(9,14,18,0) 58%, rgba(9,14,18,.26) 100%),
+    linear-gradient(180deg, rgba(9,14,18,.16) 0%, rgba(9,14,18,0) 16%, rgba(9,14,18,0) 80%, rgba(9,14,18,.22) 100%);
+}
+
+/* ⑦ 指针光晕：跟随鼠标，柔和不刺眼（限视觉区） */
+.fx__cursor{
+  position:absolute; z-index:6; width:520px; height:520px;
+  margin:-260px 0 0 -260px; border-radius:50%;
+  pointer-events:none; opacity:0; will-change:transform;
+  background:radial-gradient(circle,
+    rgba(232,201,122,.075) 0%,
+    rgba(232,201,122,.032) 36%,
+    rgba(226,236,244,.018) 56%,
+    transparent 70%);
+  mix-blend-mode:screen;
+  transition:opacity .7s ease;
+}
+
+/* ⑩ 系统「减少动态效果」：降强度而非静音（保留可感知的缓慢呼吸） */
+@media (prefers-reduced-motion: reduce){
+  .fx__scan{ display:none; }
+  .fx__cursor{ display:none; }
+  .fx__grid{ opacity:.5; }
+}
+
+/* ⑫ 笔触层：手绘飞白弧线 + 墨点飞溅，呼应原图左侧的水墨飞溅质感 */
+.fx__brush{
+  position:absolute; inset:0; z-index:2; pointer-events:none;
+  opacity:0; transition:opacity .9s ease .15s;
+}
+body.is-revealed .fx__brush{ opacity:1; }
+.fx__brush svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.fx__brush .brush-line{
+  fill:none; stroke:rgba(62,72,88,.56); stroke-width:1.4; stroke-linecap:round;
+}
+.fx__brush .brush-fly{      /* 飞白：断续笔触 */
+  fill:none; stroke:rgba(62,72,88,.46); stroke-width:1.1; stroke-linecap:round;
+  stroke-dasharray:2.5 7;
+}
+.fx__brush .brush-dot{ fill:rgba(56,66,82,.64); }
+.fx__brush .brush-dot--soft{ fill:rgba(56,66,82,.36); }
+
+/* ⑪ 窄屏：关闭指针光晕与扫描光（触屏无指针），保留网格与暗角 */
+@media (max-width:860px){
+  /* 布局覆盖放在文件最末，确保优先于前面 .stage__visual 的 absolute 定位 */
+  .stage{ position:relative !important; height:auto !important; overflow:visible !important; }
+  .stage__visual{
+    position:relative !important; inset:auto !important;
+    width:100% !important;
+    height:56.25vw;            /* JS 会按图片实际高度覆盖，此处仅作兜底 */
+    z-index:1 !important;
+  }
+  .stage__bg{ left:0 !important; right:0 !important; opacity:1 !important; }
+  body.is-about .stage--full .stage__bg{ opacity:1 !important; }
+  .fx__cursor{ display:none; }
+  .fx__scan{ display:none; }
+  .fx__marks{ opacity:.55; }
+  /* 小屏角标过密，仅隐藏角标；暗角保留以增强视觉区氛围 */
+  .fx__corner{ display:none; }
+}
+</style>
+</head>
+<body class="is-about">
+
+<!-- ══════════ 关于我 · 右侧主视觉容器（原图 + 透明特效层） ══════════ -->
+<div class="stage stage--full" id="stage" aria-hidden="true">
+  <!-- 右侧主视觉独立定位容器：原图与所有特效层都在其内部 -->
+  <div class="stage__visual" id="visual">
+    <!-- 底层：原始主视觉图片，保持不动 -->
+    <div class="stage__bg"><img src="./assets/concept/about-layers/about-full.jpg" alt="" /></div>
+
+    <!-- 动态特效层（均为透明叠加，可单独关闭） -->
+    <div class="stage__fx" id="fx">
+      <!-- 结构网格 + 扫描高光（最底层装饰，仅视觉区，不压文字） -->
+      <div class="fx__grid" aria-hidden="true"></div>
+      <div class="fx__scan" aria-hidden="true"></div>
+
+      <!-- D 远景：建筑氛围与极轻微雾气 -->
+      <div class="fx fx__far" id="fxFar">
+        <canvas id="fxMist"></canvas>
+      </div>
+
+      <!-- C 线条与中央粉尘 -->
+      <div class="fx fx__lines" id="fxLines">
+        <canvas id="fxDust"></canvas>
+        <svg id="fxSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+
+      <!-- 笔触层：手绘飞白弧线 + 墨点（新增，不改版式） -->
+      <div class="fx__brush" aria-hidden="true"><svg id="fxBrush" xmlns="http://www.w3.org/2000/svg"></svg></div>
+
+      <!-- B 金色流动光束 -->
+      <div class="fx fx__beam" id="fxBeamWrap">
+        <svg id="fxBeamSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+        <canvas id="fxMotes"></canvas>
+      </div>
+
+
+    <!-- A 近景纸屑 -->
+    <div class="fx fx__near" id="fxNear">
+      <canvas id="fxChips"></canvas>
+    </div>
+
+    <!-- 工程线框 / 几何锚点（结构暗示，静态为主，低透明度） -->
+    <svg class="fx__marks" id="fxMarks" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+
+    <!-- 指针光晕：跟随鼠标，限视觉区 -->
+    <div class="fx__cursor" id="fxCursor" aria-hidden="true"></div>
+
+    <!-- 悬停 01/02/03 时亮起的碎片区段描边（叠加层，不改底图） -->
+    <div class="fx__focus" id="fxFocus">
+      <i data-g="1"></i><i data-g="2"></i><i data-g="3"></i>
+    </div>
+  </div>
+
+  <!-- 取景角标：视觉区四角，不进入文字安全区 -->
+  <div class="fx__corner" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+</div>
+</div>
+
+<!-- ══════════ 左栏：作者 / 目录 / 联系 ══════════ -->
+<aside class="side">
+  <div class="topbar">
+    <a class="brand brand--m" href="#" data-go="home"><span class="brand__cn">王春龙</span></a>
+    <button class="burger" id="burger" aria-label="打开目录"><span></span></button>
+  </div>
+
+  <a class="brand brand--desk" href="#" data-go="home">
+    <span class="brand__cn">王春龙</span>
+    <span class="brand__en">WANG CHUNLONG</span>
+  </a>
+  <p class="tagline">
+    <span class="tagline__role">AIGC 创意 · 视觉设计</span>
+    让算法负责可能性，<br />让我负责选择。
+  </p>
+
+  <nav class="nav" id="nav"></nav>
+  <div class="nav-prev" id="navPrev" aria-hidden="true"><img alt="" /><span></span></div>
+
+  <div class="side__foot">
+    <div class="socials">
+      <a href="mailto:2539349684@qq.com" aria-label="邮箱" title="邮箱">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M3 6.5l9 6.5 9-6.5"/></svg>
+      </a>
+      <button type="button" id="wxBtn" aria-label="微信" title="微信 · 点击复制手机号">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3.4 4.6h17.2v11.2H9.6l-4.8 4V15.8H3.4z"/><circle cx="9.1" cy="10.2" r="1.05" fill="currentColor" stroke="none"/><circle cx="14.9" cy="10.2" r="1.05" fill="currentColor" stroke="none"/></svg>
+      </button>
+      <a href="https://www.zcool.com.cn/work/ZNzQyNjI2ODA=.html" target="_blank" rel="noopener" aria-label="站酷" title="站酷">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 5h13L5 19h14"/></svg>
+      </a>
+    </div>
+    <div class="contact">
+      <div class="contact__k">联系我</div>
+      <a class="contact__mail" href="tel:+8618223979952">
+        182 2397 9952
+        <span class="copy-dot" id="copyBtn" title="复制手机号">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="8" y="8" width="12" height="12" rx="1.5"/><path d="M4 16V4h12"/></svg>
+        </span>
+      </a>
+    </div>
+    <div class="copyright">© 2026 王春龙 · AIGC 视觉设计</div>
+  </div>
+</aside>
+
+<!-- ══════════ 右侧瀑布流 ══════════ -->
+<main class="works" id="works">
+  <header class="works__head">
+    <h1 class="works__title" id="whTitle">全部作品</h1>
+    <div class="works__meta"><span id="whCount">24 件</span></div>
+  </header>
+  <div class="feed" id="feed"></div>
+</main>
+
+<section class="about" id="about">
+  <div class="about__inner">
+    <div class="about__head">
+      <span>ABOUT · 关于我</span>
+      <span>ABSTRACT → VISIBLE</span>
+    </div>
+
+    <div class="about__grid">
+      <!-- L4 文案层 -->
+      <div class="lead">
+        <h1><span class="line">把抽象的想法，</span><br /><span class="line">做成能被看见的<em class="gold">影像</em>。</span></h1>
+      </div>
+
+      <div class="rows">
+        <article class="row is-active" data-n="1">
+          <div class="row__n">01</div>
+          <div class="row__b">
+            <h2>立场 / Stance</h2>
+            <p>我是一名 AIGC 创意与视觉设计工作者，专业背景使我始终关注审美、叙事与新技术之间的关系。</p>
+          </div>
+        </article>
+        <article class="row" data-n="2">
+          <div class="row__n">02</div>
+          <div class="row__b">
+            <h2>方法 / Method</h2>
+            <p>致力于探索人工智能与视觉艺术的交叉方式，将抽象化、概念化的语言转化为具有情绪、故事与视觉张力的作品。创作涵盖 AI 影像、TVC 广告、IP 设计、概念设计，并不断尝试在技术与效率之外，保留属于人的感知、判断与表达。</p>
+          </div>
+        </article>
+        <article class="row" data-n="3">
+          <div class="row__n">03</div>
+          <div class="row__b">
+            <h2>信念 / Belief</h2>
+            <p>于我而言，AI 从来不是创作的终点，而是一支被重新发明的画笔。算法可以生成千万种可能，而真正决定作品为何诞生、去向何处的，始终是人的想象、审美与情感。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 右下角联系入口 ══════════ -->
+<button class="contact-fab" id="contactFab" aria-label="联系我"><span class="contact-fab__dot"></span><span class="contact-fab__txt">王</span></button>
+<div class="contact-modal" id="contactModal" aria-hidden="true">
+  <div class="contact-modal__bd" data-close></div>
+  <div class="contact-modal__card" role="dialog" aria-modal="true" aria-label="联系我">
+    <div class="contact-modal__k">CONTACT · 联系我</div>
+    <h3 class="contact-modal__t">聊聊下一个影像</h3>
+    <p class="contact-modal__p">AI 影像 / TVC / 概念设计 / IP 视觉，欢迎直接联系。</p>
+    <button class="contact-modal__phone" id="copyPhone" type="button"><span>182 2397 9952</span><em>点击复制</em></button>
+    <a class="contact-modal__mail" href="mailto:2539349684@qq.com">2539349684@qq.com</a>
+    <button class="contact-modal__close" type="button" data-close aria-label="关闭">✕</button>
+  </div>
+</div>
+
+<!-- ══════════ 灯箱 ══════════ -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox__close" id="lbClose" aria-label="关闭">✕</button>
+  <div class="lightbox__panel">
+    <div class="lightbox__media" id="lbMedia"></div>
+    <aside class="lightbox__meta">
+      <div class="lb__k"><b id="lbIdx">01</b><span id="lbCat">TVC 广告</span></div>
+      <h2 class="lb__title" id="lbTitle">—</h2>
+      <dl class="lb__spec">
+        <div><dt>形式</dt><dd id="lbForm">—</dd></div>
+        <div><dt>角色</dt><dd id="lbRole">—</dd></div>
+      </dl>
+      <div class="lb__nav">
+        <button type="button" id="lbPrev">← 上一件</button>
+        <button type="button" id="lbNext">下一件 →</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ══════════ 项目详情（图集平铺） ══════════ -->
+<div class="detail" id="detail">
+  <div class="detail__wrap">
+    <div class="detail__head">
+      <div>
+        <div class="detail__k" id="detailK">—</div>
+        <h2 class="detail__title" id="detailTitle">—</h2>
+      </div>
+      <button class="detail__close" id="detailClose" aria-label="关闭">✕</button>
+    </div>
+    <div class="detail__grid" id="detailGrid"></div>
+  </div>
+</div>
+
+<script src="./assets/vendor/gsap.min.js"></script>
+<script src="./assets/vendor/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var CATS = ['TVC广告', '电商', '短剧', 'IP设计', '概念设计'];
+  var LABEL = { 'TVC广告': 'TVC 广告', 'IP设计': 'IP 设计', '电商': '电商', '短剧': '短剧', '概念设计': '概念设计' };
+
+  /* 样片选片：交错排布，给瀑布流做出高低节奏
+     格式 [key, 分类, 画幅比例(宽/高), 是否视频] */
+  var PICKS = [
+    ['col-ecom', '电商', 16 / 9, 0],
+    ['col-firemaple', '电商', 16 / 9, 0],
+    ['col-looktech', '电商', 16 / 9, 0],
+    ['mfk', 'TVC广告', 16 / 9, 1],
+    ['ip01', 'IP设计', 16 / 9, 0],
+    ['chanel', 'TVC广告', 16 / 9, 1],
+    ['ip02', 'IP设计', 16 / 9, 0],
+    ['rolex', 'TVC广告', 16 / 9, 1],
+    ['ip03', 'IP设计', 3 / 2, 0],
+    ['rm055', 'TVC广告', 4 / 5, 1],
+    ['ip04', 'IP设计', 1 / 1, 0],
+    ['zhixu', 'TVC广告', 16 / 9, 1],
+    ['ip05', 'IP设计', 3 / 2, 0],
+    ['watch', 'TVC广告', 16 / 9, 1],
+    ['ip06', 'IP设计', 3 / 2, 0],
+    ['yiliang', 'TVC广告', 16 / 9, 1],
+    ['ip07', 'IP设计', 3 / 2, 0],
+    ['yin', 'TVC广告', 16 / 9, 1],
+    ['ip08', 'IP设计', 3 / 2, 0],
+    ['chuancheng', 'TVC广告', 4 / 5, 1],
+    ['ip09', 'IP设计', 3 / 2, 0],
+    ['insta', 'TVC广告', 16 / 9, 1],
+    ['ip10', 'IP设计', 3 / 2, 0],
+    ['ip22', 'IP设计', 3 / 2, 0],
+    ['ip24', 'IP设计', 3 / 2, 0],
+    ['roborock', 'TVC广告', 16 / 9, 1],
+    ['col-concept', '概念设计', 5 / 3, 0],
+    ['firefly', 'TVC广告', 16 / 9, 1],
+
+    ['laifen', 'TVC广告', 16 / 9, 1],
+
+    ['daily-pearl', 'TVC广告', 16 / 9, 1],
+
+    ['glasses', 'TVC广告', 16 / 9, 1],
+
+    ['sanag', 'TVC广告', 16 / 9, 1],
+
+    ['kawasaki', 'TVC广告', 16 / 9, 1],
+
+    ['salomon', 'TVC广告', 4 / 3, 1],
+
+
+
+    ['koubo-mh-poster-set', '电商', 9 / 16, 1],
+
+    ['koubo-motion-poster', '电商', 9 / 16, 1],
+
+    ['koubo-anc-headphones', '电商', 9 / 16, 1],
+
+    ['koubo-usb-c-hub', '电商', 9 / 16, 1],
+    ['col-style', '概念设计', 3 / 4, 0],
+    ['col-mix', '概念设计', 3 / 2, 0],
+    ['col-wild', '概念设计', 3 / 2, 0],
+    ['col-corridor', '概念设计', 16 / 9, 0],
+    ['col-zone', '概念设计', 16 / 9, 0],
+    ['zhizhi', '短剧', 16 / 9, 1],
+
+    ['cg', '短剧', 16 / 9, 1],
+
+    ['sp1', '短剧', 16 / 9, 1],
+
+    ['paris-rain', '短剧', 16 / 9, 1],
+
+    ['sp2', '短剧', 9 / 16, 1],
+    ['huangzhai', '短剧', 16 / 9, 1],
+
+    ['zhongli-1', '短剧', 16 / 9, 1],
+
+    ['zhongli-2', '短剧', 16 / 9, 1],
+
+    ['zhongli-3', '短剧', 16 / 9, 1],
+
+    ['wanben-ip', 'IP设计', 16 / 9, 1],
+
+
+
+
+  
+  ];
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
+
+  var works = [], feed = $('#feed'), nav = $('#nav');
+  var curCat = '';   // '' = 全部
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function byKey(k) {
+    for (var i = 0; i < works.length; i++) if (works[i].key === k) return works[i];
+    return null;
+  }
+
+  /* ── 目录 ── */
+  function buildNav() {
+    /* 「关于我」置顶，其余分类按 CATS 顺序跟随 */
+    var html = '<button class="nav__item" data-cat="__about"><span>关于我</span></button>';
+    CATS.forEach(function (c) {
+      html += '<button class="nav__item' + (curCat === c ? ' is-on' : '') + '" data-cat="' + esc(c) + '">' +
+                '<span>' + esc(LABEL[c] || c) + '</span>' +
+              '</button>';
+    });
+    nav.innerHTML = '<span class="nav__cap">目录 / Index</span>' + html;
+
+    /* 悬停预览：该分类的代表作品小卡从右滑出 */
+    var prevEl = document.getElementById('navPrev');
+    var prevImg = prevEl && prevEl.querySelector('img');
+    var prevLab = prevEl && prevEl.querySelector('span');
+    function catCover(c) {
+      var pick = null;
+      for (var i = 0; i < works.length; i++) {
+        if (works[i].cat !== c) continue;
+        if (!pick) pick = works[i];
+        if (works[i].kind === 'collection') { pick = works[i]; break; }
+      }
+      if (!pick) return '';
+      return pick.cover || (pick.parts && pick.parts[0] && pick.parts[0].image) || pick.image || '';
+    }
+
+    $$('.nav__item', nav).forEach(function (b) {
+      b.addEventListener('mouseenter', function () {
+        var c = b.dataset.cat;
+        if (!prevEl || c === '__about') return;
+        var src = catCover(c);
+        if (!src) return;
+        prevImg.src = src;
+        prevLab.textContent = LABEL[c] || c;
+        var r = b.getBoundingClientRect();
+        prevEl.style.top = Math.max(86, Math.min(window.innerHeight - 150, r.top)) + 'px';
+        prevEl.classList.add('is-on');
+      });
+      b.addEventListener('mouseleave', function () {
+        if (prevEl) prevEl.classList.remove('is-on');
+      });
+      b.addEventListener('click', function () {
+        var c = b.dataset.cat;
+        document.body.classList.remove('menu-open');
+        if (c === '__about') { setAbout(true); return; }
+        var fromAbout = document.body.classList.contains('is-about');
+        setAbout(false);
+        // 再点一次同一分类 → 回到全部；但刚从「关于我」过来时必须选中
+        curCat = (!fromAbout && curCat === c) ? '' : c;
+        applyFilter();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  }
+
+  var whTitle = $('#whTitle'), whCount = $('#whCount');
+
+  function updateWorksHead() {
+    var vis = visibleTiles().length;
+    if (whTitle) whTitle.textContent = curCat ? (LABEL[curCat] || curCat) : '全部作品';
+    if (whCount) whCount.textContent = pad2(vis) + ' 件';
+  }
+
+  function applyFilter() {
+    $$('.nav__item', nav).forEach(function (b) {
+      b.classList.toggle('is-on', !!curCat && b.dataset.cat === curCat);
+    });
+    layoutFeed();
+    updateWorksHead();
+  }
+
+  function setAbout(on, silent) {
+    document.body.classList.toggle('is-about', on);
+    if (on) {
+      $$('.nav__item', nav).forEach(function (b) {
+        b.classList.toggle('is-on', b.dataset.cat === '__about');
+      });
+      if (!silent) window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      applyFilter();
+    }
+  }
+
+  /* ── 瀑布流 ── */
+  function buildFeed() {
+    var html = '';
+    PICKS.forEach(function (p) {
+      var w = byKey(p[0]);
+      if (!w) return;
+      var ar = p[2], isVid = !!p[3];
+
+      /* 项目卡：只露一张主视觉 + 分类 + 标题，点开看全部详情图 */
+      if (w.kind === 'collection') {
+        var cover = w.cover || w.image || (w.parts && w.parts[0] && w.parts[0].image);
+        var pn = (w.parts || []).length;
+        var imgStyle = ar < 1
+          ? ' style="max-width:calc(56vh * ' + ar + ');margin-left:auto;margin-right:auto"'
+          : '';
+        html += '<button class="tile tile--project" data-cat="' + esc(w.cat) + '" data-key="' + esc(w.key) + '" data-col="1" aria-label="' + esc(w.name) + '">' +
+                  '<span class="proj__img"' + imgStyle + '><img src="' + esc(cover) + '" alt="' + esc(w.name) + '" loading="eager" decoding="async"></span>' +
+                  '<span class="proj__cap">' +
+                    '<span class="proj__k">' + esc(LABEL[w.cat] || w.cat) + '</span>' +
+                    '<span class="proj__t">' + esc(w.name) + '<span class="proj__n">' + pn + ' 张</span></span>' +
+                  '</span>' +
+                '</button>';
+        return;
+      }
+      var src = isVid ? (w.loop || (w.parts && w.parts[0] && w.parts[0].full)) : w.image;
+      if (!src && !(w.layout === 'overlay')) return;
+
+      var cls = 'tile';
+      var media;
+      if (w.layout === 'overlay' && w.parts && w.parts.length) {
+        /* 叠加形态：多张图错落层叠成「卡组」 */
+        cls += ' tile--overlay';
+        var n = w.parts.length, layers = '';
+        w.parts.forEach(function (pt, i) {
+          var rot = (i - (n - 1) / 2) * 3.2;
+          var tx = (i % 2 ? 9 : -9);
+          var ty = (n - 1 - i) * 5;
+          var op = (i === n - 1) ? 1 : 0.9;
+          layers += '<img class="stack__layer" src="' + esc(pt.image) + '" alt="' + esc(w.name) + '" loading="eager" decoding="async" ' +
+            'style="transform:translate(' + tx + 'px,' + ty + 'px) rotate(' + rot + 'deg);z-index:' + (i + 1) + ';opacity:' + op + ';">';
+        });
+        media = '<div class="stack" style="aspect-ratio:' + ar + '">' + layers + '</div>';
+      } else if (isVid) {
+        cls += ' tile--video';
+        var psrc = w.poster || '';
+        media = '<div class="tile__media" style="aspect-ratio:' + ar + '">' +
+          (psrc ? '<img class="tile__poster" src="' + esc(psrc) + '" alt="' + esc(w.name) + '" loading="eager" decoding="async">' : '') +
+          '<video muted loop playsinline preload="none" src="' + esc(src) + '#t=1" style="aspect-ratio:' + ar + '"></video>' +
+          '</div>';
+      } else {
+        media = '<div class="tile__media" style="aspect-ratio:' + ar + '">' +
+          '<img src="' + esc(src) + '" alt="' + esc(w.name) + '" loading="eager" decoding="async"></div>';
+      }
+
+      var tagExtra = (w.layout === 'overlay') ? '<span class="tile__n">' + (w.parts ? w.parts.length : 0) + ' 张</span>' : '';
+      html += '<button class="' + cls + '" ' +
+                'data-cat="' + esc(w.cat) + '" data-key="' + esc(w.key) + '" data-ar="' + ar + '" ' +
+                'data-series="' + esc(String(w.name || '').split(' · ')[0]) + '" ' +
+                'aria-label="' + esc(w.name) + '">' +
+                media +
+                '<span class="tile__cap">' +
+                  '<span class="tile__k">' + esc(LABEL[w.cat] || w.cat) + '</span>' +
+                  '<span class="tile__t">《' + esc(w.name) + '》' + tagExtra + '</span>' +
+                '</span>' +
+              '</button>';
+    });
+    /* 先建节点再分配列：CSS 多列在条目少时会严重失衡，改成「最矮列优先」的真瀑布流 */
+    var tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    allTiles = [].slice.call(tmp.children);
+
+    allTiles.forEach(function (t) {
+      var v = $('video', t);
+      // 悬停播放：静止只保留首帧，不预载整片
+      t.addEventListener('mouseenter', function () {
+        if (!v) return;
+        t.classList.add('is-playing');
+        try { v.currentTime = 0.3; var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } catch (e) {}
+      });
+      t.addEventListener('mouseleave', function () {
+        if (!v) return;
+        t.classList.remove('is-playing');
+        try { v.pause(); } catch (e) {}
+      });
+      t.addEventListener('click', function () {
+        if (t.dataset.col === '1') { openDetail(t.dataset.key); return; }
+        openLightbox(t.dataset.key);
+      });
+    });
+
+    layoutFeed();
+  }
+
+  /* ── 瀑布流分配 ── */
+  var allTiles = [];
+  var CAP = 60;   /* 题注固定高度：分类小字 + 标题，需与 .tile__cap 的 height 一致 */
+
+  function colCount() {
+    var w = feed.clientWidth || window.innerWidth;
+    var n = w >= 1000 ? 4 : w >= 760 ? 3 : w >= 520 ? 2 : 1;
+    if (window.innerWidth <= 880 && n > 2) n = 2;   // 窄平板最多 2 列
+    return n;
+  }
+
+  function visibleTiles() {
+    if (!curCat) return allTiles.slice();
+    return allTiles.filter(function (t) { return t.dataset.cat === curCat; });
+  }
+
+  /* 等高行（justified）；项目卡独占整行（图 + 标题），其余按行铺满、行底齐平 */
+  function layoutFeed() {
+    var vis = visibleTiles();
+    feed.innerHTML = '';
+    if (!vis.length) return;
+
+    var W = feed.clientWidth || (window.innerWidth - 40);
+    var gap = parseFloat(getComputedStyle(feed).getPropertyValue('--gap')) || 20;
+    var targetH = W >= 1500 ? 360 : W >= 1200 ? 330 : W >= 960 ? 300 : W >= 720 ? 270 : W >= 520 ? 220 : 200;
+
+    /* 套图（项目卡）→ 三列网格；同分类其余视频/图片仍走下方等高行 */
+    var _projs = [], _normal = [];
+    vis.forEach(function (t) { (t.dataset.col === '1' ? _projs : _normal).push(t); });
+    if (_projs.length >= 2) {
+      var grid = document.createElement('div');
+      grid.className = 'proj-grid';
+      _projs.forEach(function (t) {
+        /* 进网格前清掉等高行留下的内联尺寸 */
+        t.style.width = ''; t.style.height = '';
+        t.style.removeProperty('--mh');
+        grid.appendChild(t);
+      });
+      feed.appendChild(grid);
+      vis = _normal;
+      if (!vis.length) return;
+    }
+
+    var cur = [], curSum = 0;
+    function flush() {
+      if (!cur.length) return;
+      var row = cur; cur = []; curSum = 0;
+      var sum = 0;
+      row.forEach(function (o) { sum += o.ar; });
+      var availW = W - (row.length - 1) * gap;
+      var h = availW / sum;
+      var cap = false;
+      if (row.length === 1 && h > targetH * 1.5) { h = targetH; cap = true; }
+      var hh = Math.max(60, Math.round(h));
+
+      var rowEl = document.createElement('div');
+      rowEl.className = 'row';
+      rowEl.style.height = (hh + CAP) + 'px';
+      var cum = 0, prevRight = 0;
+      row.forEach(function (o) {
+        cum += o.ar;
+        var w;
+        if (cap) {
+          w = Math.round(o.ar * h);
+        } else {
+          var right = Math.round(availW * (cum / sum));
+          w = right - prevRight;
+          prevRight = right;
+        }
+        if (w < 24) w = 24;
+        o.t.style.width = w + 'px';
+        /* 媒体区锁高 hh，题注固定 CAP → 卡片总高确定，行高 = 卡片高，行底严格齐平 */
+        o.t.style.setProperty('--mh', hh + 'px');
+        o.t.style.height = (hh + CAP) + 'px';
+        rowEl.appendChild(o.t);
+      });
+      feed.appendChild(rowEl);
+    }
+
+    /* 末尾同系列（如「种梨 · 第一/二/三集」）整体成一行，避免被拆散 */
+    var tail = [], tailKey = null;
+    for (var ti = vis.length - 1; ti >= 0; ti--) {
+      var sk = vis[ti].dataset.series;
+      if (!sk) break;
+      if (tailKey === null) { tailKey = sk; tail.unshift(vis[ti]); }
+      else if (sk === tailKey) tail.unshift(vis[ti]);
+      else break;
+    }
+    if (tail.length < 2) tail = [];
+    var headList = tail.length ? vis.slice(0, vis.length - tail.length) : vis;
+
+    headList.forEach(function (t, idx) {
+      if (t.dataset.col === '1') { flush(); feed.appendChild(t); return; }
+      var ar = parseFloat(t.dataset.ar) || (16 / 9);
+      cur.push({ t: t, ar: ar });
+      curSum += ar;
+      var h = (W - (cur.length - 1) * gap) / curSum;
+      /* 前瞻：若这一行切下去会让末尾只剩 1 张，就再吞一张，避免孤卡 */
+      var rest = headList.length - idx - 1;
+      if (h <= targetH && !(rest === 1 && cur.length >= 2)) flush();
+    });
+    flush();
+
+    /* 系列行：一次排完，宽度铺满 */
+    tail.forEach(function (t) {
+      cur.push({ t: t, ar: parseFloat(t.dataset.ar) || (16 / 9) });
+      curSum += parseFloat(t.dataset.ar) || (16 / 9);
+    });
+    flush();
+  }
+
+  /* ── 灯箱 ── */
+  var lb = $('#lightbox'), lbMedia = $('#lbMedia'), lbTitle = $('#lbTitle'), lbCat = $('#lbCat');
+  var lbIdx = $('#lbIdx'), lbForm = $('#lbForm'), lbRole = $('#lbRole');
+  var lbPrev = $('#lbPrev'), lbNext = $('#lbNext');
+  var lbKeys = [], lbAt = 0;
+
+  /* 角色：分类级默认值（可被 works.json 里单条的 role 覆盖） */
+  var ROLES = {
+    'TVC广告': '创意 · 分镜 · AIGC 生成',
+    'IP设计': '角色设定 · 视觉规范 · 延展',
+    '电商': '口播 · 种草 · AIGC 生成',
+    '短剧': '脚本 · 分镜 · 剪辑 · AIGC 生成',
+    '概念设计': '概念设定 · 场景设计'
+  };
+
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+
+  function formLabel(w) {
+    if (w.layout === 'overlay') return '套图 · ' + (w.parts || []).length + ' 张';
+    if (w.kind === 'image') return '单幅 · 静态';
+    var n = (w.parts || []).length;
+    if (n > 1) return '系列 · ' + n + ' 集';
+    return w.duration ? ('单支 · ' + w.duration + ' 秒') : '单支';
+  }
+
+  function paintProject() {
+    var ent = lbKeys[lbAt];
+    if (!ent) return;
+    var w = byKey(ent.key);
+    if (!w) return;
+    var isImg = w.kind === 'image' || w.layout === 'overlay';
+    var src;
+    if (w.layout === 'overlay') {
+      src = (w.parts && w.parts[ent.part] && w.parts[ent.part].image) || w.image;
+    } else if (isImg) {
+      src = w.image;
+    } else if (ent.part >= 0 && w.parts && w.parts[ent.part]) {
+      src = w.parts[ent.part].full;
+    } else {
+      src = (w.parts && w.parts[0] && w.parts[0].full) || w.loop;
+    }
+
+    lbMedia.innerHTML = isImg
+      ? '<img src="' + esc(src) + '" alt="' + esc(w.name) + '">'
+      : '<video src="' + esc(src) + '#t=0.3" poster="' + esc(w.poster || '') + '" controls autoplay muted playsinline></video>';
+
+    var partLabel = (ent.part >= 0 && w.parts[ent.part] && w.parts[ent.part].label)
+      ? ' · ' + w.parts[ent.part].label : '';
+    lbTitle.textContent = w.name + partLabel;
+    lbCat.textContent = LABEL[w.cat] || w.cat;
+    lbIdx.textContent = pad2(lbAt + 1) + ' / ' + pad2(lbKeys.length);
+    lbForm.textContent = formLabel(w);
+    lbRole.textContent = w.role || ROLES[w.cat] || '—';
+  }
+
+  function openLightbox(key) {
+    /* 只在这批「当前可见」的作品里前后翻，跟着筛选走。
+       套图(series) 会把每一集摊平成独立一帧，方便左右滑动浏览整套。 */
+    lbKeys = [];
+    visibleTiles().forEach(function (t) {
+      if (t.dataset.col === '1') return;
+      var w = byKey(t.dataset.key);
+      if (!w) return;
+      if ((w.kind === 'series' || w.layout === 'overlay') && (w.parts || []).length > 1) {
+        w.parts.forEach(function (p, i) { lbKeys.push({ key: w.key, part: i }); });
+      } else {
+        lbKeys.push({ key: w.key, part: -1 });
+      }
+    });
+    lbAt = -1;
+    for (var i = 0; i < lbKeys.length; i++) {
+      if (lbKeys[i].key === key) { lbAt = i; break; }
+    }
+    if (lbAt < 0) lbAt = 0;
+    paintProject();
+    lb.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function stepProject(d) {
+    if (lbKeys.length < 2) return;
+    lbAt = (lbAt + d + lbKeys.length) % lbKeys.length;
+    paintProject();
+  }
+
+  function closeLightbox() {
+    lb.classList.remove('is-open');
+    document.body.style.overflow = '';
+    setTimeout(function () { lbMedia.innerHTML = ''; }, 350);
+  }
+
+  $('#lbClose').addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', function () { stepProject(-1); });
+  lbNext.addEventListener('click', function () { stepProject(1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) closeLightbox(); });
+
+  /* ── 项目详情（图集平铺） ── */
+  var detail = $('#detail'), detailGrid = $('#detailGrid'),
+      detailTitle = $('#detailTitle'), detailK = $('#detailK');
+
+  /* 详情图集：动态规划切行 —— 每行铺满整宽、行高尽量一致，最底边是一条齐线 */
+  function layoutDetail() {
+    if (!detailGrid) return;
+    var figures = [].slice.call(detailGrid.querySelectorAll('figure'));
+    if (!figures.length) return;
+    var W = detailGrid.clientWidth || 900;
+    var gap = 18;
+    var targetH = W >= 1150 ? 330 : W >= 900 ? 300 : W >= 620 ? 240 : 190;
+    var n = figures.length;
+    var ars = figures.map(function (f) { return parseFloat(f.dataset.ar) || 1.5; });
+
+    function rowH(i, j) {                      /* [i, j) 成一行时的高度 */
+      var k = j - i, s = 0;
+      for (var t = i; t < j; t++) s += ars[t];
+      return (W - (k - 1) * gap) / s;
+    }
+
+    /* 在「指定行数」下按等高切行（最小化各行高度平方和） */
+    function splitN(N) {
+      var INF = Infinity, f = [], back = [];
+      for (var k = 0; k <= N; k++) {
+        f.push(new Array(n + 1)); back.push(new Array(n + 1));
+        for (var q = 0; q <= n; q++) { f[k][q] = INF; back[k][q] = -1; }
+      }
+      f[0][0] = 0;
+      for (var kk = 1; kk <= N; kk++) {
+        for (var j = kk; j <= n; j++) {
+          for (var i = kk - 1; i < j; i++) {
+            if (f[kk - 1][i] === INF) continue;
+            var h = rowH(i, j), c = f[kk - 1][i] + h * h;
+            if (c < f[kk][j]) { f[kk][j] = c; back[kk][j] = i; }
+          }
+        }
+      }
+      if (f[N][n] === INF) return null;
+      var out = [], at = n;
+      for (var k2 = N; k2 >= 1; k2--) { var st = back[k2][at]; out.unshift([st, at]); at = st; }
+      return out;
+    }
+
+    /* 搜索行数：行高方差优先，其次贴近目标高度，避免单张成行 */
+    var best = null;
+    for (var N = 1; N <= Math.min(n, 8); N++) {
+      var cand = splitN(N);
+      if (!cand) continue;
+      var hs = cand.map(function (r) { return rowH(r[0], r[1]); });
+      var mean = hs.reduce(function (a, b) { return a + b; }, 0) / hs.length;
+      var va = hs.reduce(function (a, b) { return a + (b - mean) * (b - mean); }, 0) / hs.length;
+      var singles = cand.filter(function (r) { return r[1] - r[0] === 1; }).length;
+      var score = va * 3 + (mean - targetH) * (mean - targetH) * 0.5 + (n > 1 ? singles * 40000 : 0);
+      if (!best || score < best.score) best = { rows: cand, score: score };
+    }
+    var rows = (best ? best.rows : []).map(function (r) { return ars.slice(r[0], r[1]); });
+    var figs = (best ? best.rows : []).map(function (r) { return figures.slice(r[0], r[1]); });
+
+    detailGrid.innerHTML = '';
+    figs.forEach(function (r, ri) {
+      var a = rows[ri];
+      var s = 0;
+      r.forEach(function (f, x) { s += a[x]; });
+      var avail = W - (r.length - 1) * gap;
+      var h = avail / s;
+      var solo = (r.length === 1 && h > targetH * 1.35);
+      if (solo) h = targetH;
+      var hh = Math.max(80, Math.round(h));
+      var rowEl = document.createElement('div');
+      rowEl.className = 'drow';
+      var cum = 0, prevX = 0;
+      r.forEach(function (f, x) {
+        var w;
+        if (solo) {
+          w = Math.round(a[x] * hh);
+        } else {
+          cum += a[x];
+          var right = Math.round(avail * (cum / s));
+          w = right - prevX; prevX = right;
+        }
+        f.style.width = Math.max(40, w) + 'px';
+        f.style.height = hh + 'px';
+        rowEl.appendChild(f);
+      });
+      detailGrid.appendChild(rowEl);
+    });
+  }
+
+  function openDetail(key) {
+    var w = byKey(key);
+    if (!w || !detail) return;
+    detailK.textContent = (LABEL[w.cat] || w.cat) + ' · ' + ((w.parts || []).length) + ' 张';
+    detailTitle.textContent = w.name;
+    var html = '';
+    (w.parts || []).forEach(function (pt, pi) {
+      var src = pt.image || pt.full;
+      var vid = pt.video || (/\.(mp4|webm|mov)$/i.test(pt.full || '') ? pt.full : '');
+      if (!src && !vid) return;
+      var ar = parseFloat(pt.ar) || 1.5;
+      var inner = vid
+        ? '<video src="' + esc(vid) + '"' + (src ? ' poster="' + esc(src) + '"' : '') +
+          ' autoplay muted loop playsinline preload="metadata"></video>'
+        /* 首屏 6 张立即加载（避免打开图集时一片空块），其余懒加载 */
+        : '<img src="' + esc(src) + '" alt="' + esc(pt.label || w.name) + '" loading="' + (pi < 6 ? 'eager' : 'lazy') + '" decoding="async">';
+      html += '<figure data-ar="' + ar + '">' + inner + '</figure>';
+    });
+    detailGrid.innerHTML = html;
+    detail.classList.add('is-open');
+    detail.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+    layoutDetail();
+  }
+  function closeDetail() {
+    if (!detail) return;
+    detail.classList.remove('is-open');
+    document.body.style.overflow = '';
+    setTimeout(function () { if (detailGrid) detailGrid.innerHTML = ''; }, 320);
+  }
+  if (detail) {
+    $('#detailClose').addEventListener('click', closeDetail);
+    detail.addEventListener('click', function (e) { if (e.target === detail) closeDetail(); });
+    document.addEventListener('keydown', function (e) {
+      if (detail.classList.contains('is-open') && e.key === 'Escape') closeDetail();
+    });
+    var _dRaf = 0;
+    window.addEventListener('resize', function () {
+      if (!detail.classList.contains('is-open')) return;
+      cancelAnimationFrame(_dRaf);
+      _dRaf = requestAnimationFrame(layoutDetail);
+    });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') stepProject(-1);
+    if (e.key === 'ArrowRight') stepProject(1);
+  });
+
+  /* ── 其它 ── */
+  var burger = $('#burger');
+  if (burger) burger.addEventListener('click', function () { document.body.classList.toggle('menu-open'); });
+
+  $$('[data-go="home"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      curCat = '';
+      applyFilter();
+      setAbout(true);            // 首页即「关于我」
+    });
+  });
+
+  var PHONE = '18223979952';
+
+  function toast(msg) {
+    var t = document.getElementById('toast');
+    if (!t) { t = document.createElement('div'); t.id = 'toast'; document.body.appendChild(t); }
+    t.textContent = msg;
+    t.classList.add('is-on');
+    clearTimeout(toast._h);
+    toast._h = setTimeout(function () { t.classList.remove('is-on'); }, 1700);
+  }
+
+  function copyText(text, msg) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { toast(msg); }, function () { toast(msg); });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      toast(msg);
+    }
+  }
+
+  var copyBtn = $('#copyBtn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      copyText(PHONE, '手机号已复制');
+      copyBtn.style.borderColor = '#191919';
+      setTimeout(function () { copyBtn.style.borderColor = ''; }, 1200);
+    });
+  }
+
+  var wxBtn = $('#wxBtn');
+  if (wxBtn) {
+    wxBtn.addEventListener('click', function () {
+      copyText(PHONE, '手机号已复制 · 可加微信');
+    });
+  }
+
+  /* 列数随宽度变化，重排一次即可 */
+  var _rz = 0;
+  window.addEventListener('resize', function () {
+    clearTimeout(_rz);
+    _rz = setTimeout(function () { layoutFeed(); }, 180);
+  });
+
+  /* ── 启动 ── */
+  fetch('./assets/works.json')
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      works = d || [];
+      buildNav();
+      buildFeed();
+      updateWorksHead();
+      setAbout(true, true);      // 初始页：关于我（静默，不滚动）
+      // 支持从联系页直接跳到作品
+      if ((location.hash || '').toLowerCase() === '#works') { setAbout(false); curCat = ''; applyFilter(); }
+    })
+    .catch(function () {
+      feed.innerHTML = '<p style="color:#6F6A63">作品数据加载失败。</p>';
+    });
+})();
+
+/* ══════════════════════════════════════════════════════════════
+   关于我 · 舞台控制器（碎片 / 光轨 / 墨 / 雾 / 视差 / 叙事）
+   ══════════════════════════════════════════════════════════════ */
+(function () {
+  var stage = document.getElementById('stage');
+  if (!stage) return;
+
+  /* 分层版：程序化碎片 / 多线束光轨 / 冷雾 */
+  var STATIC = false;
+  if (STATIC) {
+    stage.classList.add('is-in');
+    [].slice.call(document.querySelectorAll('.about .rows .row')).forEach(function (r) {
+      r.style.opacity = '1';
+      r.style.animation = 'none';
+    });
+    return;
+  }
+
+  var REF = stage.classList.contains('stage--ref') || stage.classList.contains('stage--full');   /* 参考图模式：只用烘焙好的底图 */
+
+  var shardsBox = document.getElementById('shards');
+  var trail = document.getElementById('trail');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mobile = window.matchMedia && window.matchMedia('(max-width: 480px)').matches;   /* 与主特效层断点统一，避免 481–860px 区间行为错位 */
+  var hasGsap = !!(window.gsap);
+
+  var W = 0, H = 0;
+  var shards = [];
+  var rows = [].slice.call(document.querySelectorAll('.about .rows .row'));
+  var mx = 0, my = 0, tmx = 0, tmy = 0;
+  var ptrX = 0.5, ptrY = 0.45;
+  var raf = 0;
+  var tipPos = 0.82, tipTarget = 0.82, tipDrawn = false;
+  var corePath = null, trailLen = 0;
+  var idle = true, lastMove = 0;
+
+  /* ---------- 碎片 ---------- */
+  var PALETTE = [
+    ['#e4e9ec', '#9fabb3', '#f1f4f6'], ['#d3dade', '#8b98a2', '#e8eef0'],
+    ['#c2ccd2', '#74828d', '#dde5e9'], ['#b0bcc4', '#5c6a74', '#cfd9df'],
+    ['#9dabb5', '#4f5b65', '#c2ced6'], ['#c8d9e2', '#7fa2b3', '#eaf3f7'],
+    ['#dfe4e7', '#a8b2b9', '#eef1f3'],
+    ['#e8dcc8', '#c2ad8b', '#f4ecdd']   /* 暖片：约 1/8，克制 */
+  ];
+  function poly() {
+    var n = 12 + Math.floor(Math.random() * 7);          /* 12–18 顶点：撕口更碎 */
+    var pts = [];
+    for (var i = 0; i < n; i++) {
+      var a = (i / n) * Math.PI * 2 + (Math.random() - .5) * 0.09;
+      var r = 41 + Math.random() * 8;
+      if (Math.random() < 0.38) r -= 9 + Math.random() * 15;   /* 内侧撕口 */
+      if (Math.random() < 0.14) r += 8 + Math.random() * 10;   /* 外侧纸刺 */
+      pts.push((50 + Math.cos(a) * r).toFixed(1) + '% ' + (50 + Math.sin(a) * r).toFixed(1) + '%');
+    }
+    return 'polygon(' + pts.join(',') + ')';
+  }
+  function buildShards() {
+    shardsBox.innerHTML = '';
+    shards = [];
+    var n = mobile ? 26 : 158;
+    for (var i = 0; i < n; i++) {
+      /* 三档：大块主体 / 中片 / 贴交界的碎边 */
+      var tier = i < (mobile ? 3 : 16) ? 0 : (i < (mobile ? 10 : 74) ? 1 : 2);
+      var x, base;
+      if (tier === 0) {
+        x = W * (0.500 + Math.random() * 0.105);
+        base = 34 + Math.random() * 40;
+      } else if (tier === 1) {
+        x = W * (0.486 + Math.random() * 0.095);
+        base = 9 + Math.random() * 20;
+      } else {
+        x = W * (0.481 + Math.random() * 0.045);
+        base = 3 + Math.random() * 8;
+      }
+      var yb = (Math.random() + Math.random()) / 2;   /* 中部密、上下疏 */
+      var y = tier === 0 ? H * (0.10 + Math.random() * 0.80)
+                         : H * (0.02 + yb * 0.96);
+      var rightness = Math.min(1, Math.max(0, (x - W * 0.48) / (W * 0.16)));
+      var s = document.createElement('i');
+      s.className = 'shard';
+      s.dataset.g = y < H * 0.34 ? '1' : (y < H * 0.68 ? '2' : '3');
+      s.style.setProperty('--x', (x - base / 2).toFixed(1) + 'px');
+      s.style.setProperty('--y', (y - base / 2).toFixed(1) + 'px');
+      s.style.setProperty('--w', base.toFixed(1) + 'px');
+      s.style.setProperty('--h', (base * (0.55 + Math.random() * 0.95)).toFixed(1) + 'px');
+      s.style.setProperty('--r', (-14 + Math.random() * 28).toFixed(1) + 'deg');
+      var op = (0.38 + rightness * 0.44).toFixed(2);
+      s.style.setProperty('--o', op);
+      s.style.opacity = op;
+      s.style.setProperty('--depth', (0.24 + rightness * 1.05).toFixed(2));
+      s.style.setProperty('--clip', poly());
+      var c = PALETTE[Math.floor(Math.random() * PALETTE.length)];
+      s.style.setProperty('--c1', c[0]);
+      s.style.setProperty('--c2', c[1]);
+      s.style.setProperty('--c3', c[2]);
+      shardsBox.appendChild(s);
+      shards.push(s);
+    }
+  }
+
+  /* ---------- 左侧留白补充锐片 ---------- */
+  function buildChips() {
+    var box = document.getElementById('chips');
+    if (!box) return;
+    box.innerHTML = '';
+    if (!REF) return;
+    var pal = [
+      ['#dfe5e8', '#a7b3bb'], ['#cfd8dd', '#8b98a2'],
+      ['#bcc7cd', '#6f7d88'], ['#c9dde6', '#7fa6b8'],
+      ['#e6d6b8', '#bfa982']
+    ];
+    var n = mobile ? 0 : 14;
+    for (var i = 0; i < n; i++) {
+      var top = i < 8;
+      var y = top ? H * (0.01 + Math.random() * 0.11) : H * (0.87 + Math.random() * 0.12);
+      var x = W * (0.33 + Math.random() * 0.14);
+      var size = 6 + Math.random() * 22;
+      var c = pal[Math.floor(Math.random() * pal.length)];
+      var el = document.createElement('i');
+      el.className = 'chip';
+      el.style.setProperty('--x', x.toFixed(1) + 'px');
+      el.style.setProperty('--y', y.toFixed(1) + 'px');
+      el.style.setProperty('--w', size.toFixed(1) + 'px');
+      el.style.setProperty('--h', (size * (0.5 + Math.random() * 0.9)).toFixed(1) + 'px');
+      el.style.setProperty('--r', (-24 + Math.random() * 48).toFixed(1) + 'deg');
+      el.style.setProperty('--o', (0.22 + Math.random() * 0.38).toFixed(2));
+      el.style.setProperty('--clip', poly());
+      el.style.setProperty('--c1', c[0]);
+      el.style.setProperty('--c2', c[1]);
+      box.appendChild(el);
+    }
+  }
+
+  /* ---------- 光轨 ---------- */
+  function initTrail() {
+    if (!trail) return;
+    corePath = trail.querySelector('.th--a .trail__core') || trail.querySelector('.trail__core');
+    if (!corePath) return;
+    trailLen = corePath.getTotalLength();
+    [].slice.call(trail.querySelectorAll('path')).forEach(function (p) {
+      var L = p.getTotalLength();
+      p.style.strokeDasharray = L;
+      p.style.strokeDashoffset = L;
+    });
+    updateTip(0);
+  }
+  /* 多线束：按各自长度同步描线 */
+  function setDash(prog) {
+    if (!trail) return;
+    [].slice.call(trail.querySelectorAll('path')).forEach(function (p) {
+      var L = parseFloat(p.style.strokeDasharray) || 0;
+      p.style.strokeDashoffset = (L * (1 - prog)).toFixed(2);
+    });
+    updateTip(prog);
+  }
+  function updateTip(prog) {
+    if (!trail || !corePath) return;
+    var tip = trail.querySelector('.trail__tip');
+    var halo = trail.querySelector('.trail__halo');
+    var l = Math.max(0, Math.min(trailLen, trailLen * prog));
+    var pt = corePath.getPointAtLength(l);
+    if (tip) { tip.setAttribute('cx', pt.x); tip.setAttribute('cy', pt.y); }
+    if (halo) { halo.setAttribute('cx', pt.x); halo.setAttribute('cy', pt.y); }
+  }
+
+  /* ---------- 逐字拆分 ---------- */
+  function splitChars() {
+    var h1 = document.querySelector('.lead h1');
+    if (!h1) return;
+    var walker = document.createTreeWalker(h1, NodeFilter.SHOW_TEXT, null);
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (node) {
+      var txt = node.nodeValue;
+      if (!txt || !txt.trim()) return;
+      var isGold = node.parentElement && node.parentElement.classList.contains('gold');
+      var frag = document.createDocumentFragment();
+      for (var i = 0; i < txt.length; i++) {
+        var ch = txt[i];
+        if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); continue; }
+        var sp = document.createElement('span');
+        sp.className = 'ch' + (isGold ? ' gold' : '');
+        sp.textContent = ch;
+        frag.appendChild(sp);
+      }
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  /* ---------- 段落高亮 ---------- */
+  var activeN = 0;
+  function setActive(n) {
+    if (n === activeN) return;
+    activeN = n;
+    rows.forEach(function (r) { r.classList.toggle('is-active', +r.dataset.n === n); });
+  }
+
+  /* ---------- 入场 ---------- */
+  function entrance() {
+    stage.classList.add('is-in');
+
+    function settle() {
+      if (trail && !REF) setDash(1);
+      updateTip(1); tipDrawn = true; setActive(1);
+    }
+
+    /* 文字与碎片默认可视；动效只做光轨描线，避免任何"停在半途"的风险 */
+    if (hasGsap && !reduce && !REF && trailLen) {
+      var dash = { v: 0 };
+      window.gsap.to(dash, {
+        v: 1, duration: 1.5, ease: 'power2.inOut', delay: 0.35,
+        onUpdate: function () { setDash(dash.v); },
+        onComplete: function () { tipDrawn = true; tipPos = 1; tipTarget = 0.82; }
+      });
+    } else {
+      settle();
+    }
+    setTimeout(settle, 4600);
+  }
+
+  /* ---------- 鼠标光阀 / 视差 ---------- */
+  function onMove(e) {
+    ptrX = e.clientX / window.innerWidth;
+    ptrY = e.clientY / window.innerHeight;
+    tmx = (ptrX - 0.5) * 2;
+    tmy = (ptrY - 0.5) * 2;
+    idle = false;
+    lastMove = performance.now();
+
+    var w = Math.max(0, Math.min(1, (ptrX - 0.28) / 0.55));
+    stage.style.setProperty('--warm', (0.18 + w * 0.72).toFixed(2));
+    stage.style.setProperty('--lum', (0.30 + w * 0.42).toFixed(2));
+    stage.style.setProperty('--px', (ptrX * 100).toFixed(1) + '%');
+    stage.style.setProperty('--py', (ptrY * 100).toFixed(1) + '%');
+    tipTarget = 0.82 - (ptrX - 0.5) * 0.6;
+  }
+
+  function loop(now) {
+    raf = 0;
+    if (!document.body.classList.contains('is-about')) { raf = requestAnimationFrame(loop); return; }
+
+    mx += (tmx - mx) * 0.07;
+    my += (tmy - my) * 0.07;
+    stage.style.setProperty('--mx', (mx * 7).toFixed(2));
+    stage.style.setProperty('--my', (my * 5).toFixed(2));
+
+    if (now - lastMove > 3000) idle = true;
+
+    if (trail && !REF) {
+      trail.style.transform = 'translate3d(' + (-mx * 16).toFixed(2) + 'px,' + (-my * 10).toFixed(2) + 'px,0)';
+      if (idle) tipTarget += (0.82 - tipTarget) * 0.02;
+      tipPos += (tipTarget - tipPos) * 0.08;
+      if (tipDrawn) updateTip(Math.max(0.10, Math.min(0.99, tipPos)));
+    }
+    raf = requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('mousemove', onMove, { passive: true });
+  window.addEventListener('mouseleave', function () {
+    idle = true; lastMove = 0; tmx = 0; tmy = 0; tipTarget = 0.82;
+    stage.style.setProperty('--lum', .52);
+    stage.style.setProperty('--warm', .4);
+  });
+
+  /* ---------- 编号悬停 → 碎片分组点亮 ---------- */
+  var focusEl = stage.querySelector('.stage__focus');
+  rows.forEach(function (r) {
+    var n = r.querySelector('.row__n');
+    if (!n) return;
+    n.addEventListener('mouseenter', function () {
+      stage.dataset.focus = r.dataset.n;
+      if (focusEl) {
+        var rr = r.getBoundingClientRect();
+        var fy = ((rr.top + rr.height / 2) / window.innerHeight) * 100;
+        focusEl.style.setProperty('--fy', fy.toFixed(1) + '%');
+        focusEl.classList.add('is-on');
+      }
+    });
+    n.addEventListener('mouseleave', function () {
+      delete stage.dataset.focus;
+      if (focusEl) focusEl.classList.remove('is-on');
+    });
+  });
+
+  /* ---------- 滚动叙事 ---------- */
+  function scrollNarrative() {
+    /* 原生滚动进度：原 ScrollTrigger 版在 prefers-reduced-motion 下会整体 return，
+       导致 01/02/03 高亮完全失效；此处改为原生实现，任何情况下均可工作。
+       注：GSAP / ScrollTrigger 库本身仍保留加载与引用，未删除。 */
+    var aboutEl = document.querySelector('.about');
+    if (!aboutEl) return;
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        var total = aboutEl.offsetHeight - window.innerHeight;
+        var p = total > 0 ? Math.max(0, Math.min(1, -aboutEl.getBoundingClientRect().top / total)) : 0;
+        setActive(p < .34 ? 1 : p < .67 ? 2 : 3);
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ---------- 冷雾 ---------- */
+  function fog() {
+    var cv = document.getElementById('fogFx');
+    if (!cv || !cv.getContext) return;
+    var ctx = cv.getContext('2d');
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var fw = 0, fh = 0, blobs = [];
+    function resize() {
+      var box = cv.parentElement.getBoundingClientRect();
+      fw = Math.max(1, box.width); fh = Math.max(1, box.height);
+      cv.width = Math.round(fw * dpr); cv.height = Math.round(fh * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      blobs = [];
+      var n = mobile ? 0 : 14;
+      for (var i = 0; i < n; i++) {
+        blobs.push({
+          x: Math.random() * fw, y: Math.random() * fh * .82,
+          r: 60 + Math.random() * 180,
+          vx: .06 + Math.random() * .10,
+          a: .05 + Math.random() * .09
+        });
+      }
+    }
+    function draw() {
+      ctx.clearRect(0, 0, fw, fh);
+      if (document.body.classList.contains('is-about') && !document.hidden) {
+        for (var i = 0; i < blobs.length; i++) {
+          var b = blobs[i];
+          b.x += b.vx;
+          if (b.x - b.r > fw) b.x = -b.r;
+          var gr = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+          gr.addColorStop(0, 'rgba(190,208,220,' + b.a + ')');
+          gr.addColorStop(1, 'rgba(190,208,220,0)');
+          ctx.fillStyle = gr;
+          ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, 6.2832); ctx.fill();
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    requestAnimationFrame(draw);
+  }
+
+  /* ---------- 启动 ---------- */
+  function boot() {
+    W = window.innerWidth; H = window.innerHeight;
+    splitChars();
+    if (!REF) { buildShards(); initTrail(); }
+    buildChips();
+    entrance();
+    scrollNarrative();
+    fog();
+    /* 旧模块主循环已停用：底图位移链路解除后，它只剩 --mx/--my 写入与
+       早已不存在的 trail 更新，属无效空转。为满足「页面仅保留一个主特效循环」，
+       此处不再启动。函数定义与全部旧代码原样保留，便于回溯。
+       if (!reduce) raf = requestAnimationFrame(loop); */
+  }
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(boot, 30);
+  } else {
+    window.addEventListener('DOMContentLoaded', function () { setTimeout(boot, 30); });
+  }
+
+  var rt = 0;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () {
+      W = window.innerWidth; H = window.innerHeight;
+      buildShards();
+      stage.classList.add('is-in');
+    }, 240);
+  });
+})();
+
+/* ══════════════════════════════════════════════════════════════════════
+   关于我 · 电影式动态叙事
+   底图：about-full.jpg（2048×1152，原图不可变、不裁切、不缩放、不参与视差）
+   四层空间：A 近景纸屑 / B 金色光束 / C 线条与粉尘 / D 远景建筑氛围
+   特效全部限定在右侧主视觉容器 .stage__fx 内
+   ══════════════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  var fx   = document.getElementById('fx');
+  var img  = document.querySelector('.stage__bg img');
+  if (!fx || !img) return;
+
+  /* 降级策略：只对真·手机竖屏降级；系统「减少动态效果」不再静音本页
+     （动效是本页内容主体）。需要彻底静止时用 ?fx=0 */
+  var FORCE = /(?:^|[?&])fx=1(?:&|$)/.test(location.search) || location.hash === '#fx';
+  var FXOFF = /(?:^|[?&])fx=0(?:&|$)/.test(location.search);
+  if (FORCE) document.body.classList.add('force-fx');
+  if (FXOFF) document.body.classList.add('no-fx');
+  /* 小屏（<=480）同样运行动效——只通过 COMPACT 下调粒子数量，
+     不再整体 return，否则手机端会退化成纯静态图，与 PC 观感差异过大。
+     仅显式 ?fx=0 才完全静态。 */
+  if (FXOFF) return;
+
+  var G = window.gsap;
+  var el = {
+    mist:  document.getElementById('fxMist'),
+    dust:  document.getElementById('fxDust'),
+    chips: document.getElementById('fxChips'),
+    motes: document.getElementById('fxMotes'),
+    svg:   document.getElementById('fxSvg'),
+    beamSvg: document.getElementById('fxBeamSvg'),
+    far:   document.getElementById('fxFar'),
+    lines: document.getElementById('fxLines'),
+    beam:  document.getElementById('fxBeamWrap'),
+    near:  document.getElementById('fxNear')
+  };
+
+  /* ── 原图坐标（2048×1152）中的关键位置 ──────────────────────────
+     由 canvas 逐像素提取原图金色光路所得，见下方 BEAM_PTS。
+     碎片群中心约在 x=727（35.5%）附近；建筑区在右侧。            */
+  var IMG_W = 2048, IMG_H = 1152;
+  var SHARD_X = 727;          /* 碎片交界（图内像素） */
+  var SHARD_Y = 560;
+
+  /* 原图金色光束主路径（图像像素坐标）
+     由 canvas 逐像素提取原图金色像素的列中位线，剔除建筑灯带干扰点后轻度平滑所得。
+     这是特效必须严格对齐的真实光路。 */
+  var BEAM_PTS = [
+    [1048, 420], [1096, 414], [1120, 420], [1168, 448], [1192, 486],
+    [1216, 496], [1240, 508], [1264, 554], [1288, 564], [1312, 582],
+    [1336, 590], [1360, 596], [1384, 600], [1408, 632], [1456, 674],
+    [1480, 686], [1504, 702], [1528, 716], [1552, 718], [1576, 718],
+    [1600, 718], [1672, 716], [1696, 716], [1720, 712], [1744, 712],
+    [1780, 660], [1816, 540], [1840, 492], [1864, 480], [1888, 470],
+    [1912, 464], [1960, 440], [2008, 424]
+  ];
+
+  /* ── 底图适配：等比铺满，绝不变形 ────────────────────────────────
+     版式沿用「文字与图片同一平面」：整图按高度等比铺满视口，
+     文字直接浮在原图自带的白色留白区上，不垫任何白膜。
+     约束：① 等比缩放（width/height 按同比例，绝不拉伸变形）
+           ② 图高 = 视口高，无上下留白（避免页面出现暗带）
+           ③ 图内 35.5% 处分界线对齐 46vw（维持既有版式比例）
+     注：视口比例 > 16:9 时右侧会溢出少量像素（建筑最右暗部边缘，
+        非主体结构）。这是"铺满"与"完全等比不裁切"不可兼得的取舍，
+        本页优先保证不变形与版式比例，溢出量已压到最小。
+     全部数值由 JS 精确计算，不做任何 CSS 假设。                    */
+  var BOUND = 0.355;               /* 图内碎片分界比例 */
+  var SPLIT = 0.46;                /* 分界对应的视口比例 */
+  function fitImage() {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    if (vw <= 860) {
+      /* 移动端：原图左侧 35.5% 是 PC 端的文字留白（纯白，无内容）。
+         这里只取右侧 64.5% 的建筑主体，按宽度铺满、高度自适应 ——
+         既保留原图比例、不裁切任何内容，又不会让顶部横幅一半是空白。 */
+      var box = document.getElementById('visual');
+      if (!box) return;
+      var bw = box.getBoundingClientRect().width;
+      if (!bw) return;
+      var visRatio = 1 - 0.355;                 /* 可见区占原图宽度比例 0.645 */
+      var sc = bw / (IMG_W * visRatio);         /* 让可见区刚好铺满宽度 */
+      var mw = IMG_W * sc, mh = IMG_H * sc;
+      box.style.height = mh.toFixed(2) + 'px';  /* 容器高度随图片，绝不裁切 */
+      img.style.width = mw.toFixed(2) + 'px';
+      img.style.height = mh.toFixed(2) + 'px';
+      img.style.left = (-0.355 * mw).toFixed(2) + 'px';
+      img.style.top = '0px';
+      return;
+    }
+    var h = vh;                       /* 桌面：铺满高度 */
+    var w = h * IMG_W / IMG_H;        /* 等比：由高度推出宽度，绝不变形 */
+    var left = SPLIT * vw - BOUND * w;   /* 使分界恒定对齐 46vw */
+    img.style.width = w.toFixed(2) + 'px';
+    img.style.height = h.toFixed(2) + 'px';
+    img.style.left = left.toFixed(2) + 'px';
+    img.style.top = '0px';
+  }
+
+  /* ── 坐标映射：图像像素 → 特效容器像素 ─────────────────────────
+     底图右缘对齐视觉区右缘，左侧原图白色留白区被容器裁掉，
+     因此容器内可见的原图横坐标范围是 [CROP_X, IMG_W]。
+     这里用实测矩形推导比例与偏移，不做任何假设。                   */
+  var map = { x0: 0, y0: 0, scale: 1, cw: 0, ch: 0 };
+  function remap() {
+    var r = img.getBoundingClientRect();
+    var fr = fx.getBoundingClientRect();
+    map.scale = r.width / IMG_W;             /* 底图等比缩放系数 */
+    /* 图片左缘（含被裁部分）在容器内的位置 */
+    map.x0 = r.left - fr.left;
+    map.y0 = r.top - fr.top;
+    map.cw = fr.width; map.ch = fr.height;
+  }
+  /* 图像像素 → 容器像素 */
+  function toC(px, py) {
+    return { x: map.x0 + px * map.scale, y: map.y0 + py * map.scale };
+  }
+
+  /* ── 鼠标视差（2–6px，仅影响特效层，绝不影响底图与布局） ───────── */
+  var par = { x: 0, y: 0, tx: 0, ty: 0 };
+  var onMove = function (e) {
+    var w = window.innerWidth, h = window.innerHeight;
+    par.tx = (e.clientX / w - 0.5) * 2;      /* -1..1 */
+    par.ty = (e.clientY / h - 0.5) * 2;
+    /* 指针光晕：只有指针真正进入视觉区才点亮 */
+    if (fx) {
+      var fr = fx.getBoundingClientRect();
+      var lx = e.clientX - fr.left, ly = e.clientY - fr.top;
+      if (lx > 0 && lx < fr.width && ly > 0 && ly < fr.height) {
+        curTX = lx; curTY = ly; curOn = 1;
+      } else {
+        curOn = 0;
+      }
+    }
+  };
+  window.addEventListener('mousemove', onMove, { passive: true });
+  window.addEventListener('mouseleave', function () { par.tx = 0; par.ty = 0; curOn = 0; });
+
+  /* 四层深度系数：近景动得多，远景几乎不动 */
+  var DEPTH = { near: 1.0, beam: 0.62, lines: 0.38, far: 0.16 };
+  /* 统一 reduced-motion 判定：降强度而非静音，且关闭视差以保证构图稳定 */
+  var REDUCE = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var MAXPX = REDUCE ? 0 : 6;   /* 视差上限 6px；减少动画时禁用 */
+  var FXSPEED = REDUCE ? 0.45 : 1;   /* 粒子速度系数 */
+  var COMPACT = false;               /* 窄屏（<=860）粒子减量标记，rebuild 时刷新 */
+
+  /* ── Canvas 工具 ── */
+  function setupCanvas(cv) {
+    if (!cv || !cv.getContext) return null;
+    var ctx = cv.getContext('2d');
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);   /* 限制像素密度 */
+    var w = 0, h = 0;
+    function resize() {
+      var r = cv.getBoundingClientRect();
+      w = Math.max(1, r.width); h = Math.max(1, r.height);
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    return { ctx: ctx, resize: resize, w: function () { return w; }, h: function () { return h; } };
+  }
+
+  var mistC  = setupCanvas(el.mist);
+  var dustC  = setupCanvas(el.dust);
+  var chipsC = setupCanvas(el.chips);
+  var motesC = setupCanvas(el.motes);
+
+  /* ══════════════════════════════════════════════════════════════
+     D · 远景：建筑氛围与极轻微雾气（低强度灰蓝，screen 混合）
+     ══════════════════════════════════════════════════════════════ */
+  var mist = [];
+  function buildMist() {
+    mist = [];
+    if (!mistC) return;
+    var w = mistC.w(), h = mistC.h();
+    var mn = COMPACT ? 10 : 16;
+    for (var i = 0; i < mn; i++) {
+      mist.push({
+        /* 右侧建筑远景为主，少量靠近碎片 */
+        x: w * (0.10 + Math.random() * 0.92),
+        y: h * (0.02 + Math.random() * 0.86),
+        r: 90 + Math.random() * 220,
+        vx: 0.05 + Math.random() * 0.10,
+        ph: Math.random() * 6.2832,
+        a: 0.016 + Math.random() * 0.038
+      });
+    }
+  }
+  function drawMist(dt) {
+    if (!mistC) return;
+    var ctx = mistC.ctx, w = mistC.w(), h = mistC.h();
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < mist.length; i++) {
+      var m = mist[i];
+      m.x += m.vx * dt; m.ph += dt * 0.25;
+      if (m.x - m.r > w) m.x = -m.r;
+      var a = m.a * (0.65 + 0.35 * Math.sin(m.ph));
+      var gr = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.r);
+      gr.addColorStop(0, 'rgba(176,198,214,' + a + ')');
+      gr.addColorStop(1, 'rgba(176,198,214,0)');
+      ctx.fillStyle = gr;
+      ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, 6.2832); ctx.fill();
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     C · 中央粉尘（微粒层）：碎片附近密、外围疏、右侧远景少量
+     左侧文字区不出现明显粒子
+     ══════════════════════════════════════════════════════════════ */
+  /* 视觉区左界（容器坐标）：特效层的 clip-path 起始于视口宽的 46%，
+     因此所有粒子、纸屑、细线都必须落在该界右侧，绝不进入文字区方向。
+     fx 容器为 inset:0（宽 = 视口宽），故容器坐标与视口坐标一致。 */
+  function visualLeft() {
+    return document.documentElement.clientWidth * 0.46;
+  }
+
+  var dust = [];
+  function buildDust() {
+    dust = [];
+    if (!dustC) return;
+    var w = dustC.w(), h = dustC.h();
+    var minX = visualLeft();
+    var dn = COMPACT ? 140 : 280;   /* 粉尘：150 → 280，增加细腻层次 */
+    for (var i = 0; i < dn; i++) {
+      /* 沿碎片群分布：以交界为中心向两侧衰减 */
+      var t = Math.pow(Math.random(), 1.7);        /* 偏中心 */
+      var cx = toC(SHARD_X, SHARD_Y).x;
+      var spread = w * 0.26;
+      var x = cx + (Math.random() * 2 - 1) * spread * (0.35 + t);
+      x = Math.max(minX, Math.min(w, x));
+      var y = h * Math.random();
+      dust.push({
+        x: x, y: y,
+        r: 0.9 + Math.random() * 3.4,
+        vx: (Math.random() - 0.5) * 0.10,
+        vy: -0.05 - Math.random() * 0.16,          /* 缓慢沉降 */
+        ph: Math.random() * 6.2832,
+        sp: 0.006 + Math.random() * 0.020,
+        a: 0.20 + Math.random() * 0.46,
+        /* 右侧远景只有少量细微尘雾 */
+        far: Math.random() < 0.12
+      });
+    }
+  }
+  function drawDust(dt) {
+    if (!dustC) return;
+    var ctx = dustC.ctx, w = dustC.w(), h = dustC.h();
+    ctx.clearRect(0, 0, w, h);
+    for (var i = dust.length - 1; i >= 0; i--) {
+      var d = dust[i];
+      if (d.burst) {
+        /* 爆炸粉尘：快速外扩后迅速减速，边扩散边淡出 */
+        var kd = Math.pow(0.945, dt * 60);
+        d.vx *= kd; d.vy = d.vy * kd - 0.05 * dt;
+        d.a -= 0.42 * dt;
+        d.x += d.vx * dt; d.y += d.vy * dt; d.ph += d.sp * dt;
+        if (d.a <= 0.015 || d.x > w + 30 || d.x < -30) { dust.splice(i, 1); continue; }
+      } else {
+        d.x += d.vx * dt; d.y += d.vy * dt; d.ph += d.sp * dt;
+        if (d.y < -6) { d.y = h + 6; d.x = Math.random() * w; }
+        if (d.x < -6) d.x = w + 6; else if (d.x > w + 6) d.x = -6;
+      }
+      var tw = 0.55 + 0.45 * Math.sin(d.ph);
+      ctx.globalAlpha = Math.max(0, d.a * tw * (d.far ? 0.45 : 1));
+      ctx.fillStyle = d.far ? 'rgba(196,214,228,.9)' : 'rgba(226,234,240,.95)';
+      ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, 6.2832); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     A · 近景纸屑：不同尺寸/速度/旋转角，横向漂移 + 缓慢下降 + 翻转
+     ══════════════════════════════════════════════════════════════ */
+  var chips = [];
+  function buildChips() {
+    chips = [];
+    if (!chipsC) return;
+    var w = chipsC.w(), h = chipsC.h();
+    var cx = toC(SHARD_X, SHARD_Y).x;
+    var minX = visualLeft();
+    var cn = COMPACT ? 36 : 72;   /* 碎纸飞屑：26 → 72，密度显著提升 */
+    for (var i = 0; i < cn; i++) {
+      var t = Math.pow(Math.random(), 1.5);
+      var x = cx + (Math.random() * 2 - 1) * w * 0.22 * (0.4 + t);
+      x = Math.max(minX, Math.min(w, x));
+      var size = 4.5 + Math.random() * 13;      /* 加大：原 2.4–9.9，在密集碎片中不可辨 */
+      chips.push({
+        x: x, y: h * Math.random(),
+        w: size, h: size * (0.42 + Math.random() * 0.85),
+        rot: Math.random() * 6.2832,
+        vr: (Math.random() - 0.5) * 0.014,
+        vy: 0.10 + Math.random() * 0.30,           /* 缓慢下降 */
+        vx: (Math.random() - 0.5) * 0.34,          /* 横向风向漂移 */
+        ph: Math.random() * 6.2832,
+        sp: 0.004 + Math.random() * 0.013,         /* 翻转频率 */
+        a: 0.38 + Math.random() * 0.52,
+        warm: Math.random() < 0.30                 /* 少量受光束影响带暖色 */
+      });
+    }
+  }
+  function drawChips(dt) {
+    if (!chipsC) return;
+    var ctx = chipsC.ctx, w = chipsC.w(), h = chipsC.h();
+    ctx.clearRect(0, 0, w, h);
+    for (var i = chips.length - 1; i >= 0; i--) {
+      var c = chips[i];
+      if (c.burst) {
+        /* 墙体爆炸飞屑：速度指数衰减 + 重力下坠 + 淡出，寿命结束即移除 */
+        var k = Math.pow(0.952, dt * 60);
+        c.vx *= k;
+        c.vy = c.vy * k + 0.22 * dt;
+        c.a -= 0.32 * dt;
+        c.x += c.vx * dt; c.y += c.vy * dt; c.rot += c.vr * dt; c.ph += c.sp * dt;
+        if (c.a <= 0.02 || c.x > w + 40 || c.x < -40 || c.y > h + 40) { chips.splice(i, 1); continue; }
+      } else {
+        c.x += c.vx * dt; c.y += c.vy * dt; c.rot += c.vr * dt; c.ph += c.sp * dt;
+        if (c.y > h + 12) { c.y = -12; c.x = Math.random() * w; }
+        if (c.x < -14) c.x = w + 14; else if (c.x > w + 14) c.x = -14;
+      }
+      var sx = Math.cos(c.ph);                     /* 翻转：横向压缩 */
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, c.a * (0.5 + 0.5 * Math.abs(sx)));
+      ctx.translate(c.x, c.y);
+      ctx.rotate(c.rot);
+      ctx.scale(Math.max(0.16, Math.abs(sx)), 1);
+      ctx.fillStyle = c.warm ? 'rgba(232,214,170,.92)' : 'rgba(232,236,238,.88)';
+      ctx.fillRect(-c.w / 2, -c.h / 2, c.w, c.h);
+      ctx.restore();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     B · 金色光束：SVG 贝塞尔叠加透明辉光 + 流动金粉
+     路径严格来自原图提取的真实光路
+     ══════════════════════════════════════════════════════════════ */
+  var beamPath = null, flowPath = null, beamLen = 0, hairPaths = [];
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
+  function svgEl(tag, attrs) {
+    var e = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  /* 由采样点生成平滑 Catmull-Rom → 三次贝塞尔 */
+  function smoothPath(pts) {
+    if (pts.length < 2) return '';
+    var d = 'M' + pts[0][0].toFixed(1) + ',' + pts[0][1].toFixed(1);
+    for (var i = 0; i < pts.length - 1; i++) {
+      var p0 = pts[i - 1] || pts[i];
+      var p1 = pts[i], p2 = pts[i + 1];
+      var p3 = pts[i + 2] || p2;
+      var c1x = p1[0] + (p2[0] - p0[0]) / 6, c1y = p1[1] + (p2[1] - p0[1]) / 6;
+      var c2x = p2[0] - (p3[0] - p1[0]) / 6, c2y = p2[1] - (p3[1] - p1[1]) / 6;
+      d += ' C' + c1x.toFixed(1) + ',' + c1y.toFixed(1) +
+           ' ' + c2x.toFixed(1) + ',' + c2y.toFixed(1) +
+           ' ' + p2[0].toFixed(1) + ',' + p2[1].toFixed(1);
+    }
+    return d;
+  }
+
+  function buildBeam() {
+    if (!el.beamSvg) return;
+    var svg = el.beamSvg;
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    /* 滤镜与渐变定义 */
+    var defs = svgEl('defs', {});
+    var lg = svgEl('linearGradient', { id: 'beamGrad', x1: '0', y1: '0', x2: '1', y2: '0' });
+    lg.appendChild(svgEl('stop', { offset: '0%', 'stop-color': '#8a7442', 'stop-opacity': '.2' }));
+    lg.appendChild(svgEl('stop', { offset: '18%', 'stop-color': '#E8C97A', 'stop-opacity': '.85' }));
+    lg.appendChild(svgEl('stop', { offset: '58%', 'stop-color': '#FFF4D6', 'stop-opacity': '1' }));
+    lg.appendChild(svgEl('stop', { offset: '100%', 'stop-color': '#E8C97A', 'stop-opacity': '.42' }));
+    defs.appendChild(lg);
+    var b1 = svgEl('filter', { id: 'fxBlurS', x: '-60%', y: '-60%', width: '220%', height: '220%' });
+    b1.appendChild(svgEl('feGaussianBlur', { stdDeviation: '5' }));
+    defs.appendChild(b1);
+    var b2 = svgEl('filter', { id: 'fxBlurL', x: '-60%', y: '-60%', width: '220%', height: '220%' });
+    b2.appendChild(svgEl('feGaussianBlur', { stdDeviation: '15' }));
+    defs.appendChild(b2);
+    svg.appendChild(defs);
+
+    /* 主路径：原图光路 → 容器坐标 */
+    var pts = BEAM_PTS.map(function (p) { var c = toC(p[0], p[1]); return [c.x, c.y]; });
+    var d = smoothPath(pts);
+
+    /* 建筑区微弱暖反射（贴近光束，限定在右侧建筑段） */
+    var warmPts = BEAM_PTS.slice(5).map(function (p) { var c = toC(p[0], p[1]); return [c.x, c.y]; });
+    svg.appendChild(svgEl('path', { class: 'beam-warm', d: smoothPath(warmPts) }));
+
+    /* 主光带三层：辉光 / 中层 / 芯线 */
+    var g = svgEl('g', { id: 'beamG' });
+    g.appendChild(svgEl('path', { class: 'beam-glow', d: d }));
+    g.appendChild(svgEl('path', { class: 'beam-mid', d: d }));
+    var core = svgEl('path', { class: 'beam-core', d: d });
+    g.appendChild(core);
+    /* 流动高光段：沿同一路径推进的短亮段（dasharray + dashoffset） */
+    var flow = svgEl('path', { class: 'beam-flow', d: d });
+    g.appendChild(flow);
+    svg.appendChild(g);
+
+    /* 次级光丝：轻微分叉回旋，与主带保持关联 */
+    hairPaths = [];
+    for (var i = 0; i < 3; i++) {
+      var hp = [];
+      for (var j = 0; j < pts.length; j++) {
+        var src = pts[j];
+        var off = (i - 1) * (10 + j * 1.6);
+        hp.push([src[0], src[1] + off]);
+      }
+      var pe = svgEl('path', { class: 'beam-hair', d: smoothPath(hp) });
+      svg.appendChild(pe);
+      hairPaths.push(pe);
+    }
+
+    beamPath = core;
+    flowPath = flow;
+    try { beamLen = core.getTotalLength(); } catch (e) { beamLen = 0; }
+    /* 流动段长度约为总长的 22%，连续不间断地沿路径推进 */
+    if (beamLen > 0 && flowPath) {
+      var seg = beamLen * 0.22;
+      flowPath.style.strokeDasharray = seg.toFixed(2) + ' ' + (beamLen + seg * 2).toFixed(2);
+      flowPath.style.strokeDashoffset = beamLen.toFixed(2);
+    }
+  }
+
+  /* 金色微粒：沿路径运动，速度各异，少量逸散 */
+  var motes = [];
+  function buildMotes() {
+    motes = [];
+    if (!motesC || !beamLen) return;
+    var mon = COMPACT ? 46 : 80;
+    for (var i = 0; i < mon; i++) {
+      motes.push({
+        t: Math.random(),                       /* 路径位置 0..1 */
+        v: 0.014 + Math.random() * 0.026,      /* 速度各异 */
+        off: (Math.random() - 0.5) * 26,       /* 垂直偏移 */
+        r: 0.4 + Math.random() * 1.5,
+        a: 0.20 + Math.random() * 0.55,
+        trail: [],
+        esc: Math.random() < 0.10               /* 少量逸散 */
+      });
+    }
+  }
+  function drawMotes(dt) {
+    if (!motesC || !beamPath || !beamLen) return;
+    var ctx = motesC.ctx, w = motesC.w(), h = motesC.h();
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < motes.length; i++) {
+      var m = motes[i];
+      m.t += m.v * dt;
+      if (m.t > 1) { m.t -= 1; m.trail.length = 0; }
+      var pt;
+      try { pt = beamPath.getPointAtLength(m.t * beamLen); } catch (e) { continue; }
+      var x = pt.x, y = pt.y + m.off;
+      /* 逸散粒子逐渐偏离主带 */
+      if (m.esc) { m.off += Math.sin(m.t * 40) * 0.5; }
+      m.trail.push({ x: x, y: y });
+      if (m.trail.length > 6) m.trail.shift();
+      /* 拖尾 */
+      for (var k = 1; k < m.trail.length; k++) {
+        var a = m.a * (k / m.trail.length) * 0.30;
+        ctx.globalAlpha = a;
+        ctx.fillStyle = '#F3DCA4';
+        ctx.beginPath();
+        ctx.arc(m.trail[k].x, m.trail[k].y, m.r * (k / m.trail.length), 0, 6.2832);
+        ctx.fill();
+      }
+      /* 粒子本体 */
+      ctx.globalAlpha = m.a;
+      ctx.fillStyle = '#FFF3D0';
+      ctx.beginPath(); ctx.arc(x, y, m.r, 0, 6.2832); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     C · 细线：从中央碎片周围逐渐显现，缓慢淡出，间歇再现
+     ══════════════════════════════════════════════════════════════ */
+  var lines = [];
+  function buildLines() {
+    lines = [];
+    if (!el.svg) return;
+    var svg = el.svg;
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    /* 细线只在【中央碎片群附近】生成：X 锚定碎片交界，
+       Y 覆盖碎片群纵向范围，绝不越出右侧视觉区。 */
+    var cx = toC(SHARD_X, SHARD_Y).x;
+    var w = map.cw, h = map.ch;
+    var minX = visualLeft();           /* 视觉区左界（46%） */
+    var bandX = w * 0.20;              /* 横向散布半径 */
+    var topY = toC(SHARD_X, 120).y;
+    var botY = toC(SHARD_X, 1060).y;
+    /* 贝塞尔控制点会让曲线外扩，故额外留 30px 安全余量 */
+    var safeX = minX + 30;
+    for (var i = 0; i < 7; i++) {
+      var x0 = cx + (Math.random() * 2 - 1) * bandX * (0.25 + Math.random() * 0.75);
+      var y0 = topY + Math.random() * (botY - topY);
+      var x1 = x0 + (Math.random() - 0.35) * bandX * 1.5;
+      var y1 = y0 + (Math.random() - 0.5) * (botY - topY) * 0.32;
+      /* 两点都限制在视觉区内（含控制点外扩余量） */
+      x0 = Math.max(safeX, Math.min(w, x0));
+      x1 = Math.max(safeX, Math.min(w, x1));
+      var mx = (x0 + x1) / 2 + (Math.random() - 0.5) * bandX * 0.5;
+      var my = (y0 + y1) / 2 + (Math.random() - 0.5) * (botY - topY) * 0.14;
+      mx = Math.max(safeX, Math.min(w, mx));
+      var d = 'M' + x0.toFixed(1) + ',' + y0.toFixed(1) +
+              ' Q' + mx.toFixed(1) + ',' + my.toFixed(1) +
+              ' ' + x1.toFixed(1) + ',' + y1.toFixed(1);
+      var p = svgEl('path', { class: 'line', d: d });
+      svg.appendChild(p);
+      var L = 0;
+      try { L = p.getTotalLength(); } catch (e) { L = 0; }
+      p.style.strokeDasharray = L;
+      p.style.strokeDashoffset = L;
+      lines.push({ el: p, len: L, delay: 0, cycle: 0 });
+    }
+  }
+
+  /* 细线时序：由开场推进，之后间歇淡出再显现 */
+  function lineSchedule(t) {
+    for (var i = 0; i < lines.length; i++) {
+      var L = lines[i];
+      if (!L.len) continue;
+      var appear = 0.06 + i * 0.05;                    /* 打开即依次显现（原 1–2.5s） */
+      var hold = 1.8 + (i % 4) * 0.7;
+      var fade = 1.8;
+      var cycle = 4.0 + i * 0.9;                        /* 周期缩短（原 9–22.8s） */
+      var local = (t - appear) % cycle;
+      if (local < 0) { L.el.style.opacity = '0'; continue; }
+      var op;
+      if (local < 0.55) op = local / 0.55;                        /* 显现更快 */
+      else if (local < 0.55 + hold) op = 1;                       /* 保持 */
+      else if (local < 0.55 + hold + fade) op = 1 - (local - 0.55 - hold) / fade;  /* 淡出 */
+      else op = 0;
+      L.el.style.opacity = op.toFixed(3);
+      /* 显现过程用 dashoffset 表达"被绘制" */
+      var drawT = Math.min(1, local / 0.55);
+      L.el.style.strokeDashoffset = (L.len * (1 - drawT)).toFixed(2);
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     建筑暖光：光束附近的局部反射，6–8s 细微变化，之后缓慢循环
+     ══════════════════════════════════════════════════════════════ */
+  var warmEl = null;
+  function buildWarm() {
+    if (!el.beamSvg) return;
+    warmEl = el.beamSvg.querySelector('.beam-warm');
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     交互 1：悬停 01/02/03 → 中央碎片对应区段亮起描边
+     （仅叠加描边层，绝不修改底图）
+     ══════════════════════════════════════════════════════════════ */
+  var focusBox = document.getElementById('fxFocus');
+  var focusBands = focusBox ? [].slice.call(focusBox.querySelectorAll('i')) : [];
+
+  function layoutFocusBands() {
+    if (!focusBands.length) return;
+    /* 三段按碎片群纵向范围划分：与原图碎片群的上下分布对应 */
+    var cx = toC(SHARD_X, SHARD_Y).x;
+    var top = toC(SHARD_X, 90).y;
+    var bot = toC(SHARD_X, 1080).y;
+    var span = bot - top;
+    var minX = visualLeft();
+    for (var i = 0; i < focusBands.length; i++) {
+      var b = focusBands[i];
+      var y0 = top + span * (i / 3);
+      var y1 = top + span * ((i + 1) / 3);
+      b.style.top = y0.toFixed(1) + 'px';
+      b.style.height = (y1 - y0).toFixed(1) + 'px';
+      /* 描边带只覆盖碎片带宽度，且不越过视觉区左界 */
+      var left = Math.max(minX + 2, cx - 60);
+      var width = Math.min(map.cw - left, 420);
+      b.style.left = left.toFixed(1) + 'px';
+      b.style.width = Math.max(0, width).toFixed(1) + 'px';
+    }
+  }
+
+  function setFocusBand(n) {
+    focusBands.forEach(function (b) {
+      b.classList.toggle('on', b.dataset.g === String(n));
+    });
+    if (focusBox) focusBox.classList.add('is-on');
+  }
+  function clearFocusBand() {
+    focusBands.forEach(function (b) { b.classList.remove('on'); });
+    if (focusBox) focusBox.classList.remove('is-on');
+  }
+
+  function bindFocus() {
+    var rowsAll = [].slice.call(document.querySelectorAll('.about .rows .row'));
+    rowsAll.forEach(function (r) {
+      var n = r.querySelector('.row__n');
+      if (!n) return;
+      n.addEventListener('mouseenter', function () { setFocusBand(r.dataset.n); });
+      n.addEventListener('mouseleave', clearFocusBand);
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     交互 2：点击金色光束 → 光束重新描画 + 粉尘再次扩散
+     ══════════════════════════════════════════════════════════════ */
+  var burstCount = 0;
+  function dustBurst(strength) {
+    /* 在碎片交界处向外扩散一组新粒子（不改变原有粒子的长期状态） */
+    var cx = toC(SHARD_X, SHARD_Y).x;
+    var n = strength || 20;
+    for (var i = 0; i < n; i++) {
+      var ang = Math.random() * 6.2832;
+      var rad = 8 + Math.random() * 90;
+      dust.push({
+        x: cx + Math.cos(ang) * rad * 0.55,
+        y: toC(SHARD_X, SHARD_Y).y + Math.sin(ang) * rad,
+        r: 0.6 + Math.random() * 2.2,
+        vx: Math.cos(ang) * (0.25 + Math.random() * 0.5),
+        vy: Math.sin(ang) * (0.25 + Math.random() * 0.5) - 0.1,
+        ph: Math.random() * 6.2832,
+        sp: 0.008 + Math.random() * 0.022,
+        a: 0.18 + Math.random() * 0.4,
+        far: false
+      });
+    }
+    /* 限制粒子总量，避免长时间交互后无限增长 */
+    if (dust.length > 820) dust.splice(0, dust.length - 820);
+  }
+
+  function redrawBeam() {
+    if (!beamPath || !beamLen) return;
+    var L = beamLen;
+    beamPath.style.strokeDasharray = L;
+    beamPath.style.strokeDashoffset = L;
+    flowOffset = 0;
+    /* 优先使用原有 GSAP 补间（任务书要求保留该机制）；
+       若库未能加载则回退到原生 rAF 补间，保证功能不中断。
+       属性控制权说明：GSAP 只写 core（beamPath）的 strokeDashoffset，
+       主循环只写 flow（flowPath）的 strokeDashoffset，二者互不覆盖。 */
+    var prog = { v: 0 };
+    if (window.gsap) {
+      window.gsap.to(prog, {
+        v: 1, duration: 1.8, ease: 'power2.inOut',
+        onUpdate: function () {
+          beamPath.style.strokeDashoffset = (L * (1 - prog.v)).toFixed(2);
+        }
+      });
+      return;
+    }
+    var start = performance.now(), dur = 1800;
+    function step(now) {
+      var p = Math.min(1, (now - start) / dur);
+      var e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      beamPath.style.strokeDashoffset = (L * (1 - e)).toFixed(2);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function bindBeamClick() {
+    var svg = el.beamSvg;
+    if (!svg) return;
+    svg.style.pointerEvents = 'none';
+    /* 用视觉区内的点击坐标判定是否落在光束附近 */
+    fx.addEventListener('click', function (e) {
+      if (!beamPath || !beamLen) return;
+      var fr = fx.getBoundingClientRect();
+      var cx = e.clientX - fr.left, cy = e.clientY - fr.top;
+      /* 取光束上若干采样点，判断点击是否靠近 */
+      var near = false;
+      for (var i = 0; i <= 40; i++) {
+        var pt = beamPath.getPointAtLength(beamLen * (i / 40));
+        var dx = pt.x - cx, dy = pt.y - cy;
+        if (dx * dx + dy * dy < 36 * 36) { near = true; break; }
+      }
+      if (!near) return;
+      redrawBeam();
+      dustBurst(20);
+      burstCount++;
+    }, { passive: true });
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     交互 3：鼠标快速划过 → 少量粉尘再次逸散（低强度）
+     ══════════════════════════════════════════════════════════════ */
+  var lastMoveT = 0, lastMoveX = 0, lastMoveY = 0;
+  function bindFastSwipe() {
+    window.addEventListener('mousemove', function (e) {
+      var now = performance.now();
+      if (lastMoveT) {
+        var dt = now - lastMoveT;
+        var d = Math.abs(e.clientX - lastMoveX) + Math.abs(e.clientY - lastMoveY);
+        /* 速度阈值：快速划过才触发 */
+        if (dt > 0 && dt < 90 && d / dt > 1.6) {
+          var fr = fx.getBoundingClientRect();
+          var cx = e.clientX - fr.left;
+          /* 只在视觉区内响应 */
+          if (cx > 0 && cx < fr.width) {
+            for (var i = 0; i < 20; i++) {
+              var ang = Math.random() * 6.2832;
+              dust.push({
+                x: cx + Math.cos(ang) * 30,
+                y: e.clientY - fr.top + Math.sin(ang) * 30,
+                r: 0.5 + Math.random() * 1.6,
+                vx: Math.cos(ang) * 0.3, vy: Math.sin(ang) * 0.3 - 0.08,
+                ph: Math.random() * 6.2832, sp: 0.01 + Math.random() * 0.02,
+                a: 0.12 + Math.random() * 0.3, far: false
+              });
+            }
+            if (dust.length > 620) dust.splice(0, dust.length - 620);
+          }
+        }
+      }
+      lastMoveT = now; lastMoveX = e.clientX; lastMoveY = e.clientY;
+    }, { passive: true });
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     视差更新：仅移动特效层，底图绝不参与
+     ══════════════════════════════════════════════════════════════ */
+  function applyParallax() {
+    par.x += (par.tx - par.x) * 0.08;
+    par.y += (par.ty - par.y) * 0.08;
+    var px = par.x * MAXPX, py = par.y * MAXPX;
+    if (el.near)  el.near.style.transform  = 'translate3d(' + (-px * DEPTH.near).toFixed(2) + 'px,' + (-py * DEPTH.near * 0.62).toFixed(2) + 'px,0)';
+    if (el.beam)  el.beam.style.transform  = 'translate3d(' + (-px * DEPTH.beam).toFixed(2) + 'px,' + (-py * DEPTH.beam * 0.62).toFixed(2) + 'px,0)';
+    if (el.lines) el.lines.style.transform = 'translate3d(' + (-px * DEPTH.lines).toFixed(2) + 'px,' + (-py * DEPTH.lines * 0.62).toFixed(2) + 'px,0)';
+    if (el.far)   el.far.style.transform   = 'translate3d(' + (-px * DEPTH.far).toFixed(2) + 'px,' + (-py * DEPTH.far * 0.62).toFixed(2) + 'px,0)';
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     主循环
+     ══════════════════════════════════════════════════════════════ */
+  var t0 = 0, last = 0, raf = 0, running = true;
+  var flowOffset = 0;
+  var INTRO = 8.0;      /* 开场时长 */
+  var tickId = 0;       /* 定时器兜底句柄 */
+  var lastTick = 0;
+  var frameCount = 0;
+
+  function frame(now) {
+    if (!running) { raf = 0; return; }
+    /* 统一时间基准：部分环境（无头 / 虚拟时钟 / 后台恢复）rAF 回调的 now
+       与 performance.now() 不同源，混用会让开场叙事时序错位（t 被卡在 1s 内，
+       各层 opacity 永远停在初值）。此处一律以 performance.now() 为准。 */
+    now = performance.now();
+    frameCount++;
+    if (!last) last = now;
+    var dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    var t = (now - t0) / 1000;
+
+    applyParallax();
+    updateCursor();
+    var ds = dt * FXSPEED;
+    drawMist(ds);
+    drawDust(ds);
+    drawChips(ds);
+    drawMotes(ds);
+    lineSchedule(t);
+
+    /* 墙体爆炸节拍：打开即爆，之后每 3–5s 一次（已按要求去掉暖白闪光） */
+    if (burstStage === 0 && t > 0.9) {
+      burstStage = 1; wallBurst(1.6);
+    } else if (t > nextBurstAt) {
+      wallBurst(0.72);
+      nextBurstAt = t + 3 + Math.random() * 2;
+    }
+
+    /* 流动高光：沿光束主路径持续推进，速度恒定、无跳跃、无闪烁 */
+    if (flowPath && beamLen > 0) {
+      flowOffset = (flowOffset + dt * beamLen * 0.085) % (beamLen * 1.44);
+      flowPath.style.strokeDashoffset = (-flowOffset).toFixed(2);
+    }
+    /* 次级光丝：极缓慢摆动，与主带保持运动关联 */
+    for (var hi = 0; hi < hairPaths.length; hi++) {
+      var hp = hairPaths[hi];
+      if (!hp) continue;
+      var amp = 1.1 + hi * 0.5;
+      hp.style.transform = 'translate3d(0,' + (Math.sin(t * (0.22 + hi * 0.07) + hi) * amp).toFixed(2) + 'px,0)';
+    }
+
+    /* 开场阶段：各层按时间淡入（不隐藏、不缩放底图） */
+    var g = function (a, b) { return Math.max(0, Math.min(1, (t - a) / (b - a))); };
+    /* ── 四阶段叙事 ──────────────────────────────────────────────
+       A 0.0–1.0s 静默蓄势：仅极低远景雾（0.07），其余全部为 0
+       B 1.0–2.6s 空间显现：细线依次描出 + 粉尘浮现
+       C 2.8–5.8s 金光贯穿：光束成为主角，金粉沿光路进入
+       D 5.6–8.0s 氛围落定：远景雾融合、纸屑补齐、各层独立缓动
+       8s 之后 settle 在 8–13s 内平滑收敛，进入低强度常态（不重播） */
+    /* 即时满效：0.45s 内全部进入最终状态（不再做 8 秒渐进开场） */
+    var ko = Math.min(1, t / 0.45);
+    var eo = ko * ko * (3 - 2 * ko);                    /* smoothstep */
+    if (el.far)   el.far.style.opacity   = (0.50 * eo).toFixed(3);
+    if (el.lines) el.lines.style.opacity = (1.00 * eo).toFixed(3);
+    if (el.dust)  el.dust.style.opacity  = (0.80 * eo).toFixed(3);
+    if (el.chips) el.chips.style.opacity = (0.62 * eo).toFixed(3);
+    if (el.beam)  el.beam.style.opacity  = (0.95 * eo).toFixed(3);
+    if (el.motes) el.motes.style.opacity = (0.62 * eo).toFixed(3);
+
+    /* 建筑暖光低频变化 */
+    if (warmEl) {
+      var wv = 0.04 + 0.035 * (0.5 + 0.5 * Math.sin(t * 0.55));
+      warmEl.setAttribute('opacity', wv.toFixed(4));
+    }
+
+    /* 接续下一帧：必须在这里续链，否则动画只跑首帧就永久停摆 */
+    schedule();
+  }
+
+  /* 调度器：优先 rAF；若 rAF 长时间未推进（如无头环境 / 后台节流），
+     自动用定时器兜底，保证动画时序始终推进，不会卡在开场首帧。 */
+  function schedule() {
+    if (!running) return;
+    lastTick = frameCount;
+    raf = requestAnimationFrame(frame);
+    clearTimeout(tickId);
+    tickId = setTimeout(function () {
+      /* rAF 若在 400ms 内未推进，说明它被挂起 → 用定时器驱动一帧
+         （frame 内部会自动接续调度，此处不可再调 schedule，否则会双排 rAF） */
+      if (frameCount === lastTick) {
+        frame(performance.now());
+      }
+    }, 400);
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     尺寸变化：重算坐标映射并重建特效
+     ══════════════════════════════════════════════════════════════ */
+  var rt = 0;
+  /* ══════════════════════════════════════════════════════════════
+     结构装饰：工程线框 / 几何锚点（静态为主，低透明度，只作结构暗示）
+     ══════════════════════════════════════════════════════════════ */
+  function buildMarks() {
+    var svg = document.getElementById('fxMarks');
+    if (!svg) return;
+    var NS = 'http://www.w3.org/2000/svg';
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var w = map.cw, h = map.ch;
+    if (!w || !h) return;
+    var minX = visualLeft();
+    var cx = toC(SHARD_X, SHARD_Y).x, cy = toC(SHARD_X, SHARD_Y).y;
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.setAttribute('preserveAspectRatio', 'none');
+
+    function add(tag, attrs) {
+      var e = document.createElementNS(NS, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      svg.appendChild(e);
+      return e;
+    }
+    function cx2(x) { return Math.max(minX + 8, Math.min(w - 8, x)); }
+
+    /* 三段同心弧：角度错开，形成工程制图感 */
+    var arcs = [
+      { r: 176, a0: -62, a1: 16, cls: 'mk-arc' },
+      { r: 300, a0: 20, a1: 88, cls: 'mk-arc-gold' },
+      { r: 448, a0: -108, a1: -46, cls: 'mk-arc' }
+    ];
+    arcs.forEach(function (a) {
+      var x0 = cx + Math.cos(a.a0 * Math.PI / 180) * a.r;
+      var y0 = cy + Math.sin(a.a0 * Math.PI / 180) * a.r;
+      var x1 = cx + Math.cos(a.a1 * Math.PI / 180) * a.r;
+      var y1 = cy + Math.sin(a.a1 * Math.PI / 180) * a.r;
+      add('path', {
+        class: a.cls,
+        d: 'M' + cx2(x0).toFixed(1) + ' ' + y0.toFixed(1) +
+           ' A' + a.r + ' ' + a.r + ' 0 0 1 ' + cx2(x1).toFixed(1) + ' ' + y1.toFixed(1)
+      });
+    });
+
+    /* 两个十字锚点 */
+    [[0.70, 0.30], [0.87, 0.66]].forEach(function (p) {
+      var x = w * p[0], y = h * p[1];
+      if (x < minX + 16) return;
+      add('line', { class: 'mk-anchor', x1: (x - 6).toFixed(1), y1: y.toFixed(1), x2: (x + 6).toFixed(1), y2: y.toFixed(1) });
+      add('line', { class: 'mk-anchor', x1: x.toFixed(1), y1: (y - 6).toFixed(1), x2: x.toFixed(1), y2: (y + 6).toFixed(1) });
+    });
+
+    /* 建筑区刻度：4 条等距短横线，暗示测绘基准 */
+    for (var i = 0; i < 4; i++) {
+      var ty = h * (0.22 + i * 0.15);
+      var tx = Math.max(minX + 20, w * 0.80);
+      add('line', { class: 'mk-tick', x1: tx.toFixed(1), y1: ty.toFixed(1), x2: (tx + 22).toFixed(1), y2: ty.toFixed(1) });
+    }
+
+    /* 右下走廊取景框：一处即可，避免堆砌 */
+    add('rect', {
+      class: 'mk-hair',
+      x: Math.max(minX + 20, w * 0.60).toFixed(1),
+      y: (h * 0.58).toFixed(1),
+      width: (w * 0.24).toFixed(1),
+      height: (h * 0.26).toFixed(1),
+      rx: 2
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     指针光晕：仅视觉区内跟随，柔和不刺眼
+     ══════════════════════════════════════════════════════════════ */
+  var curEl = document.getElementById('fxCursor');
+  var curX = 0, curY = 0, curTX = 0, curTY = 0, curOn = 0, curShown = -1;
+
+  function updateCursor() {
+    if (!curEl) return;
+    curX += (curTX - curX) * 0.12;
+    curY += (curTY - curY) * 0.12;
+    curEl.style.transform = 'translate3d(' + curX.toFixed(1) + 'px,' + curY.toFixed(1) + 'px,0)';
+    if (curOn !== curShown) {
+      curShown = curOn;
+      curEl.style.opacity = curOn ? '1' : '0';
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     墙体爆炸：一次性冲击 —— 碎屑/粉尘自墙体向右上扇形喷射 + 冲击光
+     ══════════════════════════════════════════════════════════════ */
+  var flashEl = document.getElementById('fxFlash');
+  var burstStage = 0, nextBurstAt = 7;
+
+  function flashWall(strength) {
+    if (!flashEl) return;
+    flashEl.style.setProperty('--flash-a', strength.toFixed(2));
+    flashEl.classList.add('is-on');
+    clearTimeout(flashEl.__t);
+    flashEl.__t = setTimeout(function () { flashEl.classList.remove('is-on'); }, 140);
+  }
+
+  function wallBurst(strength) {
+    if (!map.cw) return;
+    var c0 = toC(SHARD_X, SHARD_Y);
+    var cx = c0.x, cy = c0.y;
+    var i, ang, sp, sz;
+    var nC = Math.round(56 * strength);
+    var nD = Math.round(120 * strength);
+
+    /* 飞屑：向右上扇形喷射（墙体居中，空间在右侧） */
+    for (i = 0; i < nC; i++) {
+      ang = -1.05 + Math.random() * 1.75;        /* -60° ~ +40° */
+      sp = 2.6 + Math.random() * 6.2;
+      sz = 3 + Math.random() * 15;
+      chips.push({
+        x: cx - 30 + Math.random() * 300,       /* 向右铺开，进入建筑干净区 */
+        y: cy + (Math.random() - 0.5) * 260,
+        w: sz, h: sz * (0.32 + Math.random() * 0.95),
+        rot: Math.random() * 6.2832,
+        vr: (Math.random() - 0.5) * 0.20,
+        vx: Math.cos(ang) * sp,
+        vy: Math.sin(ang) * sp - 0.35,
+        ph: Math.random() * 6.2832,
+        sp: 0.02 + Math.random() * 0.05,
+        a: 0.50 + Math.random() * 0.48,
+        warm: Math.random() < 0.55,
+        burst: true
+      });
+    }
+    /* 粉尘：更宽的扇形，数量多、颗粒细 */
+    for (i = 0; i < nD; i++) {
+      ang = -1.25 + Math.random() * 2.1;
+      sp = 1.1 + Math.random() * 3.6;
+      dust.push({
+        x: cx - 26 + Math.random() * 270,
+        y: cy + (Math.random() - 0.5) * 240,
+        r: 0.9 + Math.random() * 3.8,
+        vx: Math.cos(ang) * sp,
+        vy: Math.sin(ang) * sp - 0.25,
+        ph: Math.random() * 6.2832,
+        sp: 0.02 + Math.random() * 0.05,
+        a: 0.28 + Math.random() * 0.46,
+        far: false,
+        burst: true
+      });
+    }
+    if (chips.length > 400) chips.splice(0, chips.length - 400);
+    if (dust.length > 820) dust.splice(0, dust.length - 820);
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     笔触层：手绘飞白弧线 + 墨点飞溅（新增，呼应原图水墨质感）
+     ══════════════════════════════════════════════════════════════ */
+  function buildBrush() {
+    var svg = document.getElementById('fxBrush');
+    if (!svg) return;
+    var NS = 'http://www.w3.org/2000/svg';
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var w = map.cw, h = map.ch;
+    if (!w || !h) return;
+    var minX = visualLeft();
+    var cx = toC(SHARD_X, SHARD_Y).x, cy = toC(SHARD_X, SHARD_Y).y;
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.setAttribute('preserveAspectRatio', 'none');
+
+    function add(tag, attrs) {
+      var e = document.createElementNS(NS, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      svg.appendChild(e);
+      return e;
+    }
+
+    /* 5 条手绘弧线：自碎片带向外辐射，垂直方向偏移形成笔锋弯曲 */
+    var strokes = [
+      { ang: -158, len: 0.46, curve: 0.30, cls: 'brush-line' },
+      { ang: -124, len: 0.34, curve: -0.26, cls: 'brush-line' },
+      { ang: -92,  len: 0.28, curve: 0.18, cls: 'brush-fly'  },
+      { ang: 152,  len: 0.40, curve: 0.22, cls: 'brush-fly'  },
+      { ang: 118,  len: 0.44, curve: -0.20, cls: 'brush-line' }
+    ];
+    strokes.forEach(function (st) {
+      var rad = st.ang * Math.PI / 180;
+      var len = Math.max(w, h) * st.len * 0.42;
+      var x0 = cx + Math.cos(rad) * len * 0.22;
+      var y0 = cy + Math.sin(rad) * len * 0.22;
+      var x1 = cx + Math.cos(rad) * len;
+      var y1 = cy + Math.sin(rad) * len;
+      var mx = (x0 + x1) / 2 - Math.sin(rad) * len * st.curve;
+      var my = (y0 + y1) / 2 + Math.cos(rad) * len * st.curve;
+      var cl = function (v) { return Math.max(minX + 6, Math.min(w, v)); };
+      add('path', {
+        class: st.cls,
+        d: 'M' + cl(x0).toFixed(1) + ' ' + y0.toFixed(1) +
+           ' Q' + cl(mx).toFixed(1) + ' ' + my.toFixed(1) +
+           ' ' + cl(x1).toFixed(1) + ' ' + y1.toFixed(1)
+      });
+    });
+
+    /* 14 个墨点：大小与透明度分层，集中在碎片带 */
+    for (var i = 0; i < 14; i++) {
+      var t = Math.pow(Math.random(), 1.6);
+      var ang2 = Math.random() * 6.2832;
+      var rad2 = Math.max(w, h) * (0.03 + Math.random() * 0.20) * (0.35 + t);
+      var px = cx + Math.cos(ang2) * rad2;
+      var py = cy + Math.sin(ang2) * rad2 * 1.2;
+      if (px < minX + 8 || px > w - 4) continue;
+      add('circle', {
+        class: Math.random() < 0.35 ? 'brush-dot--soft' : 'brush-dot',
+        cx: px.toFixed(1), cy: py.toFixed(1),
+        r: (0.8 + Math.random() * 3.6).toFixed(1)
+      });
+    }
+  }
+
+  function rebuild() {
+    COMPACT = window.innerWidth <= 860;   /* 窄屏减量，桌面全量 */
+    fitImage();
+    remap();
+    [mistC, dustC, chipsC, motesC].forEach(function (c) { if (c) c.resize(); });
+    buildMist(); buildDust(); buildChips();
+    buildBeam(); buildMotes(); buildWarm(); buildLines();
+    layoutFocusBands();
+    buildMarks();
+    buildBrush();
+  }
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(rebuild, 180);
+  });
+
+  /* 页面隐藏时暂停 */
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      running = false;
+      if (raf) cancelAnimationFrame(raf);
+      clearTimeout(tickId);
+    } else if (!running) {
+      running = true; last = 0; schedule();
+    }
+  });
+
+  /* 卸载时清理 */
+  window.addEventListener('pagehide', function () {
+    running = false;
+    if (raf) cancelAnimationFrame(raf);
+    clearTimeout(tickId);
+    window.removeEventListener('mousemove', onMove);
+  });
+
+  /* 启动 */
+  function boot() {
+    rebuild();
+    bindFocus();
+    bindBeamClick();
+    bindFastSwipe();
+    t0 = performance.now();
+    last = 0;
+    schedule();
+    /* 双层 rAF 之后再揭示，确保入场过渡被浏览器完整播放 */
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { document.body.classList.add('is-revealed'); });
+    });
+  }
+  if (document.readyState === 'complete' || document.readyState === 'interactive') setTimeout(boot, 40);
+  else window.addEventListener('DOMContentLoaded', function () { setTimeout(boot, 40); });
+
+  /* 调试开关：window.__fx.pause() / resume() / off() */
+  window.__fx = {
+    pause: function () { running = false; if (raf) cancelAnimationFrame(raf); clearTimeout(tickId); },
+    resume: function () { if (!running) { running = true; last = 0; schedule(); } },
+    off: function () { document.body.classList.add('no-fx'); },
+    on: function () { document.body.classList.remove('no-fx'); },
+    state: function () {
+      return {
+        running: running, frames: frameCount,
+        t: ((performance.now() - t0) / 1000).toFixed(2),
+        beamLen: Math.round(beamLen), motes: motes.length, dust: dust.length, chips: chips.length,
+        opFar: el.far && el.far.style.opacity, opLines: el.lines && el.lines.style.opacity,
+        opBeam: el.beam && el.beam.style.opacity, opNear: el.near && el.near.style.opacity
+      };
+    },
+    /* 测试钩子：把动画推进到指定时刻并立即渲染一帧（用于无头环境截图核验） */
+    seek: function (sec) {
+      var fake = t0 + sec * 1000;
+      var dt = 0.016;
+      /* 预热：让粒子/线条进入稳态 */
+      for (var i = 0; i < 40; i++) {
+        drawMist(dt); drawDust(dt); drawChips(dt); drawMotes(dt);
+      }
+      /* 用固定时间戳渲染目标时刻的层状态 */
+      var t = sec;
+      var g = function (a, b) { return Math.max(0, Math.min(1, (t - a) / (b - a))); };
+      if (el.far)   el.far.style.opacity   = (0.55 + 0.45 * g(6.0, 8.0)).toFixed(3);
+      if (el.lines) el.lines.style.opacity = (0.20 + 0.80 * g(1.0, 2.5)).toFixed(3);
+      if (el.dust)  el.dust.style.opacity  = (0.25 + 0.75 * g(1.2, 2.6)).toFixed(3);
+      if (el.chips) el.chips.style.opacity = (0.10 + 0.90 * g(2.5, 4.0)).toFixed(3);
+      if (el.beam)  el.beam.style.opacity  = (0.25 + 0.75 * g(4.0, 6.0)).toFixed(3);
+      if (el.motes) el.motes.style.opacity = (0.20 + 0.80 * g(4.2, 6.2)).toFixed(3);
+      if (warmEl) {
+        var wv = 0.04 + 0.035 * (0.5 + 0.5 * Math.sin(sec * 0.55));
+        warmEl.setAttribute('opacity', wv.toFixed(4));
+      }
+      if (flowPath && beamLen > 0) {
+        flowPath.style.strokeDashoffset = (-(sec * beamLen * 0.085) % (beamLen * 1.44)).toFixed(2);
+      }
+      lineSchedule(sec);
+      return true;
+    },
+    map: function () { return { x0: map.x0, y0: map.y0, scale: map.scale, cw: map.cw, ch: map.ch }; }
+  };
+})();
+
+(function () {
+  var fab = document.getElementById('contactFab');
+  var modal = document.getElementById('contactModal');
+  var copy = document.getElementById('copyPhone');
+  if (!fab || !modal) return;
+
+  function open() { modal.classList.add('is-on'); modal.setAttribute('aria-hidden', 'false'); }
+  function close() { modal.classList.remove('is-on'); modal.setAttribute('aria-hidden', 'true'); }
+
+  fab.addEventListener('click', open);
+  modal.addEventListener('click', function (e) {
+    if (e.target.closest('[data-close]')) close();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+  if (copy) {
+    copy.addEventListener('click', function () {
+      var num = '18223979952';
+      var em = copy.querySelector('em');
+      var done = function () {
+        if (!em) return;
+        em.textContent = '已复制';
+        setTimeout(function () { em.textContent = '点击复制'; }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(num).then(done).catch(done);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = num; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (err) {}
+        document.body.removeChild(ta); done();
+      }
+    });
+  }
+})();
+</script>
+
+<!-- ══ 动效诊断角标：地址加 #dbg（或 ?dbg=1）才显示，正常浏览完全不出现 ══ -->
+<div id="fxDbg" style="display:none;position:fixed;left:10px;bottom:10px;z-index:99999;background:rgba(0,0,0,.86);color:#7CFF9B;font:12px/1.55 ui-monospace,Consolas,monospace;padding:7px 11px;border-radius:7px;white-space:pre;pointer-events:none;letter-spacing:.2px"></div>
+<script>
+(function () {
+  if (!(/(?:^|[?&])dbg=1(?:&|$)/.test(location.search) || location.hash === '#dbg')) return;
+  var box = document.getElementById('fxDbg');
+  if (!box) return;
+  box.style.display = 'block';
+  var fxEl = document.querySelector('.stage__fx');
+  setInterval(function () {
+    var st = (window.__fx && window.__fx.state) ? window.__fx.state() : null;
+    box.textContent =
+      '窗口 W:' + window.innerWidth + '  H:' + window.innerHeight +
+      '\n系统减少动画:' + (window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'ON（已降速 0.45×、关闭视差）' : 'off') +
+      '   窄屏480:' + (window.matchMedia('(max-width: 480px)').matches ? 'ON ← 会静音' : 'off') +
+      '\n特效层显示:' + (fxEl ? getComputedStyle(fxEl).display : '元素不存在') +
+      '\n帧数:' + (st ? st.frames : '未启动') + '   叙事时间:' + (st ? st.t + 's' : '-') +
+      '\n运行中:' + (st ? st.running : '-');
+  }, 250);
+})();
+</script>
+</body>
+</html>
