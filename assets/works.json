@@ -1890,25 +1890,5 @@
     "loop": "assets/video/shupian.mp4",
     "order": 9,
     "poster": "assets/poster/koubo-shupian.jpg"
-  },
-  {
-    "kind": "single",
-    "key": "duanju-new",
-    "name": "纸人·捉迷藏",
-    "cat": "短剧",
-    "year": "2026",
-    "lang": "cn",
-    "duration": 172,
-    "parts": [
-      {
-        "label": "",
-        "slug": "duanju-new",
-        "full": "assets/video/duanju-new.mp4",
-        "duration": 172
-      }
-    ],
-    "loop": "assets/video/duanju-new.mp4",
-    "order": 1,
-    "poster": "assets/poster/duanju-new.jpg"
   }
 ]
