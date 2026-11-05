@@ -1984,6 +1984,8 @@ body.is-revealed .fx__brush{ opacity:1; }
 
   /* ── 灯箱 ── */
   var lb = $('#lightbox'), lbMedia = $('#lbMedia'), lbTitle = $('#lbTitle'), lbCat = $('#lbCat');
+  /* null=未探测 / true=服务端支持 Range(可流式秒开+精确seek) / false=不支持(退回 Blob) */
+  var RANGE_SUPPORTED = null;
   var lbIdx = $('#lbIdx'), lbForm = $('#lbForm'), lbRole = $('#lbRole');
   var lbPrev = $('#lbPrev'), lbNext = $('#lbNext');
   var lbKeys = [], lbAt = 0;
@@ -2029,14 +2031,15 @@ body.is-revealed .fx__brush{ opacity:1; }
     } else {
       lbMedia.innerHTML = '<video poster="' + esc(w.poster || '') + '" controls autoplay muted playsinline preload="auto"></video>';
       var _lbv = lbMedia.querySelector('video');
-      /* 该静态托管不支持 HTTP Range：流式播放无法跳到未下载处。
-         整片取为 Blob，src 指向本地对象后即可在任意位置精确 seek。 */
+      /* 自适应：支持 Range（如 GitHub Pages 206）→ 流式边下边播，秒开且可精确拖进度；
+         不支持 Range（如 WorkBuddy 静态托管）→ 退化为整片 Blob，保证任意位置可 seek。 */
       if (_lbv) {
         (function (v, url) {
           function playNow(u) {
             try { v.src = u; var p = v.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {}
           }
-          if (window.fetch && window.URL && URL.createObjectURL) {
+          function blobLoad() {
+            if (!(window.fetch && window.URL && URL.createObjectURL)) { playNow(url); return; }
             fetch(url, { credentials: 'same-origin' })
               .then(function (r) { return r.ok ? r.blob() : Promise.reject(new Error('http')); })
               .then(function (b) {
@@ -2046,7 +2049,20 @@ body.is-revealed .fx__brush{ opacity:1; }
                 playNow(bu);
               })
               .catch(function () { playNow(url); });
-          } else { playNow(url); }
+          }
+          function decide() {
+            if (RANGE_SUPPORTED === true) { playNow(url); }
+            else if (RANGE_SUPPORTED === false) { blobLoad(); }
+            else { playNow(url); }
+          }
+          if (RANGE_SUPPORTED === null && window.fetch) {
+            try {
+              fetch(url, { headers: { 'Range': 'bytes=0-0' }, cache: 'no-store' })
+                .then(function (r) { RANGE_SUPPORTED = (r.status === 206); })
+                .catch(function () { RANGE_SUPPORTED = false; })
+                .then(decide);
+            } catch (e) { RANGE_SUPPORTED = false; blobLoad(); }
+          } else { decide(); }
         })(_lbv, src);
       }
     }
