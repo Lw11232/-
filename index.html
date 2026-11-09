@@ -2042,21 +2042,22 @@ body.is-revealed .fx__brush{ opacity:1; }
     } else {
       /* 直接流式播放：GitHub Pages 支持 Range(206)，浏览器边下边播、原生进度条可精确拖拽。
          不再预取 Blob / 不再探测 Range，避免大视频被整片重复下载导致「缓存满 · 播不动」。 */
-      lbMedia.innerHTML = '<video src="' + esc(src) + '" poster="' + esc(w.poster || '') + '" controls autoplay muted playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5" preload="auto"></video>' +
-                          '<div class="lb-sound" role="button" aria-label="开启声音">🔊 点按开启声音</div>';
+      lbMedia.innerHTML = '<video src="' + esc(src) + '" poster="' + esc(w.poster || '') + '" controls autoplay playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5" preload="auto"></video>';
       var _lbv = lbMedia.querySelector('video');
-      var _snd = lbMedia.querySelector('.lb-sound');
       if (_lbv) {
-        (function (v, snd) {
-          function hideSnd() { if (snd) snd.classList.add('is-hidden'); }
-          function kick() { var p; try { p = v.play(); } catch (e) {} if (p && p.catch) p.catch(function () {}); }
-          function unmute() { v.muted = false; hideSnd(); kick(); }
-          /* muted + autoplay：任何手机都允许，保证画面一定在动 */
-          kick();
-          if (snd) snd.addEventListener('click', unmute);
-          v.addEventListener('touchstart', function () { if (v.muted) unmute(); }, { passive: true });
-          v.addEventListener('pointerdown', function () { if (v.muted) unmute(); }, { passive: true });
-        })(_lbv, _snd);
+        (function (v) {
+          function tryPlay(useMuted) {
+            v.muted = useMuted;
+            var p; try { p = v.play(); } catch (e) {}
+            if (p && p.catch) p.catch(function () { if (!useMuted) { tryPlay(true); } });
+          }
+          /* 打开灯箱本身是点击手势：优先带声音自动播放；
+             若被浏览器策略拦截，则静音自动播放保底（画面持续在动），任意点按即恢复声音 */
+          tryPlay(false);
+          function unmute() { if (v.muted) { v.muted = false; try { v.play(); } catch (e) {} } }
+          v.addEventListener('touchstart', unmute, { passive: true });
+          v.addEventListener('pointerdown', unmute, { passive: true });
+        })(_lbv);
       }
     }
 
