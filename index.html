@@ -1836,17 +1836,17 @@ body.is-revealed .fx__brush{ opacity:1; }
         var psrc = w.poster || '';
         media = '<div class="tile__media" style="aspect-ratio:' + ar + '">' +
           (psrc ? '<img class="tile__poster" src="' + esc(psrc) + '" alt="' + esc(w.name) + '" loading="lazy" decoding="async">' : '') +
-          '<video muted loop playsinline preload="none" src="' + esc(src) + '#t=1" style="aspect-ratio:' + ar + '"></video>' +
           '</div>';
       } else {
         media = '<div class="tile__media" style="aspect-ratio:' + ar + '">' +
           '<img src="' + esc(src) + '" alt="' + esc(w.name) + '" loading="lazy" decoding="async"></div>';
       }
+      var vsrcAttr = isVid ? ' data-vsrc="' + esc(src) + '"' : '';
 
       var tagExtra = (w.layout === 'overlay') ? '<span class="tile__n">' + (w.parts ? w.parts.length : 0) + ' 张</span>' : '';
       html += '<button class="' + cls + '" ' +
                 'data-cat="' + esc(w.cat) + '" data-key="' + esc(w.key) + '" data-ar="' + ar + '" ' +
-                'data-series="' + esc(String(w.name || '').split(' · ')[0]) + '" ' +
+                'data-series="' + esc(String(w.name || '').split(' · ')[0]) + '" ' + vsrcAttr + ' ' +
                 'aria-label="' + esc(w.name) + '">' +
                 media +
                 '<span class="tile__cap">' +
@@ -1861,17 +1861,29 @@ body.is-revealed .fx__brush{ opacity:1; }
     allTiles = [].slice.call(tmp.children);
 
     allTiles.forEach(function (t) {
-      var v = $('video', t);
-      // 悬停播放：静止只保留首帧，不预载整片
+      // 悬停时按需创建视频（初始不占用解码器，手机端把解码器留给灯箱大视频）
       t.addEventListener('mouseenter', function () {
-        if (!v) return;
+        var vsrc = t.dataset.vsrc;
+        if (!vsrc) return;
+        var v = t.querySelector('video');
+        if (!v) {
+          v = document.createElement('video');
+          v.muted = true; v.loop = true; v.playsInline = true;
+          v.setAttribute('playsinline', '');
+          v.preload = 'none';
+          v.src = vsrc;
+          v.style.aspectRatio = t.dataset.ar || '';
+          var mediaBox = t.querySelector('.tile__media');
+          if (!mediaBox) return;
+          mediaBox.appendChild(v);
+        }
         t.classList.add('is-playing');
         try { v.currentTime = 0.3; var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } catch (e) {}
       });
       t.addEventListener('mouseleave', function () {
-        if (!v) return;
+        var v = t.querySelector('video');
         t.classList.remove('is-playing');
-        try { v.pause(); } catch (e) {}
+        if (v) { try { v.pause(); } catch (e) {} }
       });
       t.addEventListener('click', function () {
         if (t.dataset.col === '1') { openDetail(t.dataset.key); return; }
@@ -2042,7 +2054,7 @@ body.is-revealed .fx__brush{ opacity:1; }
     } else {
       /* 直接流式播放：GitHub Pages 支持 Range(206)，浏览器边下边播、原生进度条可精确拖拽。
          不再预取 Blob / 不再探测 Range，避免大视频被整片重复下载导致「缓存满 · 播不动」。 */
-      lbMedia.innerHTML = '<video src="' + esc(src) + '" poster="' + esc(w.poster || '') + '" controls autoplay playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5" preload="auto"></video>';
+      lbMedia.innerHTML = '<video src="' + esc(src) + '" poster="' + esc(w.poster || '') + '" controls autoplay playsinline webkit-playsinline preload="auto"></video>';
       var _lbv = lbMedia.querySelector('video');
       if (_lbv) {
         (function (v) {
