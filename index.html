@@ -450,11 +450,22 @@ body.is-about .rows .row:nth-child(3){ animation-delay:.40s }
 .lightbox__media{
   flex:1 1 auto;min-width:0;
   display:flex;align-items:center;justify-content:center;
-  background:#000;border-radius:4px;overflow:hidden;
+  background:#000;border-radius:4px;overflow:hidden;position:relative;
 }
 .lightbox__media img,.lightbox__media video{
   display:block;max-width:100%;max-height:80vh;width:auto;height:auto;object-fit:contain;
 }
+.lb-sound{
+  position:absolute;left:12px;top:12px;z-index:9;
+  display:flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:999px;
+  background:rgba(0,0,0,.62);color:#fff;
+  font:12px/1 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  letter-spacing:.02em;cursor:pointer;backdrop-filter:blur(6px);
+  transition:opacity .25s ease;
+}
+.lb-sound:hover{background:rgba(0,0,0,.8)}
+.lb-sound.is-hidden{opacity:0;pointer-events:none}
 
 /* 右栏：像一页项目卡 */
 .lightbox__meta{
@@ -2031,9 +2042,32 @@ body.is-revealed .fx__brush{ opacity:1; }
     } else {
       /* 直接流式播放：GitHub Pages 支持 Range(206)，浏览器边下边播、原生进度条可精确拖拽。
          不再预取 Blob / 不再探测 Range，避免大视频被整片重复下载导致「缓存满 · 播不动」。 */
-      lbMedia.innerHTML = '<video src="' + esc(src) + '" poster="' + esc(w.poster || '') + '" controls autoplay muted playsinline preload="auto"></video>';
+      lbMedia.innerHTML = '<video src="' + esc(src) + '" poster="' + esc(w.poster || '') + '" controls playsinline preload="auto"></video>' +
+                          '<div class="lb-sound" role="button" aria-label="开启声音">🔊 点按开启声音</div>';
       var _lbv = lbMedia.querySelector('video');
-      if (_lbv) { try { var _p = _lbv.play(); if (_p && _p.catch) _p.catch(function () {}); } catch (e) {} }
+      var _snd = lbMedia.querySelector('.lb-sound');
+      if (_lbv) {
+        (function (v, snd) {
+          function hideSnd() { if (snd) snd.classList.add('is-hidden'); }
+          function tryPlay(useMuted) {
+            v.muted = useMuted;
+            var p; try { p = v.play(); } catch (e) { return; }
+            if (p && p.then) {
+              p.then(function () { if (!useMuted) hideSnd(); })
+               .catch(function () { if (!useMuted) { tryPlay(true); } });
+            } else if (!useMuted) { hideSnd(); }
+          }
+          function unmute() {
+            v.muted = false; hideSnd();
+            var p; try { p = v.play(); } catch (e) {}
+            if (p && p.catch) p.catch(function () {});
+          }
+          /* 打开灯箱本身是点击手势，先尝试带声音播放；被浏览器拦截则降级静音自动播放（画面照动），并保留提示 */
+          tryPlay(false);
+          if (snd) snd.addEventListener('click', unmute);
+          v.addEventListener('pointerdown', function () { if (v.muted) unmute(); }, { passive: true });
+        })(_lbv, _snd);
+      }
     }
 
     var partLabel = (ent.part >= 0 && w.parts[ent.part] && w.parts[ent.part].label)
