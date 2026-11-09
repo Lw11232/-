@@ -11,11 +11,11 @@
       {
         "label": "",
         "slug": "mfk",
-        "full": "assets/video/mfk.mp4",
+        "full": "assets/video/mfk.mp4?v=20261109a",
         "duration": 15
       }
     ],
-    "loop": "assets/video/mfk.mp4",
+    "loop": "assets/video/mfk.mp4?v=20261109a",
     "order": 1,
     "poster": "assets/poster/mfk.jpg"
   },
@@ -31,11 +31,11 @@
       {
         "label": "",
         "slug": "chanel",
-        "full": "assets/video/chanel.mp4",
+        "full": "assets/video/chanel.mp4?v=20261109a",
         "duration": 15
       }
     ],
-    "loop": "assets/video/chanel.mp4",
+    "loop": "assets/video/chanel.mp4?v=20261109a",
     "order": 2,
     "poster": "assets/poster/chanel.jpg"
   },
@@ -51,11 +51,11 @@
       {
         "label": "",
         "slug": "rolex",
-        "full": "assets/video/rolex.mp4",
+        "full": "assets/video/rolex.mp4?v=20261109a",
         "duration": 30
       }
     ],
-    "loop": "assets/video/rolex.mp4",
+    "loop": "assets/video/rolex.mp4?v=20261109a",
     "order": 3,
     "poster": "assets/poster/rolex.jpg"
   },
@@ -71,11 +71,11 @@
       {
         "label": "",
         "slug": "rm055",
-        "full": "assets/video/rm055.mp4",
+        "full": "assets/video/rm055.mp4?v=20261109a",
         "duration": 31
       }
     ],
-    "loop": "assets/video/rm055.mp4",
+    "loop": "assets/video/rm055.mp4?v=20261109a",
     "order": 4,
     "poster": "assets/poster/rm055.jpg"
   },
@@ -91,17 +91,17 @@
       {
         "label": "1.0",
         "slug": "zhixu-1",
-        "full": "assets/video/zhixu-1.mp4",
+        "full": "assets/video/zhixu-1.mp4?v=20261109a",
         "duration": 30
       },
       {
         "label": "2.0",
         "slug": "zhixu-2",
-        "full": "assets/video/zhixu-2.mp4",
+        "full": "assets/video/zhixu-2.mp4?v=20261109a",
         "duration": 30
       }
     ],
-    "loop": "assets/video/zhixu-1.mp4",
+    "loop": "assets/video/zhixu-1.mp4?v=20261109a",
     "order": 5,
     "poster": "assets/poster/zhixu.jpg"
   },
@@ -117,11 +117,11 @@
       {
         "label": "",
         "slug": "watch",
-        "full": "assets/video/watch.mp4",
+        "full": "assets/video/watch.mp4?v=20261109a",
         "duration": 18
       }
     ],
-    "loop": "assets/video/watch.mp4",
+    "loop": "assets/video/watch.mp4?v=20261109a",
     "order": 6,
     "poster": "assets/poster/watch.jpg"
   },
@@ -137,11 +137,11 @@
       {
         "label": "",
         "slug": "yiliang",
-        "full": "assets/video/yiliang.mp4",
+        "full": "assets/video/yiliang.mp4?v=20261109a",
         "duration": 30
       }
     ],
-    "loop": "assets/video/yiliang.mp4",
+    "loop": "assets/video/yiliang.mp4?v=20261109a",
     "order": 7,
     "poster": "assets/poster/yiliang.jpg"
   },
@@ -157,11 +157,11 @@
       {
         "label": "",
         "slug": "yin",
-        "full": "assets/video/yin.mp4",
+        "full": "assets/video/yin.mp4?v=20261109a",
         "duration": 30
       }
     ],
-    "loop": "assets/video/yin.mp4",
+    "loop": "assets/video/yin.mp4?v=20261109a",
     "order": 8,
     "poster": "assets/poster/yin.jpg"
   },
@@ -177,11 +177,11 @@
       {
         "label": "",
         "slug": "chuancheng",
-        "full": "assets/video/chuancheng.mp4",
+        "full": "assets/video/chuancheng.mp4?v=20261109a",
         "duration": 32
       }
     ],
-    "loop": "assets/video/chuancheng.mp4",
+    "loop": "assets/video/chuancheng.mp4?v=20261109a",
     "order": 9,
     "poster": "assets/poster/chuancheng.jpg"
   },
@@ -197,17 +197,17 @@
       {
         "label": "2.0",
         "slug": "insta-2",
-        "full": "assets/video/insta-2.mp4",
+        "full": "assets/video/insta-2.mp4?v=20261109a",
         "duration": 30
       },
       {
         "label": "3.0",
         "slug": "insta-3",
-        "full": "assets/video/insta-3.mp4",
+        "full": "assets/video/insta-3.mp4?v=20261109a",
         "duration": 30
       }
     ],
-    "loop": "assets/video/insta-2.mp4",
+    "loop": "assets/video/insta-2.mp4?v=20261109a",
     "order": 10,
     "poster": "assets/poster/insta.jpg"
   },
@@ -223,11 +223,11 @@
       {
         "label": "",
         "slug": "roborock",
-        "full": "assets/video/roborock.mp4",
+        "full": "assets/video/roborock.mp4?v=20261109a",
         "duration": 24
       }
     ],
-    "loop": "assets/video/roborock.mp4",
+    "loop": "assets/video/roborock.mp4?v=20261109a",
     "order": 11,
     "poster": "assets/poster/roborock.jpg"
   },
@@ -243,11 +243,11 @@
       {
         "label": "",
         "slug": "firefly",
-        "full": "assets/video/firefly.mp4",
+        "full": "assets/video/firefly.mp4?v=20261109a",
         "duration": 30
       }
     ],
-    "loop": "assets/video/firefly.mp4",
+    "loop": "assets/video/firefly.mp4?v=20261109a",
     "order": 12,
     "poster": "assets/poster/firefly.jpg"
   },
@@ -263,11 +263,11 @@
       {
         "label": "",
         "slug": "laifen",
-        "full": "assets/video/laifen.mp4",
+        "full": "assets/video/laifen.mp4?v=20261109a",
         "duration": 30
       }
     ],
-    "loop": "assets/video/laifen.mp4",
+    "loop": "assets/video/laifen.mp4?v=20261109a",
     "order": 13,
     "poster": "assets/poster/laifen.jpg"
   },
@@ -283,11 +283,11 @@
       {
         "label": "",
         "slug": "daily-pearl",
-        "full": "assets/video/daily-pearl.mp4",
+        "full": "assets/video/daily-pearl.mp4?v=20261109a",
         "duration": 30
       }
     ],
-    "loop": "assets/video/daily-pearl.mp4",
+    "loop": "assets/video/daily-pearl.mp4?v=20261109a",
     "order": 14,
     "poster": "assets/poster/daily-pearl.jpg"
   },
@@ -303,11 +303,11 @@
       {
         "label": "",
         "slug": "glasses",
-        "full": "assets/video/glasses.mp4",
+        "full": "assets/video/glasses.mp4?v=20261109a",
         "duration": 20
       }
     ],
-    "loop": "assets/video/glasses.mp4",
+    "loop": "assets/video/glasses.mp4?v=20261109a",
     "order": 15,
     "poster": "assets/poster/glasses.jpg"
   },
@@ -323,11 +323,11 @@
       {
         "label": "",
         "slug": "sanag",
-        "full": "assets/video/sanag.mp4",
+        "full": "assets/video/sanag.mp4?v=20261109a",
         "duration": 29
       }
     ],
-    "loop": "assets/video/sanag.mp4",
+    "loop": "assets/video/sanag.mp4?v=20261109a",
     "order": 16,
     "poster": "assets/poster/sanag.jpg"
   },
@@ -343,11 +343,11 @@
       {
         "label": "",
         "slug": "kawasaki",
-        "full": "assets/video/kawasaki.mp4",
+        "full": "assets/video/kawasaki.mp4?v=20261109a",
         "duration": 60
       }
     ],
-    "loop": "assets/video/kawasaki.mp4",
+    "loop": "assets/video/kawasaki.mp4?v=20261109a",
     "order": 17,
     "poster": "assets/poster/kawasaki.jpg"
   },
@@ -363,11 +363,11 @@
       {
         "label": "",
         "slug": "salomon",
-        "full": "assets/video/salomon.mp4",
+        "full": "assets/video/salomon.mp4?v=20261109a",
         "duration": 15
       }
     ],
-    "loop": "assets/video/salomon.mp4",
+    "loop": "assets/video/salomon.mp4?v=20261109a",
     "order": 18,
     "poster": "assets/poster/salomon.jpg"
   },
@@ -383,11 +383,11 @@
       {
         "label": "",
         "slug": "zhizhi",
-        "full": "assets/video/zhizhi.mp4",
+        "full": "assets/video/zhizhi.mp4?v=20261109a",
         "duration": 60
       }
     ],
-    "loop": "assets/video/zhizhi.mp4",
+    "loop": "assets/video/zhizhi.mp4?v=20261109a",
     "order": 1,
     "poster": "assets/poster/zhizhi.jpg"
   },
@@ -403,11 +403,11 @@
       {
         "label": "",
         "slug": "zhongli-1",
-        "full": "assets/video/zhongli-1.mp4",
+        "full": "assets/video/zhongli-1.mp4?v=20261109a",
         "duration": 94
       }
     ],
-    "loop": "assets/video/zhongli-1.mp4",
+    "loop": "assets/video/zhongli-1.mp4?v=20261109a",
     "order": 2,
     "poster": "assets/poster/zhongli-1.jpg"
   },
@@ -423,11 +423,11 @@
       {
         "label": "",
         "slug": "zhongli-2",
-        "full": "assets/video/zhongli-2.mp4",
+        "full": "assets/video/zhongli-2.mp4?v=20261109a",
         "duration": 103
       }
     ],
-    "loop": "assets/video/zhongli-2.mp4",
+    "loop": "assets/video/zhongli-2.mp4?v=20261109a",
     "order": 3,
     "poster": "assets/poster/zhongli-2.jpg"
   },
@@ -443,11 +443,11 @@
       {
         "label": "",
         "slug": "zhongli-3",
-        "full": "assets/video/zhongli-3.mp4",
+        "full": "assets/video/zhongli-3.mp4?v=20261109a",
         "duration": 72
       }
     ],
-    "loop": "assets/video/zhongli-3.mp4",
+    "loop": "assets/video/zhongli-3.mp4?v=20261109a",
     "order": 4,
     "poster": "assets/poster/zhongli-3.jpg"
   },
@@ -593,12 +593,12 @@
       {
         "label": "",
         "slug": "koubo-anc-headphones",
-        "full": "assets/video/koubo-anc-headphones.mp4",
+        "full": "assets/video/koubo-anc-headphones.mp4?v=20261109a",
         "duration": 0
       }
     ],
     "image": "",
-    "loop": "assets/video/koubo-anc-headphones.mp4",
+    "loop": "assets/video/koubo-anc-headphones.mp4?v=20261109a",
     "order": 2,
     "poster": "assets/poster/koubo-anc-headphones.jpg"
   },
@@ -614,12 +614,12 @@
       {
         "label": "",
         "slug": "koubo-usb-c-hub",
-        "full": "assets/video/koubo-usb-c-hub.mp4",
+        "full": "assets/video/koubo-usb-c-hub.mp4?v=20261109a",
         "duration": 0
       }
     ],
     "image": "",
-    "loop": "assets/video/koubo-usb-c-hub.mp4",
+    "loop": "assets/video/koubo-usb-c-hub.mp4?v=20261109a",
     "order": 3,
     "poster": "assets/poster/koubo-usb-c-hub.jpg"
   },
@@ -765,11 +765,11 @@
       {
         "label": "",
         "slug": "cg",
-        "full": "assets/video/cg.mp4",
+        "full": "assets/video/cg.mp4?v=20261109a",
         "duration": 30.0
       }
     ],
-    "loop": "assets/video/cg.mp4",
+    "loop": "assets/video/cg.mp4?v=20261109a",
     "order": 8,
     "poster": "assets/poster/cg.jpg"
   },
@@ -785,11 +785,11 @@
       {
         "label": "",
         "slug": "sp1",
-        "full": "assets/video/sp1.mp4",
+        "full": "assets/video/sp1.mp4?v=20261109a",
         "duration": 21.3
       }
     ],
-    "loop": "assets/video/sp1.mp4",
+    "loop": "assets/video/sp1.mp4?v=20261109a",
     "order": 5,
     "poster": "assets/poster/sp1.jpg"
   },
@@ -805,11 +805,11 @@
       {
         "label": "",
         "slug": "sp2",
-        "full": "assets/video/sp2.mp4",
+        "full": "assets/video/sp2.mp4?v=20261109a",
         "duration": 62.2
       }
     ],
-    "loop": "assets/video/sp2.mp4",
+    "loop": "assets/video/sp2.mp4?v=20261109a",
     "order": 6,
     "poster": "assets/poster/sp2.jpg"
   },
@@ -825,11 +825,11 @@
       {
         "label": "",
         "slug": "paris-rain",
-        "full": "assets/video/paris-rain.mp4",
+        "full": "assets/video/paris-rain.mp4?v=20261109a",
         "duration": 26.9
       }
     ],
-    "loop": "assets/video/paris-rain.mp4",
+    "loop": "assets/video/paris-rain.mp4?v=20261109a",
     "order": 7,
     "poster": "assets/poster/paris-rain.jpg"
   },
@@ -845,11 +845,11 @@
       {
         "label": "",
         "slug": "wanben-ip",
-        "full": "assets/video/wanben-ip.mp4",
+        "full": "assets/video/wanben-ip.mp4?v=20261109a",
         "duration": 37.9
       }
     ],
-    "loop": "assets/video/wanben-ip.mp4",
+    "loop": "assets/video/wanben-ip.mp4?v=20261109a",
     "order": 43,
     "poster": "assets/poster/wanben-ip.jpg"
   },
@@ -1047,11 +1047,11 @@
       {
         "label": "",
         "slug": "koubo-monster-hunter",
-        "full": "assets/video/koubo-monster-hunter.mp4",
+        "full": "assets/video/koubo-monster-hunter.mp4?v=20261109a",
         "duration": 15
       }
     ],
-    "loop": "assets/video/koubo-monster-hunter.mp4",
+    "loop": "assets/video/koubo-monster-hunter.mp4?v=20261109a",
     "order": 1,
     "poster": "assets/poster/koubo-mh-poster-set.jpg"
   },
@@ -1113,12 +1113,12 @@
       {
         "label": "",
         "slug": "koubo-motion-poster",
-        "full": "assets/video/koubo-motion-poster.mp4",
+        "full": "assets/video/koubo-motion-poster.mp4?v=20261109a",
         "duration": 0
       }
     ],
     "image": "",
-    "loop": "assets/video/koubo-motion-poster.mp4",
+    "loop": "assets/video/koubo-motion-poster.mp4?v=20261109a",
     "order": 5,
     "poster": "assets/poster/koubo-motion-poster.jpg"
   },
@@ -1173,11 +1173,11 @@
       {
         "label": "",
         "slug": "huangzhai",
-        "full": "assets/video/huangzhai.mp4",
+        "full": "assets/video/huangzhai.mp4?v=20261109a",
         "duration": 25.2
       }
     ],
-    "loop": "assets/video/huangzhai.mp4",
+    "loop": "assets/video/huangzhai.mp4?v=20261109a",
     "order": 9,
     "poster": "assets/poster/huangzhai.jpg"
   },
@@ -1823,11 +1823,11 @@
       {
         "label": "",
         "slug": "fengmi",
-        "full": "assets/video/fengmi.mp4",
+        "full": "assets/video/fengmi.mp4?v=20261109a",
         "duration": 5
       }
     ],
-    "loop": "assets/video/fengmi.mp4",
+    "loop": "assets/video/fengmi.mp4?v=20261109a",
     "order": 6,
     "poster": "assets/poster/koubo-fengmi.jpg"
   },
@@ -1843,11 +1843,11 @@
       {
         "label": "",
         "slug": "heicha",
-        "full": "assets/video/heicha.mp4",
+        "full": "assets/video/heicha.mp4?v=20261109a",
         "duration": 4
       }
     ],
-    "loop": "assets/video/heicha.mp4",
+    "loop": "assets/video/heicha.mp4?v=20261109a",
     "order": 7,
     "poster": "assets/poster/koubo-heicha.jpg"
   },
@@ -1863,11 +1863,11 @@
       {
         "label": "",
         "slug": "kafei",
-        "full": "assets/video/kafei.mp4",
+        "full": "assets/video/kafei.mp4?v=20261109a",
         "duration": 4
       }
     ],
-    "loop": "assets/video/kafei.mp4",
+    "loop": "assets/video/kafei.mp4?v=20261109a",
     "order": 8,
     "poster": "assets/poster/koubo-kafei.jpg"
   },
@@ -1883,11 +1883,11 @@
       {
         "label": "",
         "slug": "shupian",
-        "full": "assets/video/shupian.mp4",
+        "full": "assets/video/shupian.mp4?v=20261109a",
         "duration": 4
       }
     ],
-    "loop": "assets/video/shupian.mp4",
+    "loop": "assets/video/shupian.mp4?v=20261109a",
     "order": 9,
     "poster": "assets/poster/koubo-shupian.jpg"
   }
